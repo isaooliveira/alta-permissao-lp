@@ -4,7 +4,7 @@
     { "source": "/eap", "destination": "/index.html" },
     { "source": "/eap/", "destination": "/index.html" },
     { "source": "/eap/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/eap/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/eap/favicon.png", "destination": "/favicon.png" },
     { "source": "/eap/:path*", "destination": "/index.html" }
   ]
 }
