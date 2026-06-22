@@ -1,0 +1,85 @@
+import { useState } from 'react'
+import { StickyHeader } from './components/StickyHeader'
+import { HeroSection } from './components/HeroSection'
+import {
+  ProblemSection,
+  DiagnosisSection,
+  SolutionSection,
+  LogicRevealSection,
+  DeliverablesSection,
+  DailyInsightsSection,
+} from './components/CopySections'
+import { ScheduleSection } from './components/ScheduleSection'
+import { PricingSection } from './components/PricingSection'
+import { MentorSection } from './components/MentorSection'
+import { GuaranteeAndFAQ } from './components/GuaranteeAndFAQ'
+import { LeadModal } from './components/LeadModal'
+import { MarqueeBanner } from './components/MarqueeBanner'
+import { Button } from './components/Button'
+import logoImg from '@/assets/logo-efeitoaltapermissao.svg'
+import { scrollToInvestimento } from '@/lib/scroll'
+import { useEventStatus } from '@/hooks/useEventStatus'
+
+function FinalCTA({ onCtaClick }: { onCtaClick: () => void }) {
+  return (
+    <section className="py-24 px-5 text-center">
+      <div className="container-narrow flex flex-col items-center gap-8">
+        <div className="w-10 h-[2px] bg-cream" aria-hidden="true" />
+        <h2 className="text-section text-white">
+          Pronta para parar de operar{' '}
+          <span className="text-cream">no escuro?</span>
+        </h2>
+        <Button size="xl" onClick={onCtaClick} showTicket className="whitespace-nowrap">
+          Quero garantir meu ingresso
+        </Button>
+      </div>
+    </section>
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="py-10 px-4 border-t border-cream/10">
+      <div className="container-narrow text-center">
+        <img
+          src={logoImg}
+          alt="Alta Permissão, Missão Consciência"
+          className="w-full max-w-xs h-auto mx-auto mb-2"
+        />
+        <p className="text-cream/10 text-xs mt-6">
+          © {new Date().getFullYear()} Missão Consciência. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+  )
+}
+
+export default function App() {
+  const [modalOpen, setModalOpen] = useState(false)
+  const open = () => setModalOpen(true)
+  const close = () => setModalOpen(false)
+  const { eventPast } = useEventStatus()
+
+  return (
+    <>
+      <StickyHeader onCtaClick={scrollToInvestimento} />
+      <main>
+        <HeroSection onCtaClick={scrollToInvestimento} />
+        <MarqueeBanner />
+        <ProblemSection />
+        <DiagnosisSection />
+        <SolutionSection />
+        <LogicRevealSection onCtaClick={open} />
+        <DeliverablesSection />
+        <DailyInsightsSection />
+        {!eventPast && <ScheduleSection onCtaClick={scrollToInvestimento} />}
+        <PricingSection onCtaClick={open} />
+        <MentorSection />
+        <GuaranteeAndFAQ />
+        <FinalCTA onCtaClick={scrollToInvestimento} />
+      </main>
+      <Footer />
+      <LeadModal open={modalOpen} onClose={close} />
+    </>
+  )
+}
