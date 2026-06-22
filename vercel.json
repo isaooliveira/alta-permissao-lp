@@ -1,7 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     { "source": "/eap", "destination": "/index.html" },
     { "source": "/eap/", "destination": "/index.html" },
