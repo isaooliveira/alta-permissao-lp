@@ -8,10 +8,5 @@
     { "source": "/eap/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/eap/favicon.svg", "destination": "/favicon.svg" },
     { "source": "/eap/:path*", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  ]
 }
