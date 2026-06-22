@@ -15,8 +15,24 @@ export interface Lead {
   lot: number
 }
 
-export async function saveLead(lead: Lead): Promise<void> {
-  if (!supabase) return // sem credenciais em dev local — não bloqueia
+async function saveLeadViaApi(lead: Lead): Promise<void> {
+  const res = await fetch('/api/save-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(lead),
+  })
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.error ?? `Erro ao salvar lead (${res.status})`)
+  }
+}
+
+async function saveLeadDirect(lead: Lead): Promise<void> {
+  if (!supabase) {
+    throw new Error('Supabase não configurado localmente')
+  }
+
   const { error } = await supabase.from('alta_permissao_leads').insert([
     {
       ...lead,
@@ -24,5 +40,19 @@ export async function saveLead(lead: Lead): Promise<void> {
       status: 'checkout_iniciado',
     },
   ])
+
   if (error) throw error
+}
+
+export async function saveLead(lead: Lead): Promise<void> {
+  if (import.meta.env.PROD) {
+    await saveLeadViaApi(lead)
+    return
+  }
+
+  try {
+    await saveLeadViaApi(lead)
+  } catch {
+    await saveLeadDirect(lead)
+  }
 }

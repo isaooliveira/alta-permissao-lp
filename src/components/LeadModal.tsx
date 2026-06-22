@@ -62,8 +62,8 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
         email: form.email.trim().toLowerCase(),
         lot: currentLot.number,
       })
-    } catch {
-      // Supabase failure doesn't block checkout
+    } catch (err) {
+      console.error('[LeadModal] falha ao salvar lead:', err)
     } finally {
       setLoading(false)
       window.location.href = currentLot.hotmartUrl
