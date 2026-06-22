@@ -30,7 +30,7 @@ async function saveLeadViaApi(lead: Lead): Promise<void> {
 
 async function saveLeadDirect(lead: Lead): Promise<void> {
   if (!supabase) {
-    throw new Error('Supabase não configurado localmente')
+    throw new Error('Supabase não configurado')
   }
 
   const { error } = await supabase.from('alta_permissao_leads').insert([
@@ -45,14 +45,14 @@ async function saveLeadDirect(lead: Lead): Promise<void> {
 }
 
 export async function saveLead(lead: Lead): Promise<void> {
-  if (import.meta.env.PROD) {
-    await saveLeadViaApi(lead)
-    return
+  if (supabase) {
+    try {
+      await saveLeadDirect(lead)
+      return
+    } catch (err) {
+      console.warn('[saveLead] insert direto falhou, tentando API…', err)
+    }
   }
 
-  try {
-    await saveLeadViaApi(lead)
-  } catch {
-    await saveLeadDirect(lead)
-  }
+  await saveLeadViaApi(lead)
 }
