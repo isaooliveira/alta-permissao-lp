@@ -15,28 +15,10 @@ import { MentorSection } from './components/MentorSection'
 import { GuaranteeAndFAQ } from './components/GuaranteeAndFAQ'
 import { LeadModal } from './components/LeadModal'
 import { MarqueeBanner } from './components/MarqueeBanner'
-import { Button } from './components/Button'
 import { scrollToInvestimento } from '@/lib/scroll'
 import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
-
-function FinalCTA({ onCtaClick }: { onCtaClick: () => void }) {
-  return (
-    <section className="py-24 px-5 text-center">
-      <div className="container-narrow flex flex-col items-center gap-8">
-        <div className="w-10 h-[2px] bg-cream" aria-hidden="true" />
-        <h2 className="text-section text-white">
-          Pronta para parar de operar{' '}
-          <span className="text-cream">no escuro?</span>
-        </h2>
-        <Button size="xl" onClick={onCtaClick} showTicket className="whitespace-nowrap">
-          Quero garantir meu ingresso
-        </Button>
-      </div>
-    </section>
-  )
-}
 
 function Footer() {
   return (
@@ -77,7 +59,6 @@ export default function App() {
         <PricingSection onCtaClick={open} />
         <MentorSection />
         <GuaranteeAndFAQ />
-        <FinalCTA onCtaClick={scrollToInvestimento} />
       </main>
       <Footer />
       <LeadModal open={modalOpen} onClose={close} />

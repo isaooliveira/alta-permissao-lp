@@ -140,7 +140,7 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
             ) : (
               <>
                 Quanto antes,{' '}
-                <span className="font-semibold">mais barato</span>
+                <span className="font-semibold">melhor oportunidade</span>
               </>
             )}
           </h2>

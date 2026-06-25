@@ -7,6 +7,7 @@
     { "source": "/eap/favicon.png", "destination": "/favicon.png" },
     { "source": "/eap/logo-alta.svg", "destination": "/logo-alta.svg" },
     { "source": "/eap/bg--webp.webp", "destination": "/bg--webp.webp" },
+    { "source": "/eap/bg-mobile.webp", "destination": "/bg-mobile.webp" },
     { "source": "/eap/:path*", "destination": "/index.html" }
   ]
 }

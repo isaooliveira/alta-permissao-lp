@@ -6,6 +6,7 @@ import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
 const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}bg--webp.webp`
+const HERO_MOBILE_IMAGE_SRC = `${import.meta.env.BASE_URL}bg-mobile.webp`
 
 /** Troque para `true` quando o vídeo estiver pronto para restaurar o layout em duas colunas. */
 const HERO_VIDEO_ENABLED = false
@@ -26,12 +27,26 @@ function HeroLogo({ className = '' }: { className?: string }) {
   )
 }
 
-function HeroHeadline({ className = '' }: { className?: string }) {
+function HeroHeadline({ className = '', mobile = false }: { className?: string; mobile?: boolean }) {
+  if (mobile) {
+    return (
+      <h1
+        className={`text-[26px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
+      >
+        Como criar um{' '}
+        <span className="font-semibold text-cream">estado interno tão forte</span> que a realidade
+        responde aos seus comandos e{' '}
+        <span className="font-semibold text-cream">materializa o seu futuro</span>
+      </h1>
+    )
+  }
+
   return (
-    <h1 className={`text-[28px] sm:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}>
+    <h1 className={`text-[26px] sm:text-[30px] lg:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}>
       Como criar um{' '}
-      <span className="font-semibold">estado interno tão forte</span> que a{' '}
-      <span className="font-semibold">realidade responde aos seus comandos</span> e{' '}
+      <span className="font-semibold text-cream">estado interno</span> tão{' '}
+      <span className="font-semibold text-cream">forte</span> que a{' '}
+      <span className="font-semibold text-cream">realidade</span> responde aos seus comandos e{' '}
       <span className="font-semibold text-cream">materializa o seu futuro</span>
     </h1>
   )
@@ -52,9 +67,9 @@ function HeroVideo() {
   )
 }
 
-function HeroIntro() {
+function HeroIntro({ className = '' }: { className?: string }) {
   return (
-    <p className="text-cream-muted text-lead">
+    <p className={`text-white/75 text-base sm:text-lg leading-relaxed ${className}`}>
       Um treinamento de 1 dia com o método prático para alinhar seus pensamentos e
       comportamentos automáticos, fazendo o seu potencial infinito trabalhar 100% a favor do
       seu crescimento pessoal, profissional e financeiro.
@@ -62,39 +77,91 @@ function HeroIntro() {
   )
 }
 
-function HeroCtaBlock({ onCtaClick }: { onCtaClick: () => void }) {
-  return <LotCtaCard onCtaClick={onCtaClick} />
-}
-
-function HeroVisual({ variant }: { variant: 'mobile' | 'desktop' }) {
-  if (variant === 'mobile') {
-    return (
-      <div className="relative w-full aspect-[16/10] max-h-[min(42vh,360px)] min-h-[220px] overflow-hidden">
-        <img
-          src={HERO_IMAGE_SRC}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-dark/10 via-dark/35 to-dark"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-dark via-dark/90 to-transparent"
-          aria-hidden="true"
-        />
-      </div>
-    )
-  }
-
+function HeroMobilePhoto() {
   return (
-    <div className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-sm">
+    <div className="relative w-full overflow-hidden aspect-square max-h-[min(62vh,520px)]">
       <img
-        src={HERO_IMAGE_SRC}
+        src={HERO_MOBILE_IMAGE_SRC}
         alt=""
-        className="w-full h-auto object-contain"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-dark via-dark/95 to-transparent"
+        aria-hidden="true"
       />
     </div>
+  )
+}
+
+function HeroPromiseContent({
+  onCtaClick,
+  eventPast,
+  layout,
+}: {
+  onCtaClick: () => void
+  eventPast: boolean
+  layout: 'mobile' | 'desktop'
+}) {
+  const isMobile = layout === 'mobile'
+
+  return (
+    <>
+      <div
+        className={`flex w-full flex-col ${
+          isMobile ? 'items-center gap-4' : 'items-start gap-3'
+        }`}
+      >
+        <HeroLogo className={isMobile ? 'max-w-[260px] mx-auto' : 'max-w-[240px] sm:max-w-[280px]'} />
+        {!eventPast && <EventTag className={isMobile ? 'mx-auto' : ''} />}
+      </div>
+
+      <HeroHeadline mobile={isMobile} className={isMobile ? 'text-center mt-2' : ''} />
+      <HeroIntro className={isMobile ? 'text-center text-white/70' : ''} />
+
+      <div className={`w-full max-w-md ${isMobile ? 'mx-auto mt-6' : 'mt-8'}`}>
+        <LotCtaCard
+          onCtaClick={onCtaClick}
+          variant={isMobile ? 'mobile' : 'hero'}
+        />
+      </div>
+    </>
+  )
+}
+
+function HeroPromiseBlock({
+  onCtaClick,
+  eventPast,
+}: {
+  onCtaClick: () => void
+  eventPast: boolean
+}) {
+  return (
+    <>
+      {/* Mobile: foto no topo, promessa embaixo centralizada */}
+      <div className="flex flex-col lg:hidden">
+        <HeroMobilePhoto />
+        <div className="flex flex-col items-center gap-5 bg-dark px-5 pt-8 pb-24 text-center sm:px-6">
+          <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="mobile" />
+        </div>
+      </div>
+
+      {/* Desktop: imagem de fundo com conteúdo à esquerda */}
+      <div className="relative hidden w-full overflow-hidden pb-24 lg:block lg:aspect-[2040/1080]">
+        <div
+          className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
+          style={{ backgroundImage: `url(${HERO_IMAGE_SRC})` }}
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/85 via-[42%] to-transparent"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 flex h-full min-h-[460px] flex-col items-start justify-center gap-5 px-12 py-12 pt-28 xl:max-w-[48%] xl:px-16">
+          <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="desktop" />
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -111,37 +178,9 @@ function HeroGrainOverlay() {
 
 function HeroCenteredLayout({ onCtaClick, eventPast }: { onCtaClick: () => void; eventPast: boolean }) {
   return (
-    <>
-      {/* Mobile: imagem no topo com esmaecimento */}
-      <FadeIn delay={0} className="lg:hidden relative z-10 w-full">
-        <HeroVisual variant="mobile" />
-      </FadeIn>
-
-      <div className="relative z-10 w-full container-narrow px-4 lg:px-0">
-        <div className="flex flex-col items-start text-left gap-5 lg:items-center lg:text-center">
-          <FadeIn delay={0} className="w-full flex flex-col items-start gap-3 lg:items-center">
-            <HeroLogo className="lg:mx-auto" />
-            {!eventPast && <EventTag />}
-          </FadeIn>
-
-          <FadeIn delay={0.08} className="hidden lg:block w-full">
-            <HeroVisual variant="desktop" />
-          </FadeIn>
-
-          <FadeIn delay={0.1} className="w-full">
-            <HeroHeadline />
-          </FadeIn>
-
-          <FadeIn delay={0.2} className="w-full max-w-2xl lg:mx-auto">
-            <HeroIntro />
-          </FadeIn>
-
-          <FadeIn delay={0.35} className="w-full lg:max-w-lg lg:mx-auto">
-            <HeroCtaBlock onCtaClick={onCtaClick} />
-          </FadeIn>
-        </div>
-      </div>
-    </>
+    <FadeIn delay={0} className="relative z-10 w-full">
+      <HeroPromiseBlock onCtaClick={onCtaClick} eventPast={eventPast} />
+    </FadeIn>
   )
 }
 
@@ -167,7 +206,7 @@ function HeroWithVideoLayout({ onCtaClick, eventPast }: { onCtaClick: () => void
         </FadeIn>
 
         <FadeIn delay={0.45} className="w-full">
-          <HeroCtaBlock onCtaClick={onCtaClick} />
+          <LotCtaCard onCtaClick={onCtaClick} />
         </FadeIn>
       </div>
 
@@ -187,7 +226,7 @@ function HeroWithVideoLayout({ onCtaClick, eventPast }: { onCtaClick: () => void
           </FadeIn>
 
           <FadeIn delay={0.3} className="w-full flex flex-col items-start gap-4 pt-2">
-            <HeroCtaBlock onCtaClick={onCtaClick} />
+            <LotCtaCard onCtaClick={onCtaClick} />
           </FadeIn>
         </div>
 
@@ -203,7 +242,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
   const { eventPast } = useEventStatus()
 
   return (
-    <section className="relative flex flex-col items-center justify-center px-0 lg:px-4 pt-16 lg:pt-20 pb-12 overflow-hidden">
+    <section className="relative w-full overflow-hidden lg:pt-0">
       <HeroGrainOverlay />
 
       {HERO_VIDEO_ENABLED ? (

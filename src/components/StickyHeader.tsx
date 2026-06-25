@@ -12,7 +12,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
   const { eventPast } = useEventStatus()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-dark/95 border-b border-cream/8 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 hidden bg-dark/95 border-b border-cream/8 backdrop-blur-md lg:block">
       <div className="px-4 py-2.5">
         {eventPast ? (
           <div className="container-narrow mx-auto flex justify-center">
