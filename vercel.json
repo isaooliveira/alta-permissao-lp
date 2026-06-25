@@ -6,6 +6,7 @@
     { "source": "/eap/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/eap/favicon.png", "destination": "/favicon.png" },
     { "source": "/eap/logo-alta.svg", "destination": "/logo-alta.svg" },
+    { "source": "/eap/hero-prancheta.webp", "destination": "/hero-prancheta.webp" },
     { "source": "/eap/:path*", "destination": "/index.html" }
   ]
 }
