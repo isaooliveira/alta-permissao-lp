@@ -18,9 +18,18 @@ import { SectionEyebrow } from './SectionEyebrow'
 import tornPaperDown from '@/assets/torn-paper-down.svg'
 import sonhosImg from '@/assets/sonhos.webp'
 
+const HISTORIA_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia.webp`
+const HISTORIA_MOBILE_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia-mobile.webp`
+
 interface SectionProps {
   onCtaClick?: () => void
 }
+
+const PROBLEM_INSIGHTS = [
+  'Se você não consegue vender, por exemplo, a solução mais óbvia parece ser estudar mais sobre o assunto. Mas, quando o seu inconsciente descobre que algo nesse desejo pode te ameaçar, você recua com todas as desculpas possíveis.',
+  'Você quer investir para reter mais dinheiro, mas, quando percebe que ter muito dinheiro pode significar reviver algum perigo ancestral, uma emergência mágica acontece para esvaziar o seu caixa.',
+  'Você deseja um número maior de clientes, mas, só de pensar em não entregar o melhor ou em receber uma avaliação ruim, você simplesmente já programa uma maneira de desistir ou mudar de profissão.',
+]
 
 
 /* ─── Section 1: Problema — o elástico ─── */
@@ -28,7 +37,7 @@ export function ProblemSection() {
   return (
     <section className="relative">
       <div className="bg-white px-4 py-16 sm:py-20">
-        <div className="container-narrow">
+        <div className="container-wide">
           <FadeIn>
             <SectionEyebrow variant="light" className="mb-6">
               Existem aprendizados que apenas informam
@@ -43,23 +52,37 @@ export function ProblemSection() {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <div className="space-y-5 text-dark/70 text-lead">
+            <div className="mx-auto max-w-2xl space-y-5 text-dark/70 text-lead">
               <p>
-                Dá para estudar muito, fazer terapia, mentorias, cursos e retiros. O pacote
-                completo. Mas no fundo, parece que tem uma chave que simplesmente não vira.
+                Você estuda muito, faz terapia, mentorias de negócios, cursos e segue estratégias.
+                O pacote completo.{' '}
+                <span className="italic text-dark">
+                  Mas, no fundo, parece que tem uma chave que não vira nunca e um limite que você
+                  não consegue ultrapassar.
+                </span>
               </p>
               <p>
-                A teoria já está clara e o próximo nível parece logo ali. Só que, na prática,{' '}
-                <strong className="text-dark">velhas escolhas continuam travando o processo.</strong>{' '}
-                O potencial está ali, mas o comportamento ainda é de se encolher em certas
-                situações, sem explicação aparente.
+                O próximo nível financeiro parece logo ali. Só que, na prática, os mesmos
+                comportamentos repetitivos continuam aparecendo. O dinheiro entra e você dá um
+                "jeito" de sumir com ele. O projeto fica no rascunho. A procrastinação
+                sempre vence e você continua na roda dos ratos. Tudo isso sem nenhuma explicação
+                lógica.
               </p>
-              <p className="text-dark font-semibold text-xl">
-                É a sensação de estar perto de algo maior, mas com um elástico que sempre
-                puxa de volta para o mesmo ponto.
+              <p className="text-dark font-semibold">
+                E sabe o que é pior? Ninguém, de forma consciente, "recusa" ter
+                prosperidade, ainda mais vindo de um lugar difícil. Mas é exatamente isso que você
+                faz quando se aproxima da experiência daquilo que você mais quer:
               </p>
             </div>
           </FadeIn>
+
+          <div className="mt-10 grid grid-cols-1 gap-3 lg:grid-cols-3">
+            {PROBLEM_INSIGHTS.map((item, i) => (
+              <FadeIn key={item} delay={0.28 + i * 0.08}>
+                <PatternBox text={item} variant="light" />
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -74,45 +97,120 @@ export function ProblemSection() {
   )
 }
 
-function PatternBox({ text }: { text: string }) {
+function PatternBox({ text, variant = 'dark' }: { text: string; variant?: 'dark' | 'light' }) {
+  const isLight = variant === 'light'
+
   return (
-    <div className="flex items-center gap-4 border border-red/50 bg-red/5 px-4 py-3.5 transition-colors duration-200 hover:bg-red/10 hover:border-red/70">
-      <span className="flex-shrink-0 w-5 h-5 border border-red/80 flex items-center justify-center">
+    <div
+      className={`flex h-full items-start gap-4 border border-red/50 bg-red/5 px-4 py-3.5 transition-colors duration-200 hover:border-red/70 hover:bg-red/10 ${
+        isLight ? 'sm:px-5 sm:py-4' : ''
+      }`}
+    >
+      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center border border-red/80">
         <X size={11} className="text-red" strokeWidth={2.5} aria-hidden="true" />
       </span>
-      <span className="text-cream/90 text-base leading-snug">{text}</span>
+      <span
+        className={`text-base leading-snug ${isLight ? 'text-dark/80' : 'text-cream/90'}`}
+      >
+        {text}
+      </span>
+    </div>
+  )
+}
+
+/* ─── Card: sistema operando / limites ─── */
+function SystemLimitsCard() {
+  return (
+    <div className="rounded-[8px] bg-white px-6 py-8 text-center sm:px-8 sm:py-10">
+      <p className="mx-auto max-w-xl text-[clamp(1.45rem,3.5vw,2.1rem)] font-light leading-tight text-dark">
+        Existe um sistema operando por baixo das suas decisões.
+      </p>
+      <p className="mx-auto mt-3 max-w-xl text-lead text-dark/70">
+        Ele foi programado muito antes de você entender racionalmente as coisas, e, desde então,
+        ele dita os <span className="font-semibold text-red">seus limites</span>:
+      </p>
+    </div>
+  )
+}
+
+/* ─── Módulo Alta Permissão Sistêmica (arco bege) ─── */
+function SolutionArchModule() {
+  return (
+    <div className="w-full sm:mx-auto sm:max-w-2xl sm:px-4">
+      <div
+        className="relative z-10 w-full bg-solution-cream px-6 pt-14 pb-10 sm:px-12 sm:pt-18 sm:pb-12"
+        style={{ borderRadius: '9999px 9999px 0 0' }}
+      >
+        <p className="mb-2 text-center text-sm font-semibold text-dark/60 sm:mb-3">
+          E a solução
+        </p>
+
+        <h3 className="text-display mb-3 text-center leading-none sm:mb-4">
+          <span className="text-accent-brand">Alta</span>{' '}
+          <span className="text-dark">Permissão</span>
+          <br />
+          <span className="text-dark">Sistêmica</span>
+        </h3>
+
+        <p className="mx-auto max-w-xl text-center text-lead text-dark">
+          Permissão é o que determina o que você consegue sustentar. Você pode atrair dinheiro,
+          oportunidades e relações, mas, se não tiver permissão para tê-los, vai encontrar formas
+          de devolvê-los.
+        </p>
+
+        <div className="mt-8 w-full">
+          <img
+            src={sonhosImg}
+            alt="Ilustração sobre sonhos e permissão sistêmica"
+            className="h-auto w-full rounded-md object-contain"
+          />
+        </div>
+
+        <p className="mt-8 text-center text-lg font-semibold leading-relaxed text-dark">
+          Ela parte de uma premissa simples:
+        </p>
+        <p className="mt-3 text-center text-xl font-semibold leading-tight text-dark">
+          "Tudo aquilo que você não está disposta a ser, parecer ou receber continua exercendo
+          influência sobre as suas decisões."
+        </p>
+      </div>
     </div>
   )
 }
 
 /* ─── Section 2: Diagnóstico — padrões nos bastidores ─── */
-export function DiagnosisSection() {
+export function DiagnosisSection({ onCtaClick }: SectionProps) {
   const patterns = [
-    'A grana que você se permite ganhar',
-    'Os relacionamentos que aceita tolerar',
-    'A imagem que vê no espelho',
-    'A coragem de colocar a cara no mundo',
-    'O papel que assume na sociedade',
-    'As oportunidades que chegam para você',
+    'O teto exato de grana que você se permite reter todos os meses.',
+    'O preço que você cobra pelo seu serviço sem sentir aquele desconforto terrível.',
+    'O quanto você pode se sentir feliz.',
+    'O quanto você se permite descansar.',
+    'A coragem de “se expor” e ser vista em qualquer sala em que entrar.',
+    'O papel de "medíocre" ou de "boazinha" que você assume para não trair o seu clã.',
   ]
 
   return (
-    <section className="section-padding pt-20 pb-28 bg-dark">
+    <section className="section-padding bg-dark pt-20 pb-16">
       <div className="container-wide">
         <FadeIn>
-          <h2 className="text-section text-white text-center mb-6">
-            O comportamento humano quase nunca muda
-            <br />
-            <span className="text-red font-semibold">só porque a teoria está na cabeça.</span>
+          <h2 className="text-section text-white text-center mb-8">
+            Entendeu por que{' '}
+            <span className="font-semibold text-red">nada disso</span> é sobre pedir, manifestar
+            ou atrair?{' '}
+            <span className="font-semibold">É sobre receber.</span>
           </h2>
         </FadeIn>
 
-        <FadeIn delay={0.1}>
-          <p className="text-cream-muted text-lead mb-10 text-center max-w-2xl mx-auto">
-            Existem padrões antigos rodando nos bastidores e ditando as regras.
-            <br />
-            <strong className="text-cream">Eles controlam:</strong>
-          </p>
+        <FadeIn delay={0.08}>
+          <div className="-mx-4 mb-12 sm:mx-auto">
+            <SolutionArchModule />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15}>
+          <div className="mx-auto mb-10 max-w-2xl">
+            <SystemLimitsCard />
+          </div>
         </FadeIn>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
@@ -124,108 +222,15 @@ export function DiagnosisSection() {
         </div>
 
         <FadeIn delay={0.8}>
-          <p className="text-cream font-semibold text-xl text-center leading-relaxed max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl text-center text-xl font-semibold leading-relaxed text-cream">
             Enquanto esses gatilhos continuarem no ponto cego, você pode ter a teoria
             perfeita na cabeça, mas vai continuar presa a uma rotina que já não combina
             com quem você é hoje.
           </p>
         </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-/* ─── Section 3: Solução — Alta Permissão Sistêmica ─── */
-export function SolutionSection() {
-  return (
-    <section className="relative pt-0 pb-0 bg-dark">
-      {/* Mobile: largura total | Web: mesma largura dos demais blocos (container-narrow) */}
-      <div className="w-full sm:max-w-2xl sm:mx-auto sm:px-4">
-        <FadeIn delay={0.1}>
-          <div
-            className="relative z-10 -mt-20 sm:-mt-24 w-full bg-solution-cream px-6 sm:px-12 pt-14 sm:pt-18 pb-10 sm:pb-12"
-            style={{ borderRadius: '9999px 9999px 0 0' }}
-          >
-            <p className="text-dark/60 text-sm font-semibold text-center mb-2 sm:mb-3">
-              E a solução
-            </p>
-
-            <h2 className="text-display text-center mb-3 sm:mb-4 leading-none">
-              <span className="text-accent-brand">Alta</span>{' '}
-              <span className="text-dark">Permissão</span>
-              <br />
-              <span className="text-dark">Sistêmica</span>
-            </h2>
-
-            <p className="text-dark text-lead text-center max-w-xl mx-auto">
-              A Alta Permissão Sistêmica é um{' '}
-              <strong>modelo de compreensão humana</strong> que investiga{' '}
-              <strong>por que uma pessoa continua se limitando</strong> mesmo quando já possui
-              consciência, conhecimento e desejo de viver diferente.
-            </p>
-
-            <div className="mt-8 w-full">
-              <img
-                src={sonhosImg}
-                alt="Ilustração sobre sonhos e permissão sistêmica"
-                className="w-full h-auto object-contain rounded-md"
-              />
-            </div>
-
-            <p className="text-dark font-semibold text-lg text-center mt-8 leading-relaxed">
-              Ela parte de uma premissa simples:
-            </p>
-            <p className="text-dark text-xl font-semibold text-center mt-3 leading-tight">
-              "Tudo aquilo que você não está disposta a ser, parecer ou receber
-              continua exercendo influência sobre as suas decisões."
-            </p>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-/* ─── Section 3b: Lógica por trás dos limites ─── */
-export function LogicRevealSection({ onCtaClick }: SectionProps) {
-  return (
-    <section className="section-padding bg-dark">
-      <div className="container-narrow">
-        <FadeIn delay={0.1}>
-          <div className="bg-white rounded-[8px] px-6 sm:px-8 py-8 sm:py-10 mb-12 text-center">
-            <p className="text-[clamp(1.45rem,3.5vw,2.1rem)] font-light text-dark leading-tight">
-              Existe uma lógica por trás dos seus{' '}
-              <span className="font-semibold">limites</span>.
-            </p>
-            <p className="text-dark/70 text-lead mt-3 max-w-xl mx-auto">
-              E quando essa lógica se torna visível, fica difícil continuar enxergando a si
-              mesma, as pessoas e a vida exatamente da mesma forma.
-            </p>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.2}>
-          <div className="text-center">
-            <p className="font-semibold text-white/70 text-lead leading-tight mb-2">
-              E o mais importante:
-            </p>
-            <p className="text-[clamp(1.5rem,3.8vw,2.15rem)] font-light text-white leading-[1.3]">
-              na maioria das vezes,<br />
-              <span
-                className="text-cream font-semibold"
-                style={{ textShadow: '0 0 40px rgba(236, 215, 184, 0.3)' }}
-              >
-                não tem nada de errado com você.
-              </span>
-            </p>
-            <p className="text-cream-muted text-lead mt-4">
-              Apenas padrões antigos gerando resultados velhos.
-            </p>
-          </div>
-        </FadeIn>
 
         {onCtaClick && (
-          <FadeIn delay={0.3} className="flex justify-center mt-12">
+          <FadeIn delay={0.9} className="mt-12 flex justify-center">
             <Button size="lg" onClick={onCtaClick} showTicket className="whitespace-nowrap">
               Quero esse conhecimento
             </Button>
@@ -236,10 +241,80 @@ export function LogicRevealSection({ onCtaClick }: SectionProps) {
   )
 }
 
+/* ─── Section 2b: Modelos operacionais internos ─── */
+function OperationalModelsContent() {
+  return (
+    <>
+      <h2 className="text-section mb-6 text-left font-light leading-[1.18] text-white">
+        Tudo isso acontece porque os primeiros vínculos familiares moldam os chamados "Modelos
+        Operacionais Internos", que automatizam as suas respostas ao dinheiro e à segurança.
+      </h2>
+
+      <div className="space-y-5 text-left">
+        <p className="text-lead text-cream-muted">
+          Investigar o passado de forma correta não serve para buscar culpados, mas sim para
+          compreender esses comportamentos automáticos. É isso que possibilita mudanças reais,
+          movendo o seu sistema nervoso do modo de sobrevivência para o modo de ação.
+        </p>
+        <p className="text-lead font-semibold text-cream">
+          A mudança real ocorre quando você entende os motivos de repetir comportamentos
+          indesejados, e não apenas quando descobre o que fazer.
+        </p>
+      </div>
+    </>
+  )
+}
+
+export function OperationalModelsSection() {
+  return (
+    <section className="relative w-full overflow-hidden bg-dark">
+      {/* Mobile: texto + imagem em quadro */}
+      <div className="flex flex-col lg:hidden">
+        <FadeIn delay={0.1}>
+          <div className="px-5 py-12 sm:px-8">
+            <OperationalModelsContent />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15}>
+          <div className="px-5 pb-12 sm:px-8">
+            <div className="overflow-hidden rounded-md border border-cream/10">
+              <img
+                src={HISTORIA_MOBILE_IMAGE_SRC}
+                alt="Ilustração sobre vínculos familiares e modelos operacionais internos"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </div>
+        </FadeIn>
+      </div>
+
+      {/* Desktop: imagem de fundo com texto sobreposto */}
+      <FadeIn delay={0.1} className="hidden lg:block">
+        <div className="relative aspect-[1920/1080] w-full">
+          <div
+            className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
+            style={{ backgroundImage: `url(${HISTORIA_IMAGE_SRC})` }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/88 via-[40%] to-transparent"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 flex min-h-full flex-col justify-center px-12 py-16 xl:max-w-[46%] xl:px-16">
+            <OperationalModelsContent />
+          </div>
+        </div>
+      </FadeIn>
+    </section>
+  )
+}
+
 function DeliverableCard({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="border border-dark/15 bg-white/80 h-full px-5 py-5 rounded-[6px] transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
-      <p className="text-dark font-black text-base uppercase tracking-wide mb-4 pb-3 border-b border-dark/10">{title}</p>
+      <p className="text-dark font-black text-base leading-snug tracking-wide mb-4 pb-3 border-b border-dark/10">{title}</p>
       <ul>
         {items.map((item, i) => (
           <li key={item}>
@@ -288,25 +363,37 @@ export function DeliverablesSection() {
       <div className="bg-white px-4 py-20">
         <div className="container-wide">
           <FadeIn>
-            <h2 className="text-section text-dark text-center mb-12">
-              Neste dia, você vai
+            <h2 className="text-section text-dark text-center mb-3">
+              O que você vai receber no dia
             </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.06}>
+            <p className="mx-auto mb-12 max-w-3xl text-center text-base leading-relaxed text-dark/65 sm:text-lg">
+              Uma única experiência desenhada para duas realidades perfeitamente integradas:
+            </p>
           </FadeIn>
 
           <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
             <FadeIn delay={0.1} className="h-full">
-              <DeliverableCard title="Para si mesma" items={forSelf} />
+              <DeliverableCard
+                title="Se você quer aplicar na sua vida e carreira:"
+                items={forSelf}
+              />
             </FadeIn>
             <FadeIn delay={0.2} className="h-full">
-              <DeliverableCard title="Para quem trabalha com pessoas" items={forWork} />
+              <DeliverableCard
+                title="Se você trabalha com pessoas (terapeutas, mentoras, líderes e coaches):"
+                items={forWork}
+              />
             </FadeIn>
           </div>
 
           <FadeIn delay={0.3}>
             <p className="text-dark text-center text-lead font-semibold mt-12 leading-relaxed max-w-xl mx-auto">
-              Você não precisa ser terapeuta para aprender Alta Permissão Sistêmica. Mas se o
-              seu trabalho envolve pessoas em qualquer nível que seja, vai ser difícil sair desse dia olhando para o
-              comportamento humano do mesmo jeito.
+              Você não precisa ser terapeuta para viver este dia. A transformação acontece na pele
+              de quem trabalha em qualquer área. Mas, se você conduz pessoas, sairá com uma
+              ferramenta pronta para aplicar e faturar logo na segunda-feira seguinte.
             </p>
           </FadeIn>
 
@@ -320,7 +407,7 @@ export function DeliverablesSection() {
                   Certificado de Participação
                 </p>
                 <p className="text-dark/65 text-base leading-snug">
-                  Documentação válida para portfólio e horas complementares.
+                  Documentação oficial de conclusão do treinamento Método APS.
                 </p>
               </div>
             </div>
@@ -344,7 +431,7 @@ const PEAK_INSIGHTS: { title: string; description: string; icon: LucideIcon }[] 
   {
     title: 'Romper o teto invisível',
     description:
-      'você consegue avançar para o próximo nível financeiro e profissional sem criar um autoboicote logo em seguida.',
+      'você consegue avançar para o próximo nível financeiro e para de criar despesas ou problemas do nada para queimar dinheiro.',
     icon: ArrowUpFromLine,
   },
   {
@@ -362,7 +449,7 @@ const PEAK_INSIGHTS: { title: string; description: string; icon: LucideIcon }[] 
   {
     title: 'Ocupar o seu real tamanho',
     description:
-      'você assume cargos, valores e espaços maiores sem se sentir uma fraude ou pedir desculpas por isso.',
+      'Você passa a apresentar o seu preço com firmeza, consegue se posicionar para cobrar mais, elimina os descontos por insegurança e não sente mais necessidade de ficar se justificando.',
     icon: Crown,
   },
   {
@@ -425,13 +512,13 @@ export function DailyInsightsSection() {
     <section className="section-padding bg-dark">
       <div className="container-narrow">
         <FadeIn delay={0.1}>
-          <p className="text-cream-muted text-sm font-semibold text-center mb-4">
-            E aqui está o detalhe mais importante:
-          </p>
-          <h2 className="text-section text-white text-center mb-10">
-            Aplicando a{' '}
-            <span className="font-semibold">Alta Permissão Sistêmica</span> diariamente você vai:
+          <h2 className="text-section text-white text-center mb-3">
+            O que muda na prática
           </h2>
+          <p className="mx-auto mb-10 max-w-3xl text-center text-base leading-relaxed text-cream-muted sm:text-lg">
+            Dominando o método, você resgata a sua autoconfiança, segurança, ousadia e uma
+            profunda sensação de leveza, capacidade e coragem. Na prática, você para de:
+          </p>
         </FadeIn>
       </div>
 

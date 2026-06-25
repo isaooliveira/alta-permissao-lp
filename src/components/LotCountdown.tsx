@@ -53,10 +53,15 @@ export function LotCountdown({ endDate, className = '', variant = 'default' }: L
 
     return (
       <span
-        className={`tabular-nums text-cream-muted/45 text-[10px] sm:text-[11px] font-normal tracking-wide whitespace-nowrap ${className}`}
-        aria-label={`Tempo restante do lote: ${days} dias, ${hh} horas, ${mm} minutos e ${ss} segundos`}
+        className={`inline-flex items-center gap-1.5 whitespace-nowrap ${className}`}
+        aria-label={`Lote acaba em ${days} dias, ${hh} horas, ${mm} minutos e ${ss} segundos`}
       >
-        · {days}d {hh}:{mm}:{ss}
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-cream-muted sm:text-xs">
+          acaba em
+        </span>
+        <span className="tabular-nums text-xs font-black tracking-wide text-red sm:text-sm">
+          {days}d {hh}:{mm}:{ss}
+        </span>
       </span>
     )
   }

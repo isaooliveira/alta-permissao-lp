@@ -12,8 +12,42 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
   const { eventPast } = useEventStatus()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 hidden bg-dark/95 border-b border-cream/8 backdrop-blur-md lg:block">
-      <div className="px-4 py-2.5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-dark/95 border-b border-cream/8 backdrop-blur-md">
+      <div className="px-3 py-2 lg:hidden">
+        {eventPast ? (
+          <div className="flex justify-center">
+            <Button
+              size="sm"
+              onClick={onCtaClick}
+              className="whitespace-nowrap text-xs px-3 py-1.5 tracking-wide"
+            >
+              Garanta sua vaga mesmo
+            </Button>
+          </div>
+        ) : (
+          <div className="flex min-w-0 items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="shrink-0 text-[10px] font-black uppercase tracking-widest text-red border border-red/50 px-2 py-0.5">
+                {currentLot.label}
+              </span>
+              <LotCountdown
+                endDate={currentLot.endDate}
+                variant="compact"
+                className="min-w-0 shrink"
+              />
+            </div>
+            <Button
+              size="sm"
+              onClick={onCtaClick}
+              className="shrink-0 whitespace-nowrap text-[11px] px-2.5 py-1.5 tracking-wide"
+            >
+              Garanta sua vaga
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className="hidden px-4 py-2.5 lg:block">
         {eventPast ? (
           <div className="container-narrow mx-auto flex justify-center">
             <Button
@@ -30,13 +64,10 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
               <span className="shrink-0 text-[10px] font-black uppercase tracking-widest text-red border border-red/50 px-2 py-0.5">
                 {currentLot.label}
               </span>
-              <span className="shrink-0 text-cream font-black text-base sm:text-xl whitespace-nowrap">
-                {currentLot.priceFormatted}
-              </span>
               <LotCountdown
                 endDate={currentLot.endDate}
                 variant="compact"
-                className="hidden min-[400px]:inline min-w-0 truncate"
+                className="min-w-0 shrink-0"
               />
             </div>
 

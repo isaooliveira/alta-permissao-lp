@@ -27,27 +27,14 @@ function HeroLogo({ className = '' }: { className?: string }) {
   )
 }
 
-function HeroHeadline({ className = '', mobile = false }: { className?: string; mobile?: boolean }) {
-  if (mobile) {
-    return (
-      <h1
-        className={`text-[26px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
-      >
-        Como criar um{' '}
-        <span className="font-semibold text-cream">estado interno tão forte</span> que a realidade
-        responde aos seus comandos e{' '}
-        <span className="font-semibold text-cream">materializa o seu futuro</span>
-      </h1>
-    )
-  }
-
+function HeroHeadline({ className = '' }: { className?: string }) {
   return (
-    <h1 className={`text-[26px] sm:text-[30px] lg:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}>
-      Como criar um{' '}
-      <span className="font-semibold text-cream">estado interno</span> tão{' '}
-      <span className="font-semibold text-cream">forte</span> que a{' '}
-      <span className="font-semibold text-cream">realidade</span> responde aos seus comandos e{' '}
-      <span className="font-semibold text-cream">materializa o seu futuro</span>
+    <h1
+      className={`text-[26px] sm:text-[30px] lg:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}
+    >
+      Seu crescimento financeiro{' '}
+      <span className="italic">parou no limite</span> exato do que a sua{' '}
+      <span className="font-semibold text-cream">família acha aceitável</span>.
     </h1>
   )
 }
@@ -70,23 +57,25 @@ function HeroVideo() {
 function HeroIntro({ className = '' }: { className?: string }) {
   return (
     <p className={`text-white/75 text-base sm:text-lg leading-relaxed ${className}`}>
-      Um treinamento de 1 dia com o método prático para alinhar seus pensamentos e
-      comportamentos automáticos, fazendo o seu potencial infinito trabalhar 100% a favor do
-      seu crescimento pessoal, profissional e financeiro.
+      <span className="font-semibold text-cream">Elimine o contrato de lealdade</span> que força
+      você a recusar a prosperidade de forma inconsciente. Aprenda o método prático para sustentar o
+      seu sucesso,{' '}
+      <span className="font-semibold text-cream">expandindo seus ganhos</span> e ainda{' '}
+      <span className="font-semibold text-cream">ajudando outras pessoas</span> com isso.
     </p>
   )
 }
 
 function HeroMobilePhoto() {
   return (
-    <div className="relative w-full overflow-hidden aspect-square max-h-[min(62vh,520px)]">
+    <div className="relative w-full overflow-hidden aspect-[4/5] max-h-[min(68vh,560px)] sm:aspect-square sm:max-h-[min(62vh,520px)]">
       <img
         src={HERO_MOBILE_IMAGE_SRC}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        className="absolute inset-0 h-full w-full object-cover object-[50%_26%]"
       />
       <div
-        className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-dark via-dark/95 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-dark via-dark/95 to-transparent sm:h-40"
         aria-hidden="true"
       />
     </div>
@@ -115,7 +104,7 @@ function HeroPromiseContent({
         {!eventPast && <EventTag className={isMobile ? 'mx-auto' : ''} />}
       </div>
 
-      <HeroHeadline mobile={isMobile} className={isMobile ? 'text-center mt-2' : ''} />
+      <HeroHeadline className={isMobile ? 'text-center mt-2' : ''} />
       <HeroIntro className={isMobile ? 'text-center text-white/70' : ''} />
 
       <div className={`w-full max-w-md ${isMobile ? 'mx-auto mt-6' : 'mt-8'}`}>
@@ -137,11 +126,13 @@ function HeroPromiseBlock({
 }) {
   return (
     <>
-      {/* Mobile: foto no topo, promessa embaixo centralizada */}
-      <div className="flex flex-col lg:hidden">
+      {/* Mobile: conteúdo sobreposto à base da foto */}
+      <div className="relative overflow-hidden pt-12 lg:hidden">
         <HeroMobilePhoto />
-        <div className="flex flex-col items-center gap-5 bg-dark px-5 pt-8 pb-24 text-center sm:px-6">
-          <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="mobile" />
+        <div className="relative z-10 -mt-36 bg-gradient-to-b from-transparent from-0% via-dark/90 via-12% to-dark px-5 pb-24 pt-2 text-center sm:-mt-40 sm:px-6">
+          <div className="flex flex-col items-center gap-5">
+            <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="mobile" />
+          </div>
         </div>
       </div>
 

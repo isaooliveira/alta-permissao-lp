@@ -4,11 +4,11 @@ import { HeroSection } from './components/HeroSection'
 import {
   ProblemSection,
   DiagnosisSection,
-  SolutionSection,
-  LogicRevealSection,
+  OperationalModelsSection,
   DeliverablesSection,
   DailyInsightsSection,
 } from './components/CopySections'
+import { TestimonialsSection } from './components/TestimonialsSection'
 import { ScheduleSection } from './components/ScheduleSection'
 import { PricingSection } from './components/PricingSection'
 import { MentorSection } from './components/MentorSection'
@@ -50,9 +50,9 @@ export default function App() {
         <HeroSection onCtaClick={scrollToInvestimento} />
         <MarqueeBanner />
         <ProblemSection />
-        <DiagnosisSection />
-        <SolutionSection />
-        <LogicRevealSection onCtaClick={open} />
+        <DiagnosisSection onCtaClick={open} />
+        <OperationalModelsSection />
+        <TestimonialsSection />
         <DeliverablesSection />
         <DailyInsightsSection />
         {!eventPast && <ScheduleSection onCtaClick={scrollToInvestimento} />}
