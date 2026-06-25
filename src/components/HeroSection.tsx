@@ -5,7 +5,7 @@ import { EventTag } from './EventTag'
 import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
-const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}hero-prancheta.webp`
+const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}bg--webp.webp`
 
 /** Troque para `true` quando o vídeo estiver pronto para restaurar o layout em duas colunas. */
 const HERO_VIDEO_ENABLED = false
