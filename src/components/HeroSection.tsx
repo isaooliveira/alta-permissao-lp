@@ -27,14 +27,8 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1 className={`text-[28px] sm:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}>
-      Em 1 dia, você aprenderá por que pessoas inteligentes, conscientes e cheias de potencial
-      continuam{' '}
-      <span className="font-semibold text-red">criando</span>{' '}
-      <span className="font-semibold text-red">limites</span> no{' '}
-      <span className="font-semibold text-cream">dinheiro</span>, nos{' '}
-      <span className="font-semibold text-cream">relacionamentos</span>, na{' '}
-      <span className="font-semibold text-cream">autoestima</span> e na forma como{' '}
-      <span className="font-semibold text-cream">enxergam a si mesmas.</span>
+      Como criar um estado interno tão forte que a realidade responde aos seus comandos e
+      materializa o seu futuro.
     </h1>
   )
 }
@@ -57,10 +51,9 @@ function HeroVideo() {
 function HeroIntro() {
   return (
     <p className="text-cream-muted text-lead">
-      Uma introdução prática à{' '}
-      <strong className="text-cream">Alta Permissão Sistêmica</strong>, para aplicar na vida
-      pessoal, nas relações, no trabalho e em qualquer atuação que envolva desenvolvimento
-      humano.
+      Um treinamento de 1 dia com o método prático para alinhar seus pensamentos e
+      comportamentos automáticos, fazendo o seu potencial infinito trabalhar 100% a favor do
+      seu crescimento pessoal, profissional e financeiro.
     </p>
   )
 }
