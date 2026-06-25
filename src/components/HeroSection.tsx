@@ -27,8 +27,10 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1 className={`text-[28px] sm:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}>
-      Como criar um estado interno tão forte que a realidade responde aos seus comandos e
-      materializa o seu futuro.
+      Como criar um{' '}
+      <span className="font-semibold">estado interno tão forte</span> que a{' '}
+      <span className="font-semibold">realidade responde aos seus comandos</span> e{' '}
+      <span className="font-semibold text-cream">materializa o seu futuro</span>
     </h1>
   )
 }
