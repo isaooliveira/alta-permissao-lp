@@ -16,9 +16,10 @@ import { GuaranteeAndFAQ } from './components/GuaranteeAndFAQ'
 import { LeadModal } from './components/LeadModal'
 import { MarqueeBanner } from './components/MarqueeBanner'
 import { Button } from './components/Button'
-import logoImg from '@/assets/logo-efeitoaltapermissao.svg'
 import { scrollToInvestimento } from '@/lib/scroll'
 import { useEventStatus } from '@/hooks/useEventStatus'
+
+const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
 
 function FinalCTA({ onCtaClick }: { onCtaClick: () => void }) {
   return (
@@ -42,9 +43,9 @@ function Footer() {
     <footer className="py-10 px-4 border-t border-cream/10">
       <div className="container-narrow text-center">
         <img
-          src={logoImg}
+          src={LOGO_SRC}
           alt="Alta Permissão, Missão Consciência"
-          className="w-full max-w-xs h-auto mx-auto mb-2"
+          className="w-full max-w-sm h-auto mx-auto mb-2"
         />
         <p className="text-cream/10 text-xs mt-6">
           © {new Date().getFullYear()} Missão Consciência. Todos os direitos reservados.

@@ -3,7 +3,8 @@ import { LotCtaCard } from './LotCtaCard'
 import { FadeIn } from './FadeIn'
 import { EventTag } from './EventTag'
 import { useEventStatus } from '@/hooks/useEventStatus'
-import logoImg from '@/assets/logo-efeitoaltapermissao.svg'
+
+const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
 
 /** Troque para `true` quando o vídeo estiver pronto para restaurar o layout em duas colunas. */
 const HERO_VIDEO_ENABLED = false
@@ -15,11 +16,11 @@ interface HeroSectionProps {
 function HeroLogo({ className = '' }: { className?: string }) {
   return (
     <img
-      src={logoImg}
+      src={LOGO_SRC}
       alt="Alta Permissão, Missão Consciência"
-      width={215}
-      height={61}
-      className={`w-[215px] h-[61px] object-contain shrink-0 ${className}`}
+      width={280}
+      height={51}
+      className={`w-full max-w-[280px] h-auto object-contain shrink-0 ${className}`}
     />
   )
 }
