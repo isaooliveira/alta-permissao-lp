@@ -14,8 +14,8 @@ export interface Lot {
 const LOT_1_END = new Date('2026-06-29T00:00:00-03:00')
 /** Encerra à meia-noite após 05/jul (06/jul 00:00 BRT) */
 const LOT_2_END = new Date('2026-07-06T00:00:00-03:00')
-/** Encerra no início do evento (11/jul 09:00 BRT) */
-const LOT_3_END = new Date('2026-07-11T09:00:00-03:00')
+/** Encerra no início do evento (12/jul 10:00 BRT) */
+const LOT_3_END = new Date('2026-07-12T10:00:00-03:00')
 
 const HOTMART_CHECKOUTS = {
   1: 'https://pay.hotmart.com/B106392371C?off=6jfj0uyq&checkoutMode=10',

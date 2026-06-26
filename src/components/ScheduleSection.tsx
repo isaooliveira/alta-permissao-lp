@@ -12,17 +12,17 @@ interface ScheduleSectionProps {
 
 const schedule = [
   {
-    time: '09:00',
+    time: '10:00',
     title: 'Abertura com muito conteúdo desde o início',
     description: 'Sem aquecimento. Entramos direto no que importa.',
   },
   {
-    time: '12:30',
+    time: '13:00',
     title: 'Pausa para almoço',
     description: 'Um respiro para processar e voltar com mais clareza.',
   },
   {
-    time: '16:00',
+    time: '17:00',
     title: 'Encerramento com perguntas e respostas',
     description: 'Espaço aberto para tirar o que ficou.',
   },

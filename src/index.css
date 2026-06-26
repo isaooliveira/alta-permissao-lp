@@ -148,7 +148,7 @@ body {
   }
 }
 
-/* ─── Schedule timeline: blink → open, sequencial 9h → 12h30 → 16h ─── */
+/* ─── Schedule timeline: blink → open, sequencial 10h → 13h → 17h ─── */
 @keyframes schedule-marker-0 {
   0%, 22%, 100% {
     transform: scale(1);

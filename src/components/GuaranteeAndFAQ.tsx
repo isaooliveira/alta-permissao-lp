@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: 'É ao vivo ou gravado?',
-    a: 'Ao vivo, com Talita Lopes em tempo real no dia 11 de julho, das 09h às 16h. Após o evento, o replay fica disponível para os inscritos.',
+    a: 'Ao vivo, com Talita Lopes em tempo real no domingo, 12 de julho, das 10h às 17h. Após o evento, o replay fica disponível para os inscritos.',
   },
   {
     q: 'Posso parcelar o ingresso?',

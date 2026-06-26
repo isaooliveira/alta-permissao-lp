@@ -7,7 +7,7 @@ export const MARQUEE_ITEMS_LIVE = [
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
   { text: 'TREINAMENTO INTRODUTÓRIO', icon: 'zap' as const },
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
-  { text: '11 DE JULHO', icon: 'zap' as const },
+  { text: '12 DE JULHO', icon: 'zap' as const },
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
   { text: 'AO VIVO', icon: 'zap' as const },
 ]
