@@ -10,6 +10,7 @@ import {
   UserRound,
   ScanEye,
   Circle,
+  Gift,
   type LucideIcon,
 } from 'lucide-react'
 import { FadeIn } from './FadeIn'
@@ -20,6 +21,7 @@ import sonhosImg from '@/assets/sonhos.webp'
 
 const HISTORIA_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia.webp`
 const HISTORIA_MOBILE_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia-mobile.webp`
+const BONUS_IMAGE_SRC = `${import.meta.env.BASE_URL}talita-bonus.webp`
 
 interface SectionProps {
   onCtaClick?: () => void
@@ -311,6 +313,58 @@ export function OperationalModelsSection() {
   )
 }
 
+function BonusHighlightCard() {
+  return (
+    <div className="overflow-hidden rounded-md border-2 border-accent-brand/35 bg-gradient-to-br from-accent-brand-light/50 via-white to-accent-brand-light/25 shadow-[0_12px_40px_rgba(154,104,72,0.12)]">
+      <div className="flex flex-col lg:flex-row">
+        <div className="relative lg:w-[42%] xl:w-[40%]">
+          <img
+            src={BONUS_IMAGE_SRC}
+            alt="Talita Lopes no mini curso Permissão de Ser Vista"
+            className="h-full min-h-[260px] w-full object-cover object-[50%_20%] sm:min-h-[320px] lg:min-h-[420px]"
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-dark/25 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-dark/10"
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col justify-center gap-4 px-6 py-7 sm:px-8 sm:py-9">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-brand/25 bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent-brand">
+              <Gift size={12} strokeWidth={2.5} aria-hidden="true" />
+              Bônus
+            </span>
+            <span className="inline-flex rounded-full bg-lime px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-dark">
+              Presente
+            </span>
+          </div>
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-brand">
+              Mini Curso
+            </p>
+            <h3 className="mt-1 text-2xl font-semibold leading-tight text-dark sm:text-[1.75rem]">
+              Permissão de Ser Vista
+            </h3>
+            <p className="mt-2 text-base font-semibold text-dark/75">
+              Com Talita Lopes ao vivo
+            </p>
+          </div>
+
+          <p className="text-base leading-relaxed text-dark/70">
+            “A Permissão de Ser Vista” é um mini curso exclusivo que une técnica de oratória com
+            trabalho emocional pra você entender o que trava a sua presença na câmera, nomear
+            isso, e desenvolver a coragem de aparecer no digital com a autoridade que a sua
+            profissão já tem.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function DeliverableCard({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="border border-dark/15 bg-white/80 h-full px-5 py-5 rounded-[6px] transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
@@ -410,6 +464,20 @@ export function DeliverablesSection() {
                   Documentação oficial de conclusão do treinamento Método APS.
                 </p>
               </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.5}>
+            <div className="mx-auto mt-14 max-w-4xl">
+              <div className="mb-6 text-center">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-accent-brand">
+                  Presente + bônus
+                </p>
+                <h3 className="text-section mt-2 text-dark">
+                  Tem mais uma coisinha incluída
+                </h3>
+              </div>
+              <BonusHighlightCard />
             </div>
           </FadeIn>
         </div>
