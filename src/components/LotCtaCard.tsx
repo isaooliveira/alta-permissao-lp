@@ -2,6 +2,7 @@ import { Wifi, ShieldCheck } from 'lucide-react'
 import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { Button } from './Button'
+import { LotExtendedBadge } from './LotExtendedBadge'
 
 interface LotCtaCardProps {
   onCtaClick: () => void
@@ -27,28 +28,39 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
         }`}
       >
         {!eventPast && (
-          <p
-            className={`leading-snug ${
+          <div
+            className={`flex flex-wrap items-center gap-2 ${
               isMobile
-                ? 'text-center text-base'
+                ? 'justify-center'
                 : isHero
-                  ? 'text-left text-base sm:text-lg'
-                  : 'text-center text-base sm:text-lg'
+                  ? 'justify-start'
+                  : 'justify-center'
             }`}
           >
-            {isMobile ? (
-              <>
-                <span className="text-white/90">{currentLot.label.toLowerCase()} apenas </span>
-                <span className="font-black text-lime">{currentLot.priceFormatted}</span>
-              </>
-            ) : (
-              <>
-                <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
-                <span className="text-white">apenas por</span>{' '}
-                <span className="font-black text-white">{currentLot.priceFormatted}</span>
-              </>
-            )}
-          </p>
+            <p
+              className={`leading-snug ${
+                isMobile
+                  ? 'text-center text-base'
+                  : isHero
+                    ? 'text-left text-base sm:text-lg'
+                    : 'text-center text-base sm:text-lg'
+              }`}
+            >
+              {isMobile ? (
+                <>
+                  <span className="text-white/90">{currentLot.label.toLowerCase()} apenas </span>
+                  <span className="font-black text-lime">{currentLot.priceFormatted}</span>
+                </>
+              ) : (
+                <>
+                  <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
+                  <span className="text-white">apenas por</span>{' '}
+                  <span className="font-black text-white">{currentLot.priceFormatted}</span>
+                </>
+              )}
+            </p>
+            {currentLot.extended && <LotExtendedBadge />}
+          </div>
         )}
 
         <Button

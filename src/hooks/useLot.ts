@@ -8,12 +8,14 @@ export interface Lot {
   label: string
   endDate: Date | null
   hotmartUrl: string
+  /** Exibe tag de prorrogação (1º lote estendido). */
+  extended?: boolean
 }
 
-/** Encerra à meia-noite após 28/jun (29/jun 00:00 BRT) */
-const LOT_1_END = new Date('2026-06-29T00:00:00-03:00')
-/** Encerra à meia-noite após 05/jul (06/jul 00:00 BRT) */
-const LOT_2_END = new Date('2026-07-06T00:00:00-03:00')
+/** Encerra à meia-noite após 06/jul (07/jul 00:00 BRT) — 1º lote prorrogado */
+const LOT_1_END = new Date('2026-07-07T00:00:00-03:00')
+/** Encerra à meia-noite após 10/jul (11/jul 00:00 BRT) */
+const LOT_2_END = new Date('2026-07-11T00:00:00-03:00')
 /** Encerra no início do evento (12/jul 10:00 BRT) */
 const LOT_3_END = new Date('2026-07-12T10:00:00-03:00')
 
@@ -31,6 +33,7 @@ const LOTS: Lot[] = [
     label: '1º LOTE',
     endDate: LOT_1_END,
     hotmartUrl: HOTMART_CHECKOUTS[1],
+    extended: true,
   },
   {
     number: 2,

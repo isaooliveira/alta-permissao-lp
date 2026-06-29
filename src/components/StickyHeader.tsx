@@ -2,6 +2,7 @@ import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
+import { LotExtendedBadge } from './LotExtendedBadge'
 
 interface StickyHeaderProps {
   onCtaClick: () => void
@@ -30,6 +31,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
               <span className="shrink-0 text-[10px] font-black uppercase tracking-widest text-red border border-red/50 px-2 py-0.5">
                 {currentLot.label}
               </span>
+              {currentLot.extended && <LotExtendedBadge size="sm" />}
               <LotCountdown
                 endDate={currentLot.endDate}
                 variant="compact"
@@ -64,6 +66,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
               <span className="shrink-0 text-[10px] font-black uppercase tracking-widest text-red border border-red/50 px-2 py-0.5">
                 {currentLot.label}
               </span>
+              {currentLot.extended && <LotExtendedBadge size="sm" />}
               <LotCountdown
                 endDate={currentLot.endDate}
                 variant="compact"

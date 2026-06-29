@@ -6,6 +6,7 @@ import { PRICING_FEATURES_LIVE, PRICING_FEATURES_POST_EVENT } from '@/lib/eventC
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
+import { LotExtendedBadge } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
 import type { Lot } from '@/hooks/useLot'
 import mockImg from '@/assets/mock.webp'
@@ -46,11 +47,14 @@ function LotCard({
     <>
       {!eventPast && (
         <div className="flex items-start justify-between gap-2 mb-4">
-          <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">
-            {lot.label}
-          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">
+              {lot.label}
+            </span>
+            {lot.extended && <LotExtendedBadge />}
+          </div>
           {isActive && (
-            <span className="inline-flex items-center gap-1.5 border border-cream/40 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cream">
+            <span className="inline-flex items-center gap-1.5 border border-cream/40 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cream shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-cream" aria-hidden="true" />
               Ativo
             </span>
