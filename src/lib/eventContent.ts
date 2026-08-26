@@ -26,6 +26,7 @@ export const PRICING_FEATURES_POST_EVENT = [
   'Certificado incluso',
 ] as const
 
-/** Cole aqui o convite do grupo das alunas do EAP. */
+/** Grupo de WhatsApp — Efeito Alta Permissão 2ª Ed. */
 export const WHATSAPP_GRUPO_EAP =
-  (import.meta.env.VITE_WHATSAPP_GRUPO_URL as string | undefined) || ''
+  (import.meta.env.VITE_WHATSAPP_GRUPO_URL as string | undefined) ||
+  'https://chat.whatsapp.com/EZWobbSUyGX9sLbRvgaJkL'

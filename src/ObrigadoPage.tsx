@@ -29,7 +29,7 @@ export function ObrigadoPage() {
             href={WHATSAPP_GRUPO_EAP}
             target="_blank"
             rel="noreferrer"
-            className="btn-shimmer relative mt-10 inline-flex min-w-0 max-w-full items-center justify-center rounded-[6px] bg-lime px-8 py-4 text-[16px] font-bold uppercase tracking-wide text-dark sm:min-w-[22rem] sm:px-10 sm:text-lg"
+            className="btn-shimmer relative mt-10 inline-flex min-w-0 max-w-full items-center justify-center rounded-[6px] bg-lime px-8 py-4 text-[16px] font-bold uppercase tracking-wide text-dark hover:brightness-105 hover:shadow-[0_0_28px_rgba(209,255,3,0.45)] sm:min-w-[22rem] sm:px-10 sm:text-lg"
           >
             <span className="relative z-[2]">Entrar no grupo de WhatsApp</span>
           </a>
