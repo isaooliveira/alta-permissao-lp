@@ -2,10 +2,9 @@ import { Play } from 'lucide-react'
 import { LotCtaCard } from './LotCtaCard'
 import { FadeIn } from './FadeIn'
 import { EventTag } from './EventTag'
-import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
-const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}bg--webp.webp`
+const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('Prancheta 1.webp')}`
 const HERO_MOBILE_IMAGE_SRC = `${import.meta.env.BASE_URL}bg-mobile.webp`
 
 /** Troque para `true` quando o vídeo estiver pronto para restaurar o layout em duas colunas. */
@@ -30,11 +29,17 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1
-      className={`text-[26px] sm:text-[30px] lg:text-[32px] font-normal leading-[1.15] tracking-tight text-white ${className}`}
+      className={`text-[22px] sm:text-[26px] lg:text-[32px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
     >
-      Seu crescimento financeiro{' '}
-      <span className="italic">parou no limite</span> exato do que a sua{' '}
-      <span className="font-semibold text-cream">família acha aceitável</span>.
+      Num mercado em que todo mundo fala de trauma, apego,
+      <br className="hidden lg:inline" />
+      {' '}crenças e sistema familiar,{' '}
+      <span className="italic whitespace-nowrap">repetir os mesmos conceitos</span>
+      <br className="hidden lg:inline" />
+      {' '}já não diferencia um profissional e pode deixar
+      <br className="hidden lg:inline" />
+      {' '}sua atuação com{' '}
+      <span className="font-semibold text-cream whitespace-nowrap">cara de amadora</span>.
     </h1>
   )
 }
@@ -57,11 +62,13 @@ function HeroVideo() {
 function HeroIntro({ className = '' }: { className?: string }) {
   return (
     <p className={`text-white/75 text-base sm:text-lg leading-relaxed ${className}`}>
-      <span className="font-semibold text-cream">Elimine o contrato de lealdade</span> que força
-      você a recusar a prosperidade de forma inconsciente. Aprenda o método prático para sustentar o
-      seu sucesso,{' '}
-      <span className="font-semibold text-cream">expandindo seus ganhos</span> e ainda{' '}
-      <span className="font-semibold text-cream">ajudando outras pessoas</span> com isso.
+      <span className="font-semibold text-cream">No Efeito Alta Permissão</span>, você aprende uma
+      nova forma de organizar as informações de um caso, comparar possíveis explicações e fazer
+      perguntas que ajudam a entender{' '}
+      <span className="font-semibold text-cream">
+        por que aquele comportamento continua acontecendo
+      </span>
+      .
     </p>
   )
 }
@@ -84,11 +91,9 @@ function HeroMobilePhoto() {
 
 function HeroPromiseContent({
   onCtaClick,
-  eventPast,
   layout,
 }: {
   onCtaClick: () => void
-  eventPast: boolean
   layout: 'mobile' | 'desktop'
 }) {
   const isMobile = layout === 'mobile'
@@ -100,8 +105,8 @@ function HeroPromiseContent({
           isMobile ? 'items-center gap-4' : 'items-start gap-3'
         }`}
       >
-        <HeroLogo className={isMobile ? 'max-w-[260px] mx-auto' : 'max-w-[240px] sm:max-w-[280px]'} />
-        {!eventPast && <EventTag className={isMobile ? 'mx-auto' : ''} />}
+        <HeroLogo className={isMobile ? 'max-w-[260px] mx-auto' : 'max-w-[240px] lg:max-w-[280px] lg:w-[280px]'} />
+        <EventTag className={isMobile ? 'mx-auto max-w-full' : ''} />
       </div>
 
       <HeroHeadline className={isMobile ? 'text-center mt-2' : ''} />
@@ -119,28 +124,26 @@ function HeroPromiseContent({
 
 function HeroPromiseBlock({
   onCtaClick,
-  eventPast,
 }: {
   onCtaClick: () => void
-  eventPast: boolean
 }) {
   return (
     <>
       {/* Mobile: conteúdo sobreposto à base da foto */}
-      <div className="relative overflow-hidden pt-12 lg:hidden">
+      <div className="relative overflow-hidden lg:hidden">
         <HeroMobilePhoto />
         <div className="relative z-10 -mt-36 bg-gradient-to-b from-transparent from-0% via-dark/90 via-12% to-dark px-5 pb-24 pt-2 text-center sm:-mt-40 sm:px-6">
           <div className="flex flex-col items-center gap-5">
-            <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="mobile" />
+            <HeroPromiseContent onCtaClick={onCtaClick} layout="mobile" />
           </div>
         </div>
       </div>
 
-      {/* Desktop: imagem de fundo com conteúdo à esquerda */}
+      {/* Desktop: imagem de fundo com conteúdo à esquerda, no mesmo eixo do header */}
       <div className="relative hidden w-full overflow-hidden pb-24 lg:block lg:aspect-[2040/1080]">
         <div
           className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
-          style={{ backgroundImage: `url(${HERO_IMAGE_SRC})` }}
+          style={{ backgroundImage: `url("${HERO_IMAGE_SRC}")` }}
           aria-hidden="true"
         />
         <div
@@ -148,8 +151,12 @@ function HeroPromiseBlock({
           aria-hidden="true"
         />
 
-        <div className="relative z-10 flex h-full min-h-[460px] flex-col items-start justify-center gap-5 px-12 py-12 pt-28 xl:max-w-[48%] xl:px-16">
-          <HeroPromiseContent onCtaClick={onCtaClick} eventPast={eventPast} layout="desktop" />
+        <div className="relative z-10 h-full px-4 pt-10">
+          <div className="mx-auto flex h-full min-h-[460px] max-w-6xl items-start">
+            <div className="flex w-full max-w-xl flex-col items-start gap-5 pt-0 pb-12 lg:max-w-[min(100%,45rem)]">
+              <HeroPromiseContent onCtaClick={onCtaClick} layout="desktop" />
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -167,21 +174,21 @@ function HeroGrainOverlay() {
   )
 }
 
-function HeroCenteredLayout({ onCtaClick, eventPast }: { onCtaClick: () => void; eventPast: boolean }) {
+function HeroCenteredLayout({ onCtaClick }: { onCtaClick: () => void }) {
   return (
     <FadeIn delay={0} className="relative z-10 w-full">
-      <HeroPromiseBlock onCtaClick={onCtaClick} eventPast={eventPast} />
+      <HeroPromiseBlock onCtaClick={onCtaClick} />
     </FadeIn>
   )
 }
 
-function HeroWithVideoLayout({ onCtaClick, eventPast }: { onCtaClick: () => void; eventPast: boolean }) {
+function HeroWithVideoLayout({ onCtaClick }: { onCtaClick: () => void }) {
   return (
     <div className="relative z-10 w-full container-narrow lg:max-w-6xl">
       <div className="flex flex-col items-center text-center gap-5 lg:hidden">
         <FadeIn delay={0} className="w-full flex flex-col items-center gap-3">
           <HeroLogo />
-          {!eventPast && <EventTag />}
+          <EventTag />
         </FadeIn>
 
         <FadeIn delay={0.1} className="w-full">
@@ -205,7 +212,7 @@ function HeroWithVideoLayout({ onCtaClick, eventPast }: { onCtaClick: () => void
         <div className="flex flex-col items-start text-left gap-5">
           <FadeIn delay={0} className="w-full flex items-center justify-between gap-4">
             <HeroLogo />
-            {!eventPast && <EventTag />}
+            <EventTag />
           </FadeIn>
 
           <FadeIn delay={0.15} className="w-full mt-5">
@@ -230,16 +237,14 @@ function HeroWithVideoLayout({ onCtaClick, eventPast }: { onCtaClick: () => void
 }
 
 export function HeroSection({ onCtaClick }: HeroSectionProps) {
-  const { eventPast } = useEventStatus()
-
   return (
     <section className="relative w-full overflow-hidden lg:pt-0">
       <HeroGrainOverlay />
 
       {HERO_VIDEO_ENABLED ? (
-        <HeroWithVideoLayout onCtaClick={onCtaClick} eventPast={eventPast} />
+        <HeroWithVideoLayout onCtaClick={onCtaClick} />
       ) : (
-        <HeroCenteredLayout onCtaClick={onCtaClick} eventPast={eventPast} />
+        <HeroCenteredLayout onCtaClick={onCtaClick} />
       )}
     </section>
   )

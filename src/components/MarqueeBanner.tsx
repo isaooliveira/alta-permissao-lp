@@ -20,14 +20,7 @@ export function MarqueeBanner() {
 
   return (
     <div className="overflow-hidden bg-cream border-y border-dark/10 py-3" aria-hidden="true">
-      <div
-        className="flex whitespace-nowrap"
-        style={
-          reduceMotion
-            ? undefined
-            : { animation: 'marquee 22s linear infinite' }
-        }
-      >
+      <div className={`flex whitespace-nowrap ${reduceMotion ? '' : 'marquee-track'}`}>
         {track.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-4 px-7">
             <Separator type={item.icon} />

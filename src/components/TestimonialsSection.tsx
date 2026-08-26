@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Play, X } from 'lucide-react'
+import { CountUp } from './CountUp'
 import { FadeIn } from './FadeIn'
 
 const TESTIMONIALS = [
@@ -33,6 +34,8 @@ function TestimonialCard({
   isShort: boolean
   onPlay: () => void
 }) {
+  const [loaded, setLoaded] = useState(false)
+
   return (
     <button
       type="button"
@@ -48,8 +51,11 @@ function TestimonialCard({
         <img
           src={thumbnailUrl(videoId)}
           alt=""
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           loading="lazy"
+          onLoad={() => setLoaded(true)}
+          className={`h-full w-full object-cover transition-[transform,opacity] duration-500 group-hover:scale-[1.03] ${
+            loaded ? 'opacity-100' : 'opacity-0'
+          }`}
         />
         <div
           className="absolute inset-0 bg-gradient-to-t from-dark/55 via-dark/15 to-dark/5"
@@ -84,6 +90,8 @@ function TestimonialVideoModal({
   videoId: string
   isShort: boolean
 }) {
+  const reduceMotion = useReducedMotion()
+
   return (
     <Dialog.Root open={open} onOpenChange={(o) => !o && onClose()}>
       <AnimatePresence>
@@ -100,10 +108,10 @@ function TestimonialVideoModal({
 
             <Dialog.Content asChild>
               <motion.div
-                initial={{ opacity: 0, scale: 0.96, y: 16 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96, y: 16 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 16 }}
+                animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 16 }}
+                transition={{ duration: reduceMotion ? 0.15 : 0.25, ease: 'easeOut' }}
                 className={`fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 ${
                   isShort ? 'max-w-[min(100%,22rem)]' : 'max-w-4xl'
                 }`}
@@ -145,21 +153,21 @@ export function TestimonialsSection() {
     <section className="bg-white px-4 py-20">
       <div className="container-wide">
         <FadeIn>
-          <h2 className="text-section mx-auto mb-3 max-w-4xl text-center text-dark">
-            <span className="text-accent-warm">+5 mil mulheres</span> já passaram pelo Método APS.
+          <h2 className="text-section mx-auto mb-12 max-w-4xl text-center text-dark">
+            <span className="text-accent-warm">
+              <CountUp to={5} prefix="+" suffix=" mil mulheres" />
+            </span>{' '}
+            já passaram pelo Método APS.
           </h2>
         </FadeIn>
 
-        <FadeIn delay={0.08}>
-          <p className="mx-auto mb-12 max-w-3xl text-center text-base leading-relaxed text-dark/65 sm:text-lg">
-            O que acontece quando você{' '}
-            <span className="font-semibold text-dark">expande a sua capacidade de reter</span>:
-          </p>
-        </FadeIn>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-5">
           {TESTIMONIALS.map((testimonial, i) => (
-            <FadeIn key={testimonial.videoId} delay={0.12 + i * 0.05}>
+            <FadeIn
+              key={testimonial.videoId}
+              delay={0.12 + i * 0.05}
+              className="w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+            >
               <TestimonialCard
                 {...testimonial}
                 onPlay={() => setActiveIndex(i)}

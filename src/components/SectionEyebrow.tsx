@@ -15,7 +15,7 @@ export function SectionEyebrow({
   return (
     <p
       className={cn(
-        'text-eyebrow text-center',
+        'text-center text-xs font-bold uppercase tracking-[0.3em]',
         variant === 'light' ? 'text-dark/45' : 'text-cream-muted',
         className,
       )}

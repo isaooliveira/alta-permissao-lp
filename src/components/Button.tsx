@@ -37,7 +37,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         className={cn(
-          'btn-shimmer relative inline-flex items-center justify-center rounded-[6px] font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed',
+          'btn-shimmer relative inline-flex min-w-0 max-w-full items-center justify-center rounded-[6px] font-bold uppercase tracking-wide transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed',
           {
             'bg-lime text-dark hover:brightness-105 hover:shadow-[0_0_28px_rgba(209,255,3,0.45)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-dark':
               variant === 'primary',
@@ -46,10 +46,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             'text-cream hover:text-cream/80': variant === 'ghost',
           },
           {
-            'px-4 py-2 text-sm': size === 'sm',
-            'px-6 py-3 text-base': size === 'md',
-            'px-8 py-4 text-lg': size === 'lg',
-            'px-6 py-4 text-base sm:px-10 sm:py-4 sm:text-lg': size === 'xl',
+            'px-3 py-2 text-xs sm:px-4 sm:text-sm': size === 'sm',
+            'px-5 py-3.5 text-[16px] sm:px-6': size === 'md',
+            'px-5 py-3.5 text-[16px] sm:px-8 sm:py-4 sm:text-lg': size === 'lg',
+            'px-5 py-3.5 text-[16px] sm:px-10 sm:py-4 sm:text-lg': size === 'xl',
           },
           className,
         )}
@@ -61,7 +61,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             Aguarde...
           </span>
         ) : (
-          <span className={cn('relative z-[2] inline-flex items-center', showTicket ? 'gap-3' : 'gap-2')}>
+          <span className={cn('relative z-[2] inline-flex min-w-0 items-center justify-center', showTicket ? 'gap-2 sm:gap-3' : 'gap-2')}>
             {showTicket && (
               <Ticket
                 size={iconSizes[size]}

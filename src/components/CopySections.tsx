@@ -1,100 +1,473 @@
 import {
-  Award,
-  Check,
   X,
-  ArrowUpFromLine,
-  Feather,
-  Rocket,
-  Crown,
-  Anchor,
-  UserRound,
-  ScanEye,
-  Circle,
-  Gift,
+  ArrowDown,
+  Eye,
+  MessageCircleQuestion,
+  Layers,
+  Search,
+  GraduationCap,
   type LucideIcon,
 } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { SectionEyebrow } from './SectionEyebrow'
-import tornPaperDown from '@/assets/torn-paper-down.svg'
 import sonhosImg from '@/assets/sonhos.webp'
-
-const HISTORIA_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia.webp`
-const HISTORIA_MOBILE_IMAGE_SRC = `${import.meta.env.BASE_URL}foto-historia-mobile.webp`
-const BONUS_IMAGE_SRC = `${import.meta.env.BASE_URL}talita-bonus.webp`
 
 interface SectionProps {
   onCtaClick?: () => void
 }
 
-const PROBLEM_INSIGHTS = [
-  'Se você não consegue vender, por exemplo, a solução mais óbvia parece ser estudar mais sobre o assunto. Mas, quando o seu inconsciente descobre que algo nesse desejo pode te ameaçar, você recua com todas as desculpas possíveis.',
-  'Você quer investir para reter mais dinheiro, mas, quando percebe que ter muito dinheiro pode significar reviver algum perigo ancestral, uma emergência mágica acontece para esvaziar o seu caixa.',
-  'Você deseja um número maior de clientes, mas, só de pensar em não entregar o melhor ou em receber uma avaliação ruim, você simplesmente já programa uma maneira de desistir ou mudar de profissão.',
-]
-
-
-/* ─── Section 1: Problema — o elástico ─── */
+/* ─── Bloco 2: mercado de interpretações ─── */
 export function ProblemSection() {
   return (
     <section className="relative">
-      <div className="bg-white px-4 py-16 sm:py-20">
-        <div className="container-wide">
+      <div className="bg-white px-6 pb-16 pt-10 sm:px-8 sm:pb-24 sm:pt-14 lg:px-12 lg:pb-28 lg:pt-16">
+        <FadeIn>
+          <h2 className="mx-auto max-w-[20.5rem] text-center text-[1.35rem] font-normal leading-[1.35] tracking-tight text-dark sm:max-w-xl sm:text-[1.65rem] sm:leading-snug lg:max-w-3xl lg:text-[2rem] lg:leading-[1.3]">
+            O que acontece quando um mercado inteiro começa a tratar interpretações sobre
+            comportamento humano como se fossem fatos?
+          </h2>
+        </FadeIn>
+      </div>
+
+      <div className="relative bg-cream px-6 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20 lg:px-12 lg:pb-28 lg:pt-24">
+        <div className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
+          <div className="flex h-[4.5rem] w-10 items-center justify-center rounded-full bg-dark shadow-[0_10px_28px_rgba(32,32,32,0.28)] sm:h-[5.25rem] sm:w-11">
+            <ArrowDown size={22} className="text-cream" strokeWidth={1.5} aria-hidden="true" />
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-[20.5rem] space-y-8 text-center text-dark sm:max-w-xl sm:space-y-10 lg:max-w-3xl lg:space-y-12">
           <FadeIn>
-            <SectionEyebrow variant="light" className="mb-6">
-              Existem aprendizados que apenas informam
-            </SectionEyebrow>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="text-section text-dark text-center mb-8">
-              E existem aprendizados que{' '}
-              <span className="text-accent-warm">mudam tudo:</span>{' '}
-              o olhar sobre si mesma, sobre os outros e sobre o que é possível
-            </h2>
+            <p className="text-[1.05rem] leading-relaxed sm:text-xl lg:text-[1.4rem] lg:leading-[1.45]">
+              Hoje existem <span className="font-bold">várias teorias</span> capazes de{' '}
+              <span className="font-bold">explicar</span> o{' '}
+              <span className="font-bold">mesmo comportamento</span> de formas completamente
+              diferentes.
+            </p>
           </FadeIn>
 
-          <FadeIn delay={0.2}>
-            <div className="mx-auto max-w-2xl space-y-5 text-dark/70 text-lead">
-              <p>
-                Você estuda muito, faz terapia, mentorias de negócios, cursos e segue estratégias.
-                O pacote completo.{' '}
-                <span className="italic text-dark">
-                  Mas, no fundo, parece que tem uma chave que não vira nunca e um limite que você
-                  não consegue ultrapassar.
-                </span>
-              </p>
-              <p>
-                O próximo nível financeiro parece logo ali. Só que, na prática, os mesmos
-                comportamentos repetitivos continuam aparecendo. O dinheiro entra e você dá um
-                "jeito" de sumir com ele. O projeto fica no rascunho. A procrastinação
-                sempre vence e você continua na roda dos ratos. Tudo isso sem nenhuma explicação
-                lógica.
-              </p>
-              <p className="text-dark font-semibold">
-                E sabe o que é pior? Ninguém, de forma consciente, "recusa" ter
-                prosperidade, ainda mais vindo de um lugar difícil. Mas é exatamente isso que você
-                faz quando se aproxima da experiência daquilo que você mais quer:
-              </p>
+          <FadeIn delay={0.08}>
+            <p className="text-[1.35rem] font-bold leading-[1.35] tracking-tight sm:text-2xl lg:text-[1.9rem] lg:leading-snug">
+              Trauma. Apego. Crenças. Família. Sistema. Medo. Proteção.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.16}>
+            <p className="text-[1.05rem] leading-relaxed sm:text-xl lg:text-[1.4rem] lg:leading-[1.45]">
+              E, quando qualquer uma delas entra cedo demais como resposta, o risco é transformar
+              uma possibilidade em verdade sobre alguém.
+            </p>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const SHELF_EXPLANATIONS = [
+  {
+    title: 'Opiniões apresentadas como verdade',
+    description: 'Leituras pessoais que ganham aparência de fato.',
+  },
+  {
+    title: 'Simplificações que reduzem uma história inteira a uma causa',
+    description: '“É sua mãe.” “É trauma.” “É medo.” “É o sistema.”',
+  },
+  {
+    title: 'Explicações de prateleira que servem para qualquer pessoa',
+    description: 'Respostas prontas aplicadas antes de entender aquela situação específica.',
+  },
+]
+
+const PROBLEM_IMG_DESKTOP = `${import.meta.env.BASE_URL}${encodeURIComponent('Group 19202.webp')}`
+const PROBLEM_IMG_MOBILE = `${import.meta.env.BASE_URL}${encodeURIComponent('Group 19201.webp')}`
+
+function ProblemAmplificationCopy() {
+  return (
+    <>
+      <FadeIn>
+        <h2 className="text-[1.45rem] font-normal leading-[1.28] tracking-tight text-white sm:text-[1.85rem] lg:text-[2.15rem] lg:leading-[1.25]">
+          E esse <span className="font-bold text-red">problema</span> ficou maior quando{' '}
+          <span className="font-bold">qualquer pessoa passou a estar a uma pesquisa de distância</span>{' '}
+          de uma explicação sobre si mesma.
+        </h2>
+      </FadeIn>
+
+      <FadeIn delay={0.08}>
+        <div className="mt-8 space-y-5 text-[1.05rem] leading-relaxed text-white/70 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+          <p>
+            Hoje, conceitos sobre trauma, apego, narcisismo, crenças, família e comportamento
+            circulam fora dos consultórios o tempo inteiro.
+          </p>
+          <p>Isso ampliou o acesso à informação.</p>
+          <p>Mas também fez:</p>
+        </div>
+      </FadeIn>
+
+      <div className="mt-5 space-y-2.5 sm:mt-6 sm:space-y-3">
+        {SHELF_EXPLANATIONS.map((item, i) => (
+          <FadeIn key={item.title} delay={0.14 + i * 0.06}>
+            <div className="flex items-start gap-3.5 rounded-md border border-red/55 bg-white/[0.03] px-4 py-3.5 sm:px-5 sm:py-4">
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-red sm:h-8 sm:w-8">
+                <X size={13} className="text-white" strokeWidth={2.75} aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-base font-semibold leading-snug text-white sm:text-lg">
+                  {item.title}
+                </p>
+                <p className="mt-1 text-sm leading-snug text-white/65 sm:text-base">
+                  {item.description}
+                </p>
+              </div>
             </div>
           </FadeIn>
+        ))}
+      </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-3 lg:grid-cols-3">
-            {PROBLEM_INSIGHTS.map((item, i) => (
-              <FadeIn key={item} delay={0.28 + i * 0.08}>
-                <PatternBox text={item} variant="light" />
-              </FadeIn>
-            ))}
+      <FadeIn delay={0.36}>
+        <div className="mt-8 space-y-5 text-[1.05rem] leading-relaxed text-white/70 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+          <p>
+            Às vezes, a pessoa já chega convencida de uma explicação. Outras vezes, ela chega
+            apenas com um problema e encontra essa explicação durante o processo.
+          </p>
+          <p>Nos dois casos, quem trabalha com pessoas ocupa uma posição de muita influência.</p>
+        </div>
+      </FadeIn>
+    </>
+  )
+}
+
+/* ─── Bloco 3: o problema ficou maior ─── */
+export function ProblemAmplificationSection() {
+  return (
+    <section className="relative overflow-hidden bg-dark">
+      <div className="relative lg:hidden">
+        <img
+          src={PROBLEM_IMG_MOBILE}
+          alt=""
+          width={636}
+          height={525}
+          className="h-auto w-full object-cover object-[50%_28%]"
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-dark from-15% via-dark/85 to-transparent"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative lg:min-h-[min(92vh,880px)]">
+        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+          <img
+            src={PROBLEM_IMG_DESKTOP}
+            alt=""
+            width={1731}
+            height={949}
+            className="absolute inset-0 h-full w-full object-cover object-[84%_center]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-dark from-[14%] via-dark/75 via-[40%] to-transparent to-[68%]" />
+        </div>
+
+        <div className="relative z-10 mx-auto w-full max-w-[22rem] px-6 pb-16 pt-0 -mt-10 sm:max-w-xl sm:px-8 sm:pb-20 sm:-mt-12 lg:mx-auto lg:mt-0 lg:flex lg:min-h-[min(92vh,880px)] lg:max-w-6xl lg:items-center lg:px-12 lg:py-24 xl:px-4">
+          <div className="w-full lg:max-w-[min(100%,34rem)]">
+            <ProblemAmplificationCopy />
           </div>
         </div>
       </div>
+    </section>
+  )
+}
 
-      <img
-        src={tornPaperDown}
-        alt=""
-        aria-hidden="true"
-        className="block w-full h-auto"
-        draggable={false}
-      />
+/* ─── Bloco 4: a interpretação não termina quando é dita ─── */
+export function InterpretationConsequenceSection({ onCtaClick }: SectionProps) {
+  return (
+    <section className="bg-white px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
+      <div className="mx-auto flex w-full max-w-[22rem] flex-col items-center text-center sm:max-w-xl lg:max-w-3xl">
+        <FadeIn>
+          <SectionEyebrow variant="light" className="text-[13px] tracking-[0.2em] text-dark sm:text-sm">
+            Isso acontece
+          </SectionEyebrow>
+        </FadeIn>
+
+        <FadeIn delay={0.06}>
+          <h2 className="mt-5 text-[1.7rem] font-semibold leading-[1.2] tracking-tight text-dark sm:mt-6 sm:text-[2.15rem] lg:max-w-2xl lg:text-[2.5rem] lg:leading-[1.18]">
+            Porque uma interpretação não termina quando é dita.
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.12}>
+          <div className="mt-8 space-y-6 text-[1.05rem] leading-relaxed text-dark/55 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            <p>
+              Ela pode mudar a forma como alguém passa a olhar para a própria infância, para a mãe,
+              para o pai, para um relacionamento, para uma escolha ou até para quem acredita ser.
+            </p>
+            <p>Uma possibilidade repetida com convicção pode ganhar o peso de uma verdade pessoal.</p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.18}>
+          <p className="mt-8 text-[1.05rem] font-bold leading-relaxed text-dark sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            Quanto maior a influência que um profissional tem sobre a forma como uma pessoa entende
+            a própria vida, maior precisa ser a responsabilidade com a explicação que oferece.
+          </p>
+        </FadeIn>
+
+        {onCtaClick && (
+          <FadeIn delay={0.24} className="mt-10 w-full sm:mt-12 sm:flex sm:justify-center">
+            <Button
+              size="md"
+              onClick={onCtaClick}
+              showTicket
+              className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10"
+            >
+              Garantir Meu ingresso
+            </Button>
+          </FadeIn>
+        )}
+      </div>
+    </section>
+  )
+}
+
+const ACTION_FLOW_STEPS = [
+  { title: 'O que aconteceu', subtitle: 'fato / acontecimento' },
+  { title: 'O que foi relatado', subtitle: 'relato da pessoa' },
+  { title: 'O que foi interpretado', subtitle: 'sentido atribuído' },
+  { title: 'O que é opinião', subtitle: 'leitura pessoal' },
+  { title: 'O que ainda precisa ser compreendido', subtitle: 'lacunas e hipóteses' },
+]
+
+function ActionFlowModule() {
+  return (
+    <div className="mt-8 overflow-hidden rounded-md border border-cream/10 bg-white/[0.03] px-5 py-7 sm:mt-10 sm:px-8 sm:py-9">
+      <ol className="m-0 flex list-none flex-col gap-0 p-0">
+        {ACTION_FLOW_STEPS.map((step, i) => {
+          const isLast = i === ACTION_FLOW_STEPS.length - 1
+          return (
+            <li key={step.title} className="flex gap-4 sm:gap-5">
+              <div className="flex w-8 shrink-0 flex-col items-center sm:w-9">
+                <span className="flex h-8 w-8 items-center justify-center text-[11px] font-bold tabular-nums tracking-widest text-lime sm:h-9 sm:w-9 sm:text-xs">
+                  0{i + 1}
+                </span>
+                {!isLast && (
+                  <span className="w-px flex-1 bg-cream/15" aria-hidden="true" />
+                )}
+              </div>
+              <div className={`min-w-0 flex-1 pb-5 ${isLast ? 'pb-0' : ''}`}>
+                <p className="text-base font-bold leading-snug text-cream sm:text-lg">{step.title}</p>
+                <p className="mt-0.5 text-sm leading-snug text-cream/50">{step.subtitle}</p>
+              </div>
+            </li>
+          )
+        })}
+      </ol>
+    </div>
+  )
+}
+
+/* ─── Bloco 5: atuação profissional vs amadora ─── */
+export function ProfessionalDistinctionSection() {
+  return (
+    <section className="bg-dark px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
+      <div className="mx-auto w-full max-w-[22rem] sm:max-w-xl lg:max-w-3xl">
+        <FadeIn>
+          <h2 className="text-[1.55rem] font-normal leading-[1.25] tracking-tight text-white sm:text-[1.9rem] lg:text-[2.35rem] lg:leading-[1.22]">
+            E é aqui que <span className="font-bold">uma atuação profissional</span> começa a se
+            separar de uma atuação <span className="font-bold text-red">amadora.</span>
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.08}>
+          <p className="mt-7 text-[1.05rem] leading-relaxed text-white/70 sm:mt-8 sm:text-lg lg:text-xl">
+            Não pela quantidade de nomes, teorias ou técnicas conhecidas. Mas pela capacidade de
+            distinguir:
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.14}>
+          <ActionFlowModule />
+        </FadeIn>
+
+        <FadeIn delay={0.4}>
+          <p className="mt-8 text-[1.05rem] leading-relaxed text-white/70 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            Porque duas pessoas podem apresentar um comportamento parecido e estar respondendo a
+            situações completamente diferentes.{' '}
+            <span className="font-bold text-white">
+              O comportamento pode ser semelhante. A leitura não pode ser automática.
+            </span>
+          </p>
+        </FadeIn>
+      </div>
+    </section>
+  )
+}
+
+const LEVEL_UP_ITEMS = [
+  'Aprender a olhar uma situação antes de encaixá-la em uma resposta',
+  'Organizar as informações.',
+  'Perceber o que já pode ser afirmado.',
+  'Reconhecer o que ainda é apenas uma possibilidade.',
+  'Fazer perguntas que tragam informação nova, em vez de apenas confirmar uma ideia anterior.',
+]
+
+/* ─── Bloco 6: subir de nível ─── */
+export function LevelUpReadingSection() {
+  return (
+    <section className="bg-white px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
+      <div className="mx-auto flex w-full max-w-[22rem] flex-col items-center text-center sm:max-w-xl lg:max-w-3xl">
+        <FadeIn>
+          <SectionEyebrow variant="light" className="text-[13px] tracking-[0.2em] text-dark sm:text-sm">
+            Por isso
+          </SectionEyebrow>
+        </FadeIn>
+
+        <FadeIn delay={0.06}>
+          <h2 className="mt-5 text-[1.55rem] font-normal leading-[1.25] tracking-tight text-dark sm:mt-6 sm:text-[1.9rem] lg:max-w-2xl lg:text-[2.35rem] lg:leading-[1.22]">
+            Subir de nível <span className="font-bold">não significa</span> simplesmente encontrar
+            explicações mais sofisticadas.
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          <p className="mt-6 text-[1.05rem] leading-relaxed text-dark/55 sm:mt-7 sm:text-lg lg:text-xl">
+            É aprender a olhar e ler uma situação com mais precisão antes de encaixá-la em uma
+            resposta. Mas sim:
+          </p>
+        </FadeIn>
+
+        <ul className="mt-8 w-full space-y-2.5 text-left sm:mt-10 sm:space-y-3">
+          {LEVEL_UP_ITEMS.map((item, i) => (
+            <FadeIn key={item} delay={0.14 + i * 0.05}>
+              <li className="flex items-start gap-3 rounded-md border border-dark/10 bg-dark/[0.04] px-4 py-3.5 sm:gap-3.5 sm:px-5 sm:py-4">
+                <span className="mt-0.5 text-base font-bold leading-none text-dark" aria-hidden="true">
+                  ✓
+                </span>
+                <span className="text-[1.02rem] leading-snug text-dark sm:text-lg">{item}</span>
+              </li>
+            </FadeIn>
+          ))}
+        </ul>
+
+        <FadeIn delay={0.42}>
+          <p className="mt-8 text-[1.05rem] leading-relaxed text-dark sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            É isso que{' '}
+            <span className="font-bold">transforma repertório em capacidade de leitura e atuação.</span>
+          </p>
+        </FadeIn>
+      </div>
+    </section>
+  )
+}
+
+function PeakInsightCard({
+  title,
+  description,
+  icon: Icon,
+}: {
+  title: string
+  description: string
+  icon: LucideIcon
+}) {
+  return (
+    <div className="group h-full rounded-md p-px bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
+      <div className="flex h-full flex-row items-start gap-3.5 rounded-[5px] bg-dark px-4 py-4 text-left transition-colors duration-300 group-hover:bg-[#252520] sm:flex-col sm:gap-3 sm:px-5 sm:py-6">
+        <Icon
+          size={24}
+          className="mt-0.5 shrink-0 text-cream transition-all duration-300 group-hover:scale-110 group-hover:text-[#F8F0DF] sm:mt-0"
+          strokeWidth={1.75}
+          aria-hidden="true"
+        />
+        <div className="min-w-0 flex flex-col gap-1 sm:gap-3">
+          <p className="text-cream font-bold text-base sm:text-lg leading-snug transition-colors duration-300 group-hover:text-white">
+            {title}
+          </p>
+          <p className="text-cream/75 text-sm sm:text-base leading-relaxed transition-colors duration-300 group-hover:text-cream/90">
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const METHOD_OUTCOME_CARDS: { title: string; description: string; icon: LucideIcon }[] = [
+  {
+    title: 'Um novo olhar',
+    description: 'Para entender como as pessoas agem.',
+    icon: Eye,
+  },
+  {
+    title: 'Perguntas que estalam',
+    description: 'Fazer perguntas que trazem clareza e estalam a mente rápido.',
+    icon: MessageCircleQuestion,
+  },
+  {
+    title: 'Padrões no ponto cego',
+    description: 'Enxergar o que costuma ficar escondido.',
+    icon: Layers,
+  },
+  {
+    title: 'Observar e investigar',
+    description: 'Ficar muito mais afiada na hora de ler pessoas e situações.',
+    icon: Search,
+  },
+  {
+    title: 'Salto de qualidade',
+    description: 'Em atendimentos, mentorias, liderança, aulas e treinos.',
+    icon: GraduationCap,
+  },
+]
+
+/* ─── Bloco 7: nasceu o Efeito Alta Permissão ─── */
+export function MethodIntroSection({ onCtaClick }: SectionProps) {
+  return (
+    <section className="bg-dark px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
+      <div className="mx-auto flex w-full max-w-[22rem] flex-col items-center text-center sm:max-w-xl lg:max-w-5xl">
+        <FadeIn>
+          <h2 className="text-[1.55rem] font-bold leading-[1.25] tracking-tight text-white sm:text-[1.9rem] lg:max-w-2xl lg:text-[2.35rem] lg:leading-[1.22]">
+            Foi para desenvolver esse olhar que nasceu o Efeito Alta Permissão.
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          <p className="mt-8 max-w-3xl text-[1.05rem] leading-relaxed text-white/60 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            Um treinamento introdutório ao Método APS para profissionais que trabalham com pessoas e
+            querem ampliar a forma como compreendem comportamentos, histórias e padrões.
+          </p>
+        </FadeIn>
+
+        <div className="mt-10 grid w-full grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-3 sm:gap-4">
+          {METHOD_OUTCOME_CARDS.map((item, i) => (
+            <FadeIn key={item.title} delay={0.14 + i * 0.05} className="h-full">
+              <PeakInsightCard
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+              />
+            </FadeIn>
+          ))}
+
+          <FadeIn delay={0.4} className="h-full">
+            <div
+              className="flex h-full min-h-[7.5rem] items-center justify-center rounded-md border border-dashed border-[#988D49]/35 bg-dark px-4 py-4 sm:min-h-full"
+              aria-hidden="true"
+            />
+          </FadeIn>
+        </div>
+
+        {onCtaClick && (
+          <FadeIn delay={0.45} className="mt-10 w-full sm:mt-12 sm:flex sm:justify-center">
+            <Button
+              size="md"
+              onClick={onCtaClick}
+              showTicket
+              className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10"
+            >
+              Garantir Meu ingresso
+            </Button>
+          </FadeIn>
+        )}
+      </div>
     </section>
   )
 }
@@ -233,375 +606,11 @@ export function DiagnosisSection({ onCtaClick }: SectionProps) {
 
         {onCtaClick && (
           <FadeIn delay={0.9} className="mt-12 flex justify-center">
-            <Button size="lg" onClick={onCtaClick} showTicket className="whitespace-nowrap">
-              Quero esse conhecimento
+            <Button size="md" onClick={onCtaClick} showTicket className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10">
+              Garantir Meu ingresso
             </Button>
           </FadeIn>
         )}
-      </div>
-    </section>
-  )
-}
-
-/* ─── Section 2b: Modelos operacionais internos ─── */
-function OperationalModelsContent() {
-  return (
-    <>
-      <h2 className="text-section mb-6 text-left font-light leading-[1.18] text-white">
-        Tudo isso acontece porque os primeiros vínculos familiares moldam os chamados "Modelos
-        Operacionais Internos", que automatizam as suas respostas ao dinheiro e à segurança.
-      </h2>
-
-      <div className="space-y-5 text-left">
-        <p className="text-lead text-cream-muted">
-          Investigar o passado de forma correta não serve para buscar culpados, mas sim para
-          compreender esses comportamentos automáticos. É isso que possibilita mudanças reais,
-          movendo o seu sistema nervoso do modo de sobrevivência para o modo de ação.
-        </p>
-        <p className="text-lead font-semibold text-cream">
-          A mudança real ocorre quando você entende os motivos de repetir comportamentos
-          indesejados, e não apenas quando descobre o que fazer.
-        </p>
-      </div>
-    </>
-  )
-}
-
-export function OperationalModelsSection() {
-  return (
-    <section className="relative w-full overflow-hidden bg-dark">
-      {/* Mobile: texto + imagem em quadro */}
-      <div className="flex flex-col lg:hidden">
-        <FadeIn delay={0.1}>
-          <div className="px-5 py-12 sm:px-8">
-            <OperationalModelsContent />
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.15}>
-          <div className="px-5 pb-12 sm:px-8">
-            <div className="overflow-hidden rounded-md border border-cream/10">
-              <img
-                src={HISTORIA_MOBILE_IMAGE_SRC}
-                alt="Ilustração sobre vínculos familiares e modelos operacionais internos"
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </div>
-        </FadeIn>
-      </div>
-
-      {/* Desktop: imagem de fundo com texto sobreposto */}
-      <FadeIn delay={0.1} className="hidden lg:block">
-        <div className="relative aspect-[1920/1080] w-full">
-          <div
-            className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
-            style={{ backgroundImage: `url(${HISTORIA_IMAGE_SRC})` }}
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/88 via-[40%] to-transparent"
-            aria-hidden="true"
-          />
-
-          <div className="relative z-10 flex min-h-full flex-col justify-center px-12 py-16 xl:max-w-[46%] xl:px-16">
-            <OperationalModelsContent />
-          </div>
-        </div>
-      </FadeIn>
-    </section>
-  )
-}
-
-function BonusHighlightCard() {
-  return (
-    <div className="overflow-hidden rounded-md border-2 border-accent-brand/35 bg-gradient-to-br from-accent-brand-light/50 via-white to-accent-brand-light/25 shadow-[0_12px_40px_rgba(154,104,72,0.12)]">
-      <div className="flex flex-col lg:flex-row">
-        <div className="relative lg:w-[42%] xl:w-[40%]">
-          <img
-            src={BONUS_IMAGE_SRC}
-            alt="Talita Lopes no mini curso Permissão de Ser Vista"
-            className="h-full min-h-[260px] w-full object-cover object-[50%_20%] sm:min-h-[320px] lg:min-h-[420px]"
-            loading="lazy"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-dark/25 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-dark/10"
-            aria-hidden="true"
-          />
-        </div>
-
-        <div className="flex flex-1 flex-col justify-center gap-4 px-6 py-7 sm:px-8 sm:py-9">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-brand/25 bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent-brand">
-              <Gift size={12} strokeWidth={2.5} aria-hidden="true" />
-              Bônus
-            </span>
-            <span className="inline-flex rounded-full bg-lime px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-dark">
-              Presente
-            </span>
-          </div>
-
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-brand">
-              Mini Curso
-            </p>
-            <h3 className="mt-1 text-2xl font-semibold leading-tight text-dark sm:text-[1.75rem]">
-              Permissão de Ser Vista
-            </h3>
-            <p className="mt-2 text-base font-semibold text-dark/75">
-              Com Talita Lopes ao vivo
-            </p>
-          </div>
-
-          <p className="text-base leading-relaxed text-dark/70">
-            “A Permissão de Ser Vista” é um mini curso exclusivo que une técnica de oratória com
-            trabalho emocional pra você entender o que trava a sua presença na câmera, nomear
-            isso, e desenvolver a coragem de aparecer no digital com a autoridade que a sua
-            profissão já tem.
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function DeliverableCard({ title, items }: { title: string; items: string[] }) {
-  return (
-    <div className="border border-dark/15 bg-white/80 h-full px-5 py-5 rounded-[6px] transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
-      <p className="text-dark font-black text-base leading-snug tracking-wide mb-4 pb-3 border-b border-dark/10">{title}</p>
-      <ul>
-        {items.map((item, i) => (
-          <li key={item}>
-            <div className="flex items-start gap-3 py-2.5">
-              <Check
-                size={16}
-                className="text-accent-brand flex-shrink-0 mt-0.5"
-                strokeWidth={2.5}
-                aria-hidden="true"
-              />
-              <span className="text-dark/80 text-base leading-snug">{item}</span>
-            </div>
-            {i < items.length - 1 && (
-              <div className="flex gap-3" aria-hidden="true">
-                <Check size={16} className="opacity-0 flex-shrink-0" />
-                <div className="flex-1 h-px bg-dark/8" />
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-/* ─── Section 4: Entregas — O que você vai aprender ─── */
-export function DeliverablesSection() {
-  const forSelf = [
-    'Entender por que você continua repetindo os mesmos erros',
-    'Ganhar clareza real sobre as suas decisões e limites',
-    'Saber por que algumas mudanças não duram muito tempo',
-    'Olhar para a sua vida e para as suas relações com outros olhos',
-    'Abrir espaço para escolhas que realmente façam sentido',
-  ]
-
-  const forWork = [
-    'Um novo olhar para entender como as pessoas agem',
-    'Fazer perguntas que trazem clareza e estalam a mente rápido',
-    'Enxergar padrões que costumam ficar escondidos no ponto cego',
-    'Ficar muito mais afiada na hora de observar e investigar',
-    'Dar um salto de qualidade em atendimentos, mentorias, liderança, aulas e treinos',
-  ]
-
-  return (
-    <section className="relative">
-      <div className="bg-white px-4 py-20">
-        <div className="container-wide">
-          <FadeIn>
-            <h2 className="text-section text-dark text-center mb-3">
-              O que você vai receber no dia
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.06}>
-            <p className="mx-auto mb-12 max-w-3xl text-center text-base leading-relaxed text-dark/65 sm:text-lg">
-              Uma única experiência desenhada para duas realidades perfeitamente integradas:
-            </p>
-          </FadeIn>
-
-          <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
-            <FadeIn delay={0.1} className="h-full">
-              <DeliverableCard
-                title="Se você quer aplicar na sua vida e carreira:"
-                items={forSelf}
-              />
-            </FadeIn>
-            <FadeIn delay={0.2} className="h-full">
-              <DeliverableCard
-                title="Se você trabalha com pessoas (terapeutas, mentoras, líderes e coaches):"
-                items={forWork}
-              />
-            </FadeIn>
-          </div>
-
-          <FadeIn delay={0.3}>
-            <p className="text-dark text-center text-lead font-semibold mt-12 leading-relaxed max-w-xl mx-auto">
-              Você não precisa ser terapeuta para viver este dia. A transformação acontece na pele
-              de quem trabalha em qualquer área. Mas, se você conduz pessoas, sairá com uma
-              ferramenta pronta para aplicar e faturar logo na segunda-feira seguinte.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.4}>
-            <div className="mt-10 max-w-xl mx-auto border-l-4 border-lime bg-dark/[0.03] flex items-start gap-5 px-6 py-5">
-              <div className="flex-shrink-0 w-10 h-10 bg-lime flex items-center justify-center">
-                <Award size={20} className="text-dark" strokeWidth={2} aria-hidden="true" />
-              </div>
-              <div>
-                <p className="text-dark font-black text-sm uppercase tracking-wide mb-1">
-                  Certificado de Participação
-                </p>
-                <p className="text-dark/65 text-base leading-snug">
-                  Documentação oficial de conclusão do treinamento Método APS.
-                </p>
-              </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.5}>
-            <div className="mx-auto mt-14 max-w-4xl">
-              <div className="mb-6 text-center">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-accent-brand">
-                  Presente + bônus
-                </p>
-                <h3 className="text-section mt-2 text-dark">
-                  Tem mais uma coisinha incluída
-                </h3>
-              </div>
-              <BonusHighlightCard />
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-
-      <img
-        src={tornPaperDown}
-        alt=""
-        aria-hidden="true"
-        className="block w-full h-auto"
-        draggable={false}
-      />
-    </section>
-  )
-}
-
-/* ─── Section 5: Aplicando no dia a dia — insights ─── */
-const PEAK_INSIGHTS: { title: string; description: string; icon: LucideIcon }[] = [
-  {
-    title: 'Romper o teto invisível',
-    description:
-      'você consegue avançar para o próximo nível financeiro e para de criar despesas ou problemas do nada para queimar dinheiro.',
-    icon: ArrowUpFromLine,
-  },
-  {
-    title: 'Agir sem peso na consciência',
-    description:
-      'você toma decisões difíceis e estabelece limites claros sem carregar uma culpa esmagadora depois.',
-    icon: Feather,
-  },
-  {
-    title: 'Parar de se adiar',
-    description:
-      'você coloca seus projetos no mundo e se expõe sem precisar da validação ou da aprovação de terceiros.',
-    icon: Rocket,
-  },
-  {
-    title: 'Ocupar o seu real tamanho',
-    description:
-      'Você passa a apresentar o seu preço com firmeza, consegue se posicionar para cobrar mais, elimina os descontos por insegurança e não sente mais necessidade de ficar se justificando.',
-    icon: Crown,
-  },
-  {
-    title: 'Sustentar o próprio sucesso',
-    description:
-      'você aprende a receber e manter o que é bom sem criar crises para voltar ao padrão antigo.',
-    icon: Anchor,
-  },
-  {
-    title: 'Sair do papel de salvadora',
-    description:
-      'você deixa de carregar a responsabilidade pelos problemas dos outros e foca na sua própria vida.',
-    icon: UserRound,
-  },
-  {
-    title: 'Olhar clínico para pessoas',
-    description:
-      'você decifra a lógica por trás dos travamentos humanos, sabendo exatamente onde intervir e o que perguntar.',
-    icon: ScanEye,
-  },
-  {
-    title: 'Viver em neutralidade',
-    description:
-      'as opiniões alheias e os imprevistos perdem o poder de desestabilizar o seu estado emocional e suas escolhas.',
-    icon: Circle,
-  },
-]
-
-function PeakInsightCard({
-  title,
-  description,
-  icon: Icon,
-}: {
-  title: string
-  description: string
-  icon: LucideIcon
-}) {
-  return (
-    <div className="group h-full rounded-md p-px bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
-      <div className="h-full rounded-[5px] bg-dark px-4 sm:px-5 py-5 sm:py-6 flex flex-col gap-3 transition-colors duration-300 group-hover:bg-[#252520]">
-        <Icon
-          size={24}
-          className="text-cream shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-[#ECD7B8]"
-          strokeWidth={1.75}
-          aria-hidden="true"
-        />
-        <p className="text-cream font-bold text-base sm:text-lg leading-snug transition-colors duration-300 group-hover:text-white">
-          {title}
-        </p>
-        <p className="text-cream/75 text-sm sm:text-base leading-relaxed transition-colors duration-300 group-hover:text-cream/90">
-          {description}
-        </p>
-      </div>
-    </div>
-  )
-}
-
-export function DailyInsightsSection() {
-  return (
-    <section className="section-padding bg-dark">
-      <div className="container-narrow">
-        <FadeIn delay={0.1}>
-          <h2 className="text-section text-white text-center mb-3">
-            O que muda na prática
-          </h2>
-          <p className="mx-auto mb-10 max-w-3xl text-center text-base leading-relaxed text-cream-muted sm:text-lg">
-            Dominando o método, você resgata a sua autoconfiança, segurança, ousadia e uma
-            profunda sensação de leveza, capacidade e coragem. Na prática, você para de:
-          </p>
-        </FadeIn>
-      </div>
-
-      <div className="container-wide">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-3 lg:gap-4">
-          {PEAK_INSIGHTS.map((item, i) => (
-            <FadeIn key={item.title} delay={0.15 + i * 0.06} className="h-full">
-              <PeakInsightCard
-                title={item.title}
-                description={item.description}
-                icon={item.icon}
-              />
-            </FadeIn>
-          ))}
-        </div>
       </div>
     </section>
   )

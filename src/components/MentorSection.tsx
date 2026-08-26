@@ -1,37 +1,47 @@
+import { CountUp } from './CountUp'
 import { FadeIn } from './FadeIn'
-import talitaPhoto from '@/assets/foto-quem-sou-final.webp'
+import { SectionEyebrow } from './SectionEyebrow'
+
+const TALITA_PHOTO_SRC = `${import.meta.env.BASE_URL}quem-sou-eu.webp`
 
 export function MentorSection() {
   return (
     <section className="section-padding bg-dark">
-      <div className="mx-auto w-full max-w-4xl px-5">
-        <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-center lg:justify-center lg:gap-12 lg:text-left">
-          <FadeIn delay={0.1} direction="right" className="w-full shrink-0 lg:w-auto">
+      <div className="mx-auto w-full max-w-4xl px-5 lg:max-w-5xl">
+        <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-stretch lg:justify-center lg:gap-12 lg:text-left">
+          <FadeIn delay={0.1} direction="right" className="w-full shrink-0 lg:flex lg:w-[46%] lg:max-w-[520px] lg:self-stretch">
             <img
-              src={talitaPhoto}
+              src={TALITA_PHOTO_SRC}
               alt="Talita Lopes, fundadora da Escola Missão Consciência"
-              width={480}
-              height={640}
-              className="mx-auto aspect-[3/4] w-full max-w-[420px] object-cover rounded-md lg:mx-0 lg:w-[420px] xl:w-[480px]"
+              width={2034}
+              height={2049}
+              className="mx-auto h-auto w-full max-w-[420px] rounded-md object-cover object-center lg:mx-0 lg:h-full lg:max-w-none lg:w-full"
             />
           </FadeIn>
 
-          <FadeIn delay={0.2} className="w-full max-w-xl lg:max-w-md xl:max-w-lg">
-            <h2 className="text-section text-white mb-2">Talita Lopes</h2>
-            <p className="text-cream text-base font-semibold mb-6">
-              Fundadora da Escola Missão Consciência®
-            </p>
+          <FadeIn delay={0.2} className="flex w-full max-w-xl flex-col justify-between lg:max-w-md xl:max-w-lg">
+            <SectionEyebrow className="mb-3 lg:text-left">
+              Conheça sua mentora
+            </SectionEyebrow>
+            <h2 className="text-section text-white mb-6">Talita Lopes</h2>
 
             <div className="space-y-4 text-cream-muted text-lead">
               <p>
-                Especialista em Mentalidade de Alta Permissão com mais de{' '}
-                <strong className="text-cream">10 anos de experiência terapêutica</strong> e
-                mais de <strong className="text-cream">150 mil mulheres</strong> impactadas
-                pelo seu trabalho.
+                Talita Lopes é psicanalista, fundadora da Escola Missão Consciência® e criadora do
+                Método APS (Alta Permissão Sistêmica).
               </p>
               <p>
-                Não entrega apenas teoria. Traz as chaves práticas para você assumir o
-                controle do seu sistema interno e parar de operar no modo automático.
+                Nos últimos 10 anos, dedicou seu trabalho a investigar uma pergunta: por que pessoas
+                inteligentes, capazes e preparadas continuam voltando para o mesmo lugar?
+              </p>
+              <p>
+                A resposta deu origem ao Método APS, uma abordagem que investiga os contratos de
+                lealdade e os significados que organizam, de forma inconsciente, a maneira como uma
+                pessoa vive, ama, prospera e sustenta o que conquista.
+              </p>
+              <p>
+                Mais de <CountUp to={140} suffix=" mil mulheres" /> já tiveram contato com esse
+                trabalho.
               </p>
             </div>
           </FadeIn>

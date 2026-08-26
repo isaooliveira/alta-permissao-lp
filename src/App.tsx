@@ -1,36 +1,43 @@
 import { useState } from 'react'
+import { ScrollProgress } from './components/ScrollProgress'
 import { StickyHeader } from './components/StickyHeader'
 import { HeroSection } from './components/HeroSection'
 import {
   ProblemSection,
-  DiagnosisSection,
-  OperationalModelsSection,
-  DeliverablesSection,
-  DailyInsightsSection,
+  ProblemAmplificationSection,
+  InterpretationConsequenceSection,
+  ProfessionalDistinctionSection,
+  LevelUpReadingSection,
+  MethodIntroSection,
 } from './components/CopySections'
 import { TestimonialsSection } from './components/TestimonialsSection'
 import { ScheduleSection } from './components/ScheduleSection'
+import { AudienceSection } from './components/AudienceSection'
 import { PricingSection } from './components/PricingSection'
 import { MentorSection } from './components/MentorSection'
-import { GuaranteeAndFAQ } from './components/GuaranteeAndFAQ'
+import { GuaranteeSection, GuaranteeAndFAQ } from './components/GuaranteeAndFAQ'
 import { LeadModal } from './components/LeadModal'
 import { MarqueeBanner } from './components/MarqueeBanner'
 import { scrollToInvestimento } from '@/lib/scroll'
 import { useEventStatus } from '@/hooks/useEventStatus'
 
-const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
+const GRUPO_ALTA_LOGO_SRC = `${import.meta.env.BASE_URL}logo-altas.svg`
 
 function Footer() {
   return (
-    <footer className="py-10 px-4 border-t border-cream/10">
-      <div className="container-narrow text-center">
+    <footer className="border-t border-cream/10 px-6 py-12 sm:px-8 sm:py-14 lg:px-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 text-center sm:flex-row sm:items-center sm:text-left">
         <img
-          src={LOGO_SRC}
-          alt="Alta Permissão, Missão Consciência"
-          className="w-full max-w-sm h-auto mx-auto mb-2"
+          src={GRUPO_ALTA_LOGO_SRC}
+          alt="Grupo Alta"
+          width={190}
+          height={73}
+          className="h-12 w-auto sm:h-14"
         />
-        <p className="text-cream/10 text-xs mt-6">
-          © {new Date().getFullYear()} Missão Consciência. Todos os direitos reservados.
+        <p className="text-sm leading-relaxed text-cream/45 sm:text-right">
+          © {new Date().getFullYear()} Todos os direitos reservados
+          <br />
+          Alta Co. | CNPJ: 66.525.966/0001-50
         </p>
       </div>
     </footer>
@@ -45,18 +52,22 @@ export default function App() {
 
   return (
     <>
+      <ScrollProgress />
       <StickyHeader onCtaClick={scrollToInvestimento} />
       <main>
         <HeroSection onCtaClick={scrollToInvestimento} />
         <MarqueeBanner />
         <ProblemSection />
-        <DiagnosisSection onCtaClick={open} />
-        <OperationalModelsSection />
+        <ProblemAmplificationSection />
+        <InterpretationConsequenceSection onCtaClick={scrollToInvestimento} />
+        <ProfessionalDistinctionSection />
+        <LevelUpReadingSection />
+        <MethodIntroSection onCtaClick={scrollToInvestimento} />
         <TestimonialsSection />
-        <DeliverablesSection />
-        <DailyInsightsSection />
         {!eventPast && <ScheduleSection onCtaClick={scrollToInvestimento} />}
+        <AudienceSection />
         <PricingSection onCtaClick={open} />
+        <GuaranteeSection />
         <MentorSection />
         <GuaranteeAndFAQ />
       </main>

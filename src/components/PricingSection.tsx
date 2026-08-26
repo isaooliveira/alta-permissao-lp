@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { Award, Check } from 'lucide-react'
 import { useLot, POST_EVENT_LOT } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { INVESTMENT_SECTION_ID } from '@/lib/scroll'
@@ -6,7 +6,7 @@ import { PRICING_FEATURES_LIVE, PRICING_FEATURES_POST_EVENT } from '@/lib/eventC
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
-import { LotExtendedBadge } from './LotExtendedBadge'
+import { LotExtendedAlert } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
 import type { Lot } from '@/hooks/useLot'
 import mockImg from '@/assets/mock.webp'
@@ -28,6 +28,7 @@ function LotCard({
   onCtaClick: () => void
   eventPast: boolean
 }) {
+  const { urgency } = useLot()
   if (isPast) {
     return (
       <div
@@ -51,25 +52,44 @@ function LotCard({
             <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">
               {lot.label}
             </span>
-            {lot.extended && <LotExtendedBadge />}
           </div>
-          {isActive && (
-            <span className="inline-flex items-center gap-1.5 border border-cream/40 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cream shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-cream" aria-hidden="true" />
+          {isActive && urgency === 'extended' && (
+            <LotExtendedAlert variant="badge" className="shrink-0" />
+          )}
+          {isActive && urgency !== 'extended' && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-lime/50 bg-lime/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-lime" aria-hidden="true" />
               Ativo
             </span>
           )}
         </div>
       )}
 
-      <p
-        className={`font-semibold leading-none tabular-nums mb-4 ${
-          isActive ? 'text-cream' : 'text-cream/30'
-        }`}
-        style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}
-      >
-        {lot.priceFormatted}
-      </p>
+      {eventPast ? (
+        <p
+          className="mb-4 font-semibold leading-none tabular-nums text-cream"
+          style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}
+        >
+          {lot.priceFormatted}
+        </p>
+      ) : (
+        <div className="mb-4 flex flex-col">
+          <span
+            className={`font-normal leading-none ${
+              isActive ? 'text-base text-white sm:text-lg' : 'text-sm text-cream/30'
+            }`}
+          >
+            por apenas
+          </span>
+          <span
+            className={`mt-1 font-normal leading-none tracking-tight tabular-nums ${
+              isActive ? 'text-[3.25rem] text-lime sm:text-6xl' : 'text-3xl text-cream/30 sm:text-4xl'
+            }`}
+          >
+            R${lot.price}
+          </span>
+        </div>
+      )}
 
       {isActive ? (
         <>
@@ -84,12 +104,13 @@ function LotCard({
           <Button
             size="md"
             onClick={onCtaClick}
+            showTicket
             className="w-full"
           >
-            {eventPast ? 'Começar agora' : 'Garantir meu ingresso'}
+            {eventPast ? 'Começar agora' : 'Garantir Meu ingresso'}
           </Button>
-          {!eventPast && (
-            <div className="mt-4 pt-4 border-t border-cream/10">
+          {!eventPast && urgency === 'countdown' && (
+            <div className="mt-4">
               <LotCountdown endDate={lot.endDate} variant="card" />
             </div>
           )}
@@ -106,8 +127,8 @@ function LotCard({
 
   if (isActive) {
     return (
-      <div className="relative rounded-md p-px bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 opacity-100 scale-100 min-h-[320px] h-full transition-all duration-300">
-        <div className="rounded-[5px] bg-dark p-5 sm:p-6 flex flex-col h-full min-h-[318px]">
+      <div className="group relative rounded-md p-px bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 opacity-100 scale-100 min-h-[320px] h-full transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
+        <div className="rounded-[5px] bg-dark p-5 sm:p-6 flex flex-col h-full min-h-[318px] transition-colors duration-300 group-hover:bg-[#252520]">
           {cardContent}
         </div>
       </div>
@@ -139,20 +160,29 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
           <h2 className="text-section text-white text-center mb-4">
             {eventPast ? (
               <>
-                Garanta seu <span className="font-semibold">acesso</span>
+                Garanta seu <span className="font-semibold">ingresso</span>
               </>
             ) : (
               <>
-                Quanto antes,{' '}
-                <span className="font-semibold">melhor oportunidade</span>
+                Garanta seu ingresso
+                <br />
+                ao Treinamento Efeito Alta Permissão
               </>
             )}
           </h2>
-          <p className="text-cream-muted text-center mb-8 text-lead max-w-xl mx-auto">
-            {eventPast
-              ? 'Treinamento introdutório com acesso imediato ao conteúdo completo.'
-              : 'O investimento sobe conforme a data do evento se aproxima.'}
-          </p>
+          {eventPast ? (
+            <p className="text-cream-muted text-center mb-8 text-lead max-w-2xl mx-auto">
+              Treinamento introdutório com acesso imediato ao conteúdo completo.
+            </p>
+          ) : (
+            <p className="mx-auto mb-8 max-w-2xl text-center text-xl leading-relaxed text-white sm:max-w-3xl sm:text-[1.35rem] lg:max-w-4xl">
+              Se você já percebeu que comportamento humano não se resolve com fórmulas de
+              prateleira,
+              <br className="hidden lg:inline" />
+              {' '}pura intuição ou determinismo terapêutico, este treinamento é{' '}
+              <span className="whitespace-nowrap">para você.</span>
+            </p>
+          )}
         </FadeIn>
 
         <FadeIn delay={0.05}>
@@ -171,6 +201,22 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
           </div>
         </FadeIn>
 
+        <FadeIn delay={0.08}>
+          <div className="mx-auto mb-8 sm:mb-10 max-w-xl border-l-4 border-lime bg-cream/[0.06] flex items-start gap-5 px-6 py-5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-lime">
+              <Award size={20} className="text-dark" strokeWidth={2} aria-hidden="true" />
+            </div>
+            <div>
+              <p className="mb-1 text-sm font-black uppercase tracking-wide text-cream">
+                Certificado de Participação
+              </p>
+              <p className="text-base leading-snug text-cream-muted">
+                Documentação oficial de conclusão do treinamento Método APS.
+              </p>
+            </div>
+          </div>
+        </FadeIn>
+
         {eventPast ? (
           <FadeIn delay={0.1} className="max-w-md mx-auto h-full">
             <LotCard
@@ -182,7 +228,7 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
             />
           </FadeIn>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch max-w-3xl mx-auto">
             {lots.map((lot: Lot, i: number) => {
               const isActive = lot.number === currentLot.number
               const isPast = lot.number < currentLot.number

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
@@ -36,6 +36,7 @@ interface Errors {
 export function LeadModal({ open, onClose }: LeadModalProps) {
   const { currentLot } = useLot()
   const { eventPast } = useEventStatus()
+  const reduceMotion = useReducedMotion()
   const [form, setForm] = useState<FormState>({ name: '', phone: '', email: '' })
   const [errors, setErrors] = useState<Errors>({})
   const [loading, setLoading] = useState(false)
@@ -91,10 +92,10 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
 
             <Dialog.Content asChild>
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+                animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: reduceMotion ? 0.15 : 0.25, ease: 'easeOut' }}
                 className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 w-full max-w-md mx-4 bg-dark border border-cream/10 p-8"
               >
                 <Dialog.Close className="absolute top-4 right-4 text-cream-muted hover:text-cream transition-colors">
@@ -145,8 +146,8 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
                     error={errors.email}
                   />
 
-                  <Button type="submit" size="lg" loading={loading} showTicket className="w-full mt-2 whitespace-nowrap">
-                    Quero garantir meu ingresso
+                  <Button type="submit" size="md" loading={loading} showTicket className="w-full mt-2">
+                    Garantir Meu ingresso
                   </Button>
 
                   <p className="text-cream-muted text-xs text-center">

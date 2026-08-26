@@ -14,21 +14,22 @@ const schedule = [
   {
     time: '10:00',
     title: 'Abertura com muito conteúdo desde o início',
-    description: 'Sem aquecimento. Entramos direto no que importa.',
   },
   {
     time: '13:00',
     title: 'Pausa para almoço',
-    description: 'Um respiro para processar e voltar com mais clareza.',
+  },
+  {
+    time: '14:00',
+    title: 'Retorno do Almoço',
   },
   {
     time: '17:00',
     title: 'Encerramento com perguntas e respostas',
-    description: 'Espaço aberto para tirar o que ficou.',
   },
 ]
 
-function TimelineMarker({ step }: { step: 0 | 1 | 2 }) {
+function TimelineMarker({ step }: { step: 0 | 1 | 2 | 3 }) {
   return (
     <div className={`schedule-timeline-marker schedule-timeline-marker-${step}`}>
       <div className="w-2 h-2 rounded-full bg-cream" aria-hidden="true" />
@@ -36,7 +37,7 @@ function TimelineMarker({ step }: { step: 0 | 1 | 2 }) {
   )
 }
 
-function TimelineConnector({ step }: { step: 0 | 1 }) {
+function TimelineConnector({ step }: { step: 0 | 1 | 2 }) {
   return (
     <div
       className={`schedule-timeline-line schedule-timeline-line-${step} w-px flex-1 min-h-[2.5rem] my-2 bg-cream/10`}
@@ -84,9 +85,9 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
                 <FadeIn key={item.time} delay={i * 0.15}>
                   <div className="flex gap-6 relative">
                     <div className="flex-shrink-0 w-[4.4rem] flex flex-col items-center">
-                      <TimelineMarker step={i as 0 | 1 | 2} />
+                      <TimelineMarker step={i as 0 | 1 | 2 | 3} />
                       {i < schedule.length - 1 && (
-                        <TimelineConnector step={i as 0 | 1} />
+                        <TimelineConnector step={i as 0 | 1 | 2} />
                       )}
                     </div>
                     <div className={`flex-1 min-w-0 ${i < schedule.length - 1 ? 'pb-10' : 'pb-2'}`}>
@@ -94,7 +95,6 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
                         {item.time}
                       </span>
                       <p className="text-white font-semibold text-base leading-tight">{item.title}</p>
-                      <p className="text-cream-muted text-base mt-1">{item.description}</p>
                     </div>
                   </div>
                 </FadeIn>
@@ -102,19 +102,18 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
             </div>
           </div>
 
-          <FadeIn delay={0.5}>
-            <div className="mt-14 border border-cream/10 bg-dark/50 backdrop-blur-sm p-6 flex items-center gap-4">
+          <FadeIn delay={0.5} className="mt-14 w-fit max-w-full">
+            <div className="inline-flex items-center gap-3 border border-cream/10 bg-dark/50 px-4 py-3.5 backdrop-blur-sm sm:gap-4 sm:px-5 sm:py-4">
               <Video size={20} className="text-cream flex-shrink-0" />
               <p className="text-cream font-semibold text-base">
-                Conteúdo 100% online ao vivo |{' '}
-                <span className="text-cream-muted font-normal">com replay disponível</span>
+                Conteúdo 100% online ao vivo
               </p>
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.6} className="mt-10 flex justify-start">
-            <Button size="lg" onClick={onCtaClick} showTicket className="whitespace-nowrap">
-              Quero garantir meu ingresso
+          <FadeIn delay={0.6} className="mt-10 w-full sm:flex sm:justify-start">
+            <Button size="md" onClick={onCtaClick} showTicket className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10">
+              Garantir Meu ingresso
             </Button>
           </FadeIn>
         </div>

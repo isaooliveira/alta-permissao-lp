@@ -1,8 +1,7 @@
-import { Wifi, ShieldCheck } from 'lucide-react'
 import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { Button } from './Button'
-import { LotExtendedBadge } from './LotExtendedBadge'
+import { LotExtendedAlert } from './LotExtendedBadge'
 
 interface LotCtaCardProps {
   onCtaClick: () => void
@@ -11,7 +10,7 @@ interface LotCtaCardProps {
 }
 
 export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: LotCtaCardProps) {
-  const { currentLot } = useLot()
+  const { currentLot, urgency } = useLot()
   const { eventPast } = useEventStatus()
   const isHero = variant === 'hero'
   const isMobile = variant === 'mobile'
@@ -19,84 +18,42 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
   return (
     <div className={`w-full ${className}`}>
       <div
-        className={`w-full flex flex-col ${
+        className={`flex w-full flex-col items-center gap-5 ${
           isMobile
-            ? 'items-center gap-5 rounded-lg border border-cream/15 bg-dark p-6'
+            ? 'rounded-lg border border-cream/15 bg-dark p-6'
             : isHero
-              ? 'items-start gap-4 border border-white/5 bg-dark/75 p-5 backdrop-blur-sm sm:gap-5 sm:p-6'
-              : 'items-center gap-5 border border-cream/10 p-6 sm:p-8'
+              ? 'rounded-lg border border-white/5 bg-dark/75 p-5 backdrop-blur-sm sm:p-6'
+              : 'border border-cream/10 p-6 sm:p-8'
         }`}
       >
         {!eventPast && (
-          <div
-            className={`flex flex-wrap items-center gap-2 ${
-              isMobile
-                ? 'justify-center'
-                : isHero
-                  ? 'justify-start'
-                  : 'justify-center'
-            }`}
-          >
-            <p
-              className={`leading-snug ${
-                isMobile
-                  ? 'text-center text-base'
-                  : isHero
-                    ? 'text-left text-base sm:text-lg'
-                    : 'text-center text-base sm:text-lg'
-              }`}
-            >
-              {isMobile ? (
-                <>
-                  <span className="text-white/90">{currentLot.label.toLowerCase()} apenas </span>
-                  <span className="font-black text-lime">{currentLot.priceFormatted}</span>
-                </>
-              ) : (
-                <>
-                  <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
-                  <span className="text-white">apenas por</span>{' '}
-                  <span className="font-black text-white">{currentLot.priceFormatted}</span>
-                </>
-              )}
-            </p>
-            {currentLot.extended && <LotExtendedBadge />}
-          </div>
+          <p className="text-center text-base leading-snug">
+            <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
+            <span className="text-white/90">apenas por</span>{' '}
+            <span className="font-black text-lime">{currentLot.priceFormatted}</span>
+          </p>
         )}
 
+        {!eventPast && urgency === 'extended' && <LotExtendedAlert variant="hero" />}
+
         <Button
-          size="lg"
+          size="md"
           onClick={onCtaClick}
           showTicket
-          className="w-full whitespace-nowrap"
+          className="w-full"
         >
-          Quero garantir meu ingresso
+          Garantir Meu ingresso
         </Button>
 
-        <div
-          className={`flex flex-wrap text-sm ${
-            isMobile
-              ? 'w-full items-center justify-center gap-x-8 gap-y-2 text-white/45'
-              : isHero
-                ? 'items-center justify-start gap-x-6 gap-y-2 text-cream-muted'
-                : 'items-center justify-center gap-x-6 gap-y-2 text-cream-muted'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-white/45">
           {!eventPast && (
-            <span className="flex items-center gap-1.5">
-              {isMobile ? (
-                <span aria-hidden="true">✓</span>
-              ) : (
-                <Wifi size={14} className="text-cream shrink-0" aria-hidden="true" />
-              )}
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <span aria-hidden="true">✓</span>
               Online e Ao Vivo
             </span>
           )}
-          <span className="flex items-center gap-1.5">
-            {isMobile ? (
-              <span aria-hidden="true">✓</span>
-            ) : (
-              <ShieldCheck size={14} className="text-cream shrink-0" aria-hidden="true" />
-            )}
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span aria-hidden="true">✓</span>
             Garantia de 7 dias
           </span>
         </div>

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useCountdown } from '@/hooks/useLot'
 
 interface LotCountdownProps {
@@ -17,16 +18,33 @@ function Digit({
   size?: 'default' | 'card'
   accentClass?: string
 }) {
+  const reduceMotion = useReducedMotion()
   const formatted = String(value).padStart(2, '0')
   return (
     <div className="flex flex-col items-center gap-0.5">
       <span
-        className={`${accentClass} font-black tabular-nums leading-none ${
+        className={`relative inline-block overflow-hidden ${accentClass} font-black tabular-nums leading-none ${
           size === 'card' ? 'text-xl sm:text-2xl' : ''
         }`}
         style={size === 'default' ? { fontSize: 'clamp(1.5rem, 4vw, 2.25rem)' } : undefined}
       >
-        {formatted}
+        <span className="invisible">{formatted}</span>
+        {reduceMotion ? (
+          <span className="absolute inset-0">{formatted}</span>
+        ) : (
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={formatted}
+              initial={{ y: '100%', opacity: 0 }}
+              animate={{ y: '0%', opacity: 1 }}
+              exit={{ y: '-100%', opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0"
+            >
+              {formatted}
+            </motion.span>
+          </AnimatePresence>
+        )}
       </span>
       <span
         className={`text-cream-muted uppercase tracking-widest ${
