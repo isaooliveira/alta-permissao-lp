@@ -3,6 +3,8 @@
   "rewrites": [
     { "source": "/eap", "destination": "/index.html" },
     { "source": "/eap/", "destination": "/index.html" },
+    { "source": "/eap/funil", "destination": "/index.html" },
+    { "source": "/eap/funil/", "destination": "/index.html" },
     { "source": "/eap/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/eap/:path*", "destination": "/:path*" }
   ]
