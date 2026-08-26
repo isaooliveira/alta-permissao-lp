@@ -25,10 +25,19 @@ const SHORT_LINKS: Record<string, Utm> = {
   bio: { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'bio' },
 }
 
+function shortFromWindow(): Utm {
+  if (typeof window === 'undefined') return {}
+  const fromQuery = new URLSearchParams(window.location.search).get('s')
+  if (fromQuery && SHORT_LINKS[fromQuery]) return { ...SHORT_LINKS[fromQuery] }
+  const fromHash = window.location.hash.replace(/^#/, '')
+  if (fromHash && SHORT_LINKS[fromHash]) return { ...SHORT_LINKS[fromHash] }
+  return {}
+}
+
 function fromSearch(search: string): Utm {
+  const short = shortFromWindow()
+  if (hasUtm(short)) return short
   const params = new URLSearchParams(search)
-  const short = params.get('s')
-  if (short && SHORT_LINKS[short]) return { ...SHORT_LINKS[short] }
   const utm: Utm = {}
   for (const key of KEYS) {
     const value = clean(params.get(`utm_${key}`))

@@ -5,7 +5,11 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Efeito Alta Permissão</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4"></script>
     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
       (function () {
         var codes = {
           'wa-avisos': 'utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-avisos',
@@ -16,21 +20,14 @@
           bio: 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio'
         };
         var params = new URLSearchParams(location.search);
-        var code = params.get('s');
-        if (!code || !codes[code] || params.get('utm_source')) return;
-        location.replace('/eap?' + codes[code]);
+        var code = params.get('s') || location.hash.replace(/^#/, '');
+        var utmQuery = (code && codes[code]) || (location.search.indexOf('utm_') !== -1 ? location.search.slice(1) : '');
+        gtag('config', 'G-Y98DTB03J4', {
+          page_title: 'Efeito Alta Permissão',
+          page_path: '/eap',
+          page_location: location.origin + '/eap' + (utmQuery ? '?' + utmQuery : ''),
+        });
       })();
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Y98DTB03J4', {
-        page_title: 'Efeito Alta Permissão',
-        page_path: '/eap/',
-        page_location: window.location.href,
-      });
     </script>
   </head>
   <body>
