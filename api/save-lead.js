@@ -1,5 +1,12 @@
 /** @param {import('@vercel/node').VercelRequest} req */
 /** @param {import('@vercel/node').VercelResponse} res */
+
+function cleanUtm(value) {
+  if (typeof value !== 'string') return null
+  const trimmed = value.trim().slice(0, 200)
+  return trimmed || null
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -22,7 +29,8 @@ export default async function handler(req, res) {
     }
   }
 
-  const { name, phone, email, lot } = body ?? {}
+  const { name, phone, email, lot, utm_source, utm_medium, utm_campaign, utm_content, utm_term } =
+    body ?? {}
 
   if (!name || typeof name !== 'string' || name.trim().length < 3) {
     return res.status(400).json({ error: 'Nome inválido' })
@@ -37,7 +45,45 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Lote inválido' })
   }
 
-  const response = await fetch(`${url}/rest/v1/alta_permissao_leads`, {
+  const payload = {
+    name: name.trim(),
+    phone: String(phone).replace(/\D/g, ''),
+    email: email.trim().toLowerCase(),
+    lot: Number(lot),
+    source: 'alta_permissao_jul_2026',
+    status: 'checkout_iniciado',
+    utm_source: cleanUtm(utm_source),
+    utm_medium: cleanUtm(utm_medium),
+    utm_campaign: cleanUtm(utm_campaign),
+    utm_content: cleanUtm(utm_content),
+    utm_term: cleanUtm(utm_term),
+  }
+
+  let response = await insertLead(url, key, payload)
+
+  if (!response.ok) {
+    const detail = await response.text()
+    if (detail.includes('utm_')) {
+      const withoutUtm = { ...payload }
+      delete withoutUtm.utm_source
+      delete withoutUtm.utm_medium
+      delete withoutUtm.utm_campaign
+      delete withoutUtm.utm_content
+      delete withoutUtm.utm_term
+      response = await insertLead(url, key, withoutUtm)
+    }
+    if (!response.ok) {
+      const retryDetail = detail.includes('utm_') ? await response.text() : detail
+      console.error('[save-lead]', response.status, retryDetail)
+      return res.status(500).json({ error: 'Erro ao salvar no Supabase' })
+    }
+  }
+
+  return res.status(200).json({ ok: true })
+}
+
+async function insertLead(url, key, payload) {
+  return fetch(`${url}/rest/v1/alta_permissao_leads`, {
     method: 'POST',
     headers: {
       apikey: key,
@@ -45,21 +91,6 @@ export default async function handler(req, res) {
       'Content-Type': 'application/json',
       Prefer: 'return=minimal',
     },
-    body: JSON.stringify({
-      name: name.trim(),
-      phone: String(phone).replace(/\D/g, ''),
-      email: email.trim().toLowerCase(),
-      lot: Number(lot),
-      source: 'alta_permissao_jul_2026',
-      status: 'checkout_iniciado',
-    }),
+    body: JSON.stringify(payload),
   })
-
-  if (!response.ok) {
-    const detail = await response.text()
-    console.error('[save-lead]', response.status, detail)
-    return res.status(500).json({ error: 'Erro ao salvar no Supabase' })
-  }
-
-  return res.status(200).json({ ok: true })
 }

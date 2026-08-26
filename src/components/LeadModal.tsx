@@ -5,6 +5,8 @@ import { X } from 'lucide-react'
 import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { saveLead } from '@/lib/supabase'
+import { trackEvent } from '@/lib/analytics'
+import { utmEventParams, utmLeadFields, withHotmartTracking } from '@/lib/utm'
 import { Button } from './Button'
 
 interface LeadModalProps {
@@ -56,18 +58,21 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
     if (!validate()) return
 
     setLoading(true)
+    const utm = utmEventParams()
+    trackEvent('generate_lead', { lot: currentLot.number, ...utm })
     try {
       await saveLead({
         name: form.name.trim(),
         phone: form.phone.replace(/\D/g, ''),
         email: form.email.trim().toLowerCase(),
         lot: currentLot.number,
+        ...utmLeadFields(),
       })
     } catch (err) {
       console.error('[LeadModal] falha ao salvar lead:', err)
     } finally {
       setLoading(false)
-      window.location.href = currentLot.hotmartUrl
+      window.location.href = withHotmartTracking(currentLot.hotmartUrl)
     }
   }
 

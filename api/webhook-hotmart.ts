@@ -11,15 +11,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const hottok = req.headers['hottok'] as string | undefined
+  const hottok =
+    (req.headers['x-hotmart-hottok'] as string | undefined) ||
+    (req.headers['hottok'] as string | undefined) ||
+    (typeof req.body?.hottok === 'string' ? req.body.hottok : undefined)
   if (!hottok || hottok !== process.env.HOTMART_WEBHOOK_SECRET) {
     console.warn('[webhook] hottok inválido')
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
   const body = req.body
+  const event: string | undefined = body?.event
+  const PURCHASE_EVENTS = new Set(['PURCHASE_APPROVED', 'PURCHASE_COMPLETE'])
 
   try {
+    if (event && !PURCHASE_EVENTS.has(event)) {
+      return res.status(200).json({ ok: true, skipped: true, event })
+    }
+
     const email: string | undefined = body?.data?.buyer?.email
     const transactionId: string | undefined = body?.data?.purchase?.transaction
 
