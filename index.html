@@ -17,8 +17,11 @@
         };
         var params = new URLSearchParams(location.search);
         var code = params.get('s') || location.hash.replace(/^#/, '');
-        if (!code || !codes[code] || params.get('utm_source')) return;
-        history.replaceState(null, '', '/eap?' + codes[code]);
+        var utmQuery = (code && codes[code]) ? codes[code] : '';
+        if (utmQuery && !params.get('utm_source')) {
+          try { history.replaceState(null, '', '/eap?' + utmQuery); } catch (e) {}
+        }
+        window.__eapUtmQuery = utmQuery || (location.search.indexOf('utm_') !== -1 ? location.search.slice(1) : '');
       })();
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4"></script>
@@ -29,7 +32,7 @@
       gtag('config', 'G-Y98DTB03J4', {
         page_title: 'Efeito Alta Permissão',
         page_path: '/eap',
-        page_location: window.location.href,
+        page_location: location.origin + '/eap' + (window.__eapUtmQuery ? '?' + window.__eapUtmQuery : ''),
       });
     </script>
   </head>
