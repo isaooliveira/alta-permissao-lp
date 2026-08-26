@@ -137,24 +137,50 @@ async function supabaseFetch(path, extraHeaders = {}) {
   return response
 }
 
-async function supabaseUtms(startDate) {
+async function supabasePeople(startDate) {
   const response = await supabaseFetch(
-    `alta_permissao_leads?source=eq.${LEAD_SOURCE}&created_at=gte.${startDate}T00:00:00-03:00&select=status,utm_source,utm_medium,utm_campaign,utm_content`,
+    `alta_permissao_leads?source=eq.${LEAD_SOURCE}&created_at=gte.${startDate}T00:00:00-03:00&select=email,status,utm_source,utm_medium,utm_campaign,utm_content,created_at&order=created_at.asc`,
   )
-  const rows = await response.json()
+  const people = new Map()
+
+  for (const row of await response.json()) {
+    const email = String(row.email || '').trim().toLowerCase()
+    if (!email) continue
+
+    const utm = {
+      source: row.utm_source || '(sem utm)',
+      medium: row.utm_medium || '—',
+      campaign: row.utm_campaign || '—',
+      content: row.utm_content || '—',
+    }
+    const bought = row.status === 'comprou'
+    const prev = people.get(email)
+
+    if (!prev) {
+      people.set(email, { purchased: bought, ...utm })
+      continue
+    }
+
+    prev.purchased = prev.purchased || bought
+    if (row.utm_source) Object.assign(prev, utm)
+  }
+
   const map = new Map()
-  for (const row of rows) {
-    const key = [
-      row.utm_source || '(sem utm)',
-      row.utm_medium || '—',
-      row.utm_campaign || '—',
-      row.utm_content || '—',
-    ].join(' | ')
-    const current = map.get(key) || { source: row.utm_source || '(sem utm)', medium: row.utm_medium || '—', campaign: row.utm_campaign || '—', content: row.utm_content || '—', filled: 0, purchased: 0 }
+  for (const person of people.values()) {
+    const key = [person.source, person.medium, person.campaign, person.content].join(' | ')
+    const current = map.get(key) || {
+      source: person.source,
+      medium: person.medium,
+      campaign: person.campaign,
+      content: person.content,
+      filled: 0,
+      purchased: 0,
+    }
     current.filled += 1
-    if (row.status === 'comprou') current.purchased += 1
+    if (person.purchased) current.purchased += 1
     map.set(key, current)
   }
+
   return [...map.values()].sort((a, b) => b.purchased - a.purchased || b.filled - a.filled)
 }
 
@@ -173,7 +199,7 @@ export default async function handler(req, res) {
   const range = periodRange(period)
 
   try {
-    const utmRows = await supabaseUtms(range.startDate)
+    const utmRows = await supabasePeople(range.startDate)
     const filled = utmRows.reduce((n, row) => n + row.filled, 0)
     const purchased = utmRows.reduce((n, row) => n + row.purchased, 0)
 

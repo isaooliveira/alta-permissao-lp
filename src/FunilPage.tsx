@@ -99,8 +99,8 @@ export function FunilPage() {
     return [
       { label: 'Visitas', hint: 'Sessões no /eap', value: data.visits },
       { label: 'Abriram o form', hint: 'Clicaram em garantir ingresso', value: data.openedForm },
-      { label: 'Preencheram', hint: 'Chegaram no checkout Hotmart', value: data.filled },
-      { label: 'Compraram', hint: 'Pagamento aprovado', value: data.purchased },
+      { label: 'Preencheram', hint: 'E-mails únicos no checkout', value: data.filled },
+      { label: 'Compraram', hint: 'E-mails únicos com pagamento', value: data.purchased },
     ]
   }, [data])
 
@@ -205,8 +205,8 @@ export function FunilPage() {
             </section>
 
             <p className="mt-8 max-w-2xl text-sm leading-relaxed text-cream/40">
-              Visitas e “abriu o form” vêm do Analytics e podem atrasar até o dia seguinte.
-              Preencheram e compraram vêm do CRM em tempo quase real. Abandonaram o checkout:{' '}
+              Preencheram e compraram são e-mails únicos no CRM. Quem envia o form duas vezes conta uma.
+              Visitas e “abriu o form” vêm do Analytics e podem atrasar. Abandonaram o checkout:{' '}
               <span className="text-cream">{data.abandoned}</span>.
             </p>
 
@@ -220,7 +220,7 @@ export function FunilPage() {
                       <th className="pb-3 font-medium">Medium</th>
                       <th className="pb-3 font-medium">Campaign</th>
                       <th className="pb-3 font-medium">Content</th>
-                      <th className="pb-3 font-medium">Preencheram</th>
+                      <th className="pb-3 font-medium">Pessoas</th>
                       <th className="pb-3 font-medium">Compraram</th>
                     </tr>
                   </thead>
