@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     }
   }
 
-  const { name, phone, email, lot, utm_source, utm_medium, utm_campaign, utm_content, utm_term } =
+  const { name, phone, email, lot, utm_source, utm_medium, utm_campaign, utm_content, utm_term, visit_count } =
     body ?? {}
 
   if (!name || typeof name !== 'string' || name.trim().length < 3) {
@@ -57,23 +57,25 @@ export default async function handler(req, res) {
     utm_campaign: cleanUtm(utm_campaign),
     utm_content: cleanUtm(utm_content),
     utm_term: cleanUtm(utm_term),
+    visit_count: Number.isFinite(Number(visit_count)) ? Math.max(1, Math.min(99, Number(visit_count))) : null,
   }
 
   let response = await insertLead(url, key, payload)
 
   if (!response.ok) {
     const detail = await response.text()
-    if (detail.includes('utm_')) {
-      const withoutUtm = { ...payload }
-      delete withoutUtm.utm_source
-      delete withoutUtm.utm_medium
-      delete withoutUtm.utm_campaign
-      delete withoutUtm.utm_content
-      delete withoutUtm.utm_term
-      response = await insertLead(url, key, withoutUtm)
+    if (detail.includes('utm_') || detail.includes('visit_count')) {
+      const withoutExtras = { ...payload }
+      delete withoutExtras.utm_source
+      delete withoutExtras.utm_medium
+      delete withoutExtras.utm_campaign
+      delete withoutExtras.utm_content
+      delete withoutExtras.utm_term
+      delete withoutExtras.visit_count
+      response = await insertLead(url, key, withoutExtras)
     }
     if (!response.ok) {
-      const retryDetail = detail.includes('utm_') ? await response.text() : detail
+      const retryDetail = detail.includes('utm_') || detail.includes('visit_count') ? await response.text() : detail
       console.error('[save-lead]', response.status, retryDetail)
       return res.status(500).json({ error: 'Erro ao salvar no Supabase' })
     }

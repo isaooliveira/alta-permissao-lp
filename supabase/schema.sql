@@ -13,6 +13,7 @@ create table if not exists alta_permissao_leads (
   utm_campaign    text,
   utm_content     text,
   utm_term        text,
+  visit_count     smallint,
   status          text not null default 'checkout_iniciado'
                     check (status in ('checkout_iniciado', 'comprou')),
   purchased_at    timestamptz,
@@ -31,7 +32,8 @@ alter table alta_permissao_leads
   add column if not exists utm_medium text,
   add column if not exists utm_campaign text,
   add column if not exists utm_content text,
-  add column if not exists utm_term text;
+  add column if not exists utm_term text,
+  add column if not exists visit_count smallint;
 
 -- RLS
 alter table alta_permissao_leads enable row level security;

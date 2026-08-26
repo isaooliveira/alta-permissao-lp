@@ -22,6 +22,7 @@ interface FunnelData {
   purchased: number
   abandoned: number
   utm: UtmRow[]
+  purchaseVisits?: { 1: number; 2: number; 3: number; 4: number; unknown: number }
   gaError?: string
 }
 
@@ -209,6 +210,36 @@ export function FunilPage() {
               Visitas e “abriu o form” vêm do Analytics e podem atrasar. Abandonaram o checkout:{' '}
               <span className="text-cream">{data.abandoned}</span>.
             </p>
+
+            <section className="mt-14">
+              <h2 className="font-serif text-2xl italic">Visitas até a compra</h2>
+              <p className="mt-2 max-w-2xl text-sm text-cream/45">
+                Só quem pagou. Recarregar a página na mesma meia hora não conta visita nova.
+              </p>
+              <div className="mt-8 grid gap-px bg-cream/10 sm:grid-cols-4">
+                {[
+                  { label: '1ª visita', value: data.purchaseVisits?.[1] ?? 0 },
+                  { label: '2ª visita', value: data.purchaseVisits?.[2] ?? 0 },
+                  { label: '3ª visita', value: data.purchaseVisits?.[3] ?? 0 },
+                  { label: '4ª ou mais', value: data.purchaseVisits?.[4] ?? 0 },
+                ].map((item) => (
+                  <article key={item.label} className="bg-dark px-5 py-8">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cream/40">
+                      {item.label}
+                    </p>
+                    <p className="mt-4 font-serif text-5xl text-lime">{item.value}</p>
+                    <p className="mt-3 text-sm text-cream/45">
+                      {pct(item.value, data.purchased - (data.purchaseVisits?.unknown ?? 0))}
+                    </p>
+                  </article>
+                ))}
+              </div>
+              {(data.purchaseVisits?.unknown ?? 0) > 0 && (
+                <p className="mt-4 text-sm text-cream/40">
+                  {data.purchaseVisits?.unknown} compra(s) sem contador (lead de antes dessa medição).
+                </p>
+              )}
+            </section>
 
             <section className="mt-14">
               <h2 className="font-serif text-2xl italic">Origem dos leads</h2>

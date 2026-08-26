@@ -18,11 +18,12 @@ export interface Lead {
   utm_campaign?: string | null
   utm_content?: string | null
   utm_term?: string | null
+  visit_count?: number | null
 }
 
 const LEAD_SOURCE = 'alta_permissao_jul_2026'
 
-function leadRow(lead: Lead, includeUtm: boolean) {
+function leadRow(lead: Lead, extras: 'all' | 'none') {
   const row: Record<string, string | number | null> = {
     name: lead.name,
     phone: lead.phone,
@@ -31,12 +32,13 @@ function leadRow(lead: Lead, includeUtm: boolean) {
     source: LEAD_SOURCE,
     status: 'checkout_iniciado',
   }
-  if (includeUtm) {
+  if (extras === 'all') {
     row.utm_source = lead.utm_source ?? null
     row.utm_medium = lead.utm_medium ?? null
     row.utm_campaign = lead.utm_campaign ?? null
     row.utm_content = lead.utm_content ?? null
     row.utm_term = lead.utm_term ?? null
+    row.visit_count = lead.visit_count ?? null
   }
   return row
 }
@@ -59,10 +61,10 @@ async function saveLeadDirect(lead: Lead): Promise<void> {
     throw new Error('Supabase não configurado')
   }
 
-  const { error } = await supabase.from('alta_permissao_leads').insert([leadRow(lead, true)])
+  const { error } = await supabase.from('alta_permissao_leads').insert([leadRow(lead, 'all')])
 
-  if (error?.message?.includes('utm_')) {
-    const retry = await supabase.from('alta_permissao_leads').insert([leadRow(lead, false)])
+  if (error?.message?.includes('utm_') || error?.message?.includes('visit_count')) {
+    const retry = await supabase.from('alta_permissao_leads').insert([leadRow(lead, 'none')])
     if (retry.error) throw retry.error
     return
   }

@@ -7,6 +7,7 @@ import { useEventStatus } from '@/hooks/useEventStatus'
 import { saveLead } from '@/lib/supabase'
 import { trackEvent } from '@/lib/analytics'
 import { utmEventParams, utmLeadFields, withHotmartTracking } from '@/lib/utm'
+import { getVisitCount } from '@/lib/visits'
 import { Button } from './Button'
 
 interface LeadModalProps {
@@ -67,6 +68,7 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
         email: form.email.trim().toLowerCase(),
         lot: currentLot.number,
         ...utmLeadFields(),
+        visit_count: getVisitCount(),
       })
     } catch (err) {
       console.error('[LeadModal] falha ao salvar lead:', err)
