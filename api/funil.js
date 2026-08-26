@@ -173,56 +173,60 @@ export default async function handler(req, res) {
   const range = periodRange(period)
 
   try {
-    const [utmRows, ga] = await Promise.all([
-      supabaseUtms(range.startDate),
-      (async () => {
-        const token = await googleAccessToken()
-        const pageFilter = {
-          filter: {
-            fieldName: 'pagePath',
-            stringFilter: { matchType: 'CONTAINS', value: '/eap' },
-          },
-        }
-        const [traffic, events] = await Promise.all([
-          runReport(token, {
-            dateRanges: [range],
-            metrics: [
-              { name: 'sessions' },
-              { name: 'activeUsers' },
-              { name: 'screenPageViews' },
-            ],
-            dimensionFilter: pageFilter,
-          }),
-          runReport(token, {
-            dateRanges: [range],
-            dimensions: [{ name: 'eventName' }],
-            metrics: [{ name: 'eventCount' }],
-            dimensionFilter: {
-              andGroup: {
-                expressions: [
-                  {
-                    filter: {
-                      fieldName: 'eventName',
-                      inListFilter: { values: ['begin_checkout', 'generate_lead'] },
-                    },
-                  },
-                  pageFilter,
-                ],
-              },
-            },
-          }),
-        ])
-        return {
-          sessions: metricValue(traffic, 'sessions'),
-          users: metricValue(traffic, 'activeUsers'),
-          pageviews: metricValue(traffic, 'screenPageViews'),
-          ...eventCounts(events),
-        }
-      })(),
-    ])
-
+    const utmRows = await supabaseUtms(range.startDate)
     const filled = utmRows.reduce((n, row) => n + row.filled, 0)
     const purchased = utmRows.reduce((n, row) => n + row.purchased, 0)
+
+    let ga = { sessions: 0, users: 0, pageviews: 0, begin_checkout: 0, generate_lead: 0 }
+    let gaError = ''
+
+    try {
+      const token = await googleAccessToken()
+      const pageFilter = {
+        filter: {
+          fieldName: 'pagePath',
+          stringFilter: { matchType: 'CONTAINS', value: '/eap' },
+        },
+      }
+      const [traffic, events] = await Promise.all([
+        runReport(token, {
+          dateRanges: [range],
+          metrics: [
+            { name: 'sessions' },
+            { name: 'activeUsers' },
+            { name: 'screenPageViews' },
+          ],
+          dimensionFilter: pageFilter,
+        }),
+        runReport(token, {
+          dateRanges: [range],
+          dimensions: [{ name: 'eventName' }],
+          metrics: [{ name: 'eventCount' }],
+          dimensionFilter: {
+            andGroup: {
+              expressions: [
+                {
+                  filter: {
+                    fieldName: 'eventName',
+                    inListFilter: { values: ['begin_checkout', 'generate_lead'] },
+                  },
+                },
+                pageFilter,
+              ],
+            },
+          },
+        }),
+      ])
+      ga = {
+        sessions: metricValue(traffic, 'sessions'),
+        users: metricValue(traffic, 'activeUsers'),
+        pageviews: metricValue(traffic, 'screenPageViews'),
+        ...eventCounts(events),
+      }
+    } catch (err) {
+      gaError = err instanceof Error ? err.message : 'Falha ao ler o Analytics'
+      console.error('[funil] GA', err)
+    }
 
     return res.status(200).json({
       period,
@@ -235,6 +239,7 @@ export default async function handler(req, res) {
       purchased,
       abandoned: Math.max(filled - purchased, 0),
       utm: utmRows,
+      gaError,
     })
   } catch (err) {
     console.error('[funil]', err)

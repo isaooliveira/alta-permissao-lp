@@ -22,6 +22,7 @@ interface FunnelData {
   purchased: number
   abandoned: number
   utm: UtmRow[]
+  gaError?: string
 }
 
 const STORAGE_KEY = 'eap_funil_secret'
@@ -44,6 +45,7 @@ export function FunilPage() {
   const [data, setData] = useState<FunnelData | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [reloadTick, setReloadTick] = useState(0)
 
   useEffect(() => {
     const stored = sessionStorage.getItem(STORAGE_KEY)
@@ -56,6 +58,7 @@ export function FunilPage() {
     setLoading(true)
     setError('')
     fetch(`${ENDPOINT}?period=${period}`, {
+      cache: 'no-store',
       headers: { 'x-funil-secret': secret },
     })
       .then(async (res) => {
@@ -81,7 +84,7 @@ export function FunilPage() {
     return () => {
       cancelled = true
     }
-  }, [secret, period])
+  }, [secret, period, reloadTick])
 
   function unlock(e: FormEvent) {
     e.preventDefault()
@@ -163,8 +166,23 @@ export function FunilPage() {
           </div>
         </div>
 
-        {error && <p className="mt-8 text-sm text-red">{error}</p>}
-        {loading && !data && <p className="mt-8 text-sm text-cream/50">Carregando…</p>}
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setReloadTick((n) => n + 1)}
+            className="border border-cream/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-cream/70"
+          >
+            Atualizar
+          </button>
+          {loading && <p className="text-sm text-cream/50">Carregando…</p>}
+        </div>
+
+        {error && <p className="mt-6 text-sm text-red">{error}</p>}
+        {data?.gaError && (
+          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-red">
+            Analytics ainda não conectou: {data.gaError} Leads e compras abaixo já vêm do CRM.
+          </p>
+        )}
 
         {data && (
           <>
