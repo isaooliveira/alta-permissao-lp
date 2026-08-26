@@ -16,8 +16,19 @@ function clean(value: string | null): string | undefined {
   return trimmed || undefined
 }
 
+const SHORT_LINKS: Record<string, Utm> = {
+  'wa-avisos': { source: 'whatsapp', medium: 'grupo', campaign: 'eap-set-2026', content: 'grupo-avisos' },
+  'wa-alunas': { source: 'whatsapp', medium: 'grupo', campaign: 'eap-set-2026', content: 'grupo-alunas' },
+  'wa-lista': { source: 'whatsapp', medium: 'reativacao', campaign: 'eap-set-2026', content: 'lista-fria' },
+  'ig-stories': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'stories' },
+  'ig-feed': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'feed' },
+  bio: { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'bio' },
+}
+
 function fromSearch(search: string): Utm {
   const params = new URLSearchParams(search)
+  const short = params.get('s')
+  if (short && SHORT_LINKS[short]) return { ...SHORT_LINKS[short] }
   const utm: Utm = {}
   for (const key of KEYS) {
     const value = clean(params.get(`utm_${key}`))
