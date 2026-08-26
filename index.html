@@ -17,6 +17,7 @@
         };
         var params = new URLSearchParams(location.search);
         var code = params.get('s') || location.hash.replace(/^#/, '');
+        if (code === 'obg' || code === 'obrigado') return;
         var utmQuery = (code && codes[code]) ? codes[code] : '';
         if (utmQuery && !params.get('utm_source')) {
           try { history.replaceState(null, '', '/eap?' + utmQuery); } catch (e) {}

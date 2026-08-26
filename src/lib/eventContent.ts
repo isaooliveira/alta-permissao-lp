@@ -25,3 +25,7 @@ export const PRICING_FEATURES_POST_EVENT = [
   'Material Complementar',
   'Certificado incluso',
 ] as const
+
+/** Cole aqui o convite do grupo das alunas do EAP. */
+export const WHATSAPP_GRUPO_EAP =
+  (import.meta.env.VITE_WHATSAPP_GRUPO_URL as string | undefined) || ''
