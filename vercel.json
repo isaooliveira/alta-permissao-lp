@@ -3,62 +3,62 @@
   "redirects": [
     {
       "source": "/eap/wa-avisos",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-avisos",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-avisos",
       "permanent": false
     },
     {
       "source": "/eap/wa-avisos/",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-avisos",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-avisos",
       "permanent": false
     },
     {
       "source": "/eap/wa-alunas",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-alunas",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-alunas",
       "permanent": false
     },
     {
       "source": "/eap/wa-alunas/",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-alunas",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=grupo&utm_campaign=eap-set-2026&utm_content=grupo-alunas",
       "permanent": false
     },
     {
       "source": "/eap/wa-lista",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=reativacao&utm_campaign=eap-set-2026&utm_content=lista-fria",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=reativacao&utm_campaign=eap-set-2026&utm_content=lista-fria",
       "permanent": false
     },
     {
       "source": "/eap/wa-lista/",
-      "destination": "/eap/?utm_source=whatsapp&utm_medium=reativacao&utm_campaign=eap-set-2026&utm_content=lista-fria",
+      "destination": "/eap?utm_source=whatsapp&utm_medium=reativacao&utm_campaign=eap-set-2026&utm_content=lista-fria",
       "permanent": false
     },
     {
       "source": "/eap/ig-stories",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=stories",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=stories",
       "permanent": false
     },
     {
       "source": "/eap/ig-stories/",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=stories",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=stories",
       "permanent": false
     },
     {
       "source": "/eap/ig-feed",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed",
       "permanent": false
     },
     {
       "source": "/eap/ig-feed/",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed",
       "permanent": false
     },
     {
       "source": "/eap/bio",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio",
       "permanent": false
     },
     {
       "source": "/eap/bio/",
-      "destination": "/eap/?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio",
       "permanent": false
     }
   ],

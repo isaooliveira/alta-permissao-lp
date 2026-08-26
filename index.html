@@ -18,8 +18,7 @@
         var params = new URLSearchParams(location.search);
         var code = params.get('s');
         if (!code || !codes[code] || params.get('utm_source')) return;
-        var path = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
-        location.replace(path + '?' + codes[code]);
+        location.replace('/eap?' + codes[code]);
       })();
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4"></script>
