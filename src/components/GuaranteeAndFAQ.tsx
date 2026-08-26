@@ -6,23 +6,23 @@ import { FadeIn } from './FadeIn'
 const faqs = [
   {
     q: 'O treinamento oferece certificação oficial?',
-    a: 'Sim! Ao concluir o treinamento ao vivo, você recebe a Certificação Introdutória em Alta Permissão Sistêmica. Esse é o documento oficial que valida que você passou pelo treinamento direto da fonte e domina os fundamentos da minha metodologia.',
+    a: 'Sim. Ao concluir o treinamento, você recebe um certificado de conclusão do Efeito Alta Permissão, emitido pela Escola Missão Consciência, referente à formação introdutória no Método APS.',
   },
   {
-    q: 'O que significa ser uma "Certificação Introdutória"?',
-    a: 'Significa que esta é a sua porta de entrada oficial no método. Você vai dominar a base, os conceitos essenciais e a estrutura prática da Alta Permissão Sistêmica. É o primeiro grande passo para quem quer aplicar a metodologia na própria vida ou começar a levar esse olhar para os seus clientes.',
+    q: 'Essa certificação me habilita a aplicar o Método APS profissionalmente?',
+    a: 'Não. O Efeito Alta Permissão é uma formação introdutória. Ele apresenta fundamentos, critérios de leitura e princípios do Método APS, mas não substitui a formação profissional nem as etapas avançadas de certificação da metodologia.',
   },
   {
     q: 'O treinamento vai ficar gravado?',
-    a: 'Sim. O conteúdo pode ser adquirido à parte ao finalizar a compra do seu ingresso na Hotmart.',
+    a: 'A gravação é opcional. Você pode adicionar o acesso na hora da compra do ingresso, pela Hotmart.',
   },
   {
-    q: 'Preciso ser psicóloga, psicanalista ou médico?',
-    a: 'Não! O treinamento foi estruturado para qualquer profissional que atende, desenvolve pessoas e lidera independentemente do seu nível de experiência ou tempo de carreira.',
+    q: 'Preciso ser psicóloga ou psicanalista?',
+    a: 'Não. O treinamento é indicado para profissionais que trabalham com pessoas, como terapeutas, mentoras, líderes, professoras, facilitadoras e profissionais de desenvolvimento humano.',
   },
   {
-    q: 'Como funciona a garantia de 7 dias?',
-    a: 'Se você participar e sentir que esse conhecimento não ampliou sua forma de compreender a si mesma, as pessoas e os padrões que influenciam decisões e comportamentos, devolvemos 100% do seu investimento. Sem burocracia.',
+    q: 'Vou receber técnicas prontas para usar com clientes?',
+    a: 'Você vai aprender critérios, perguntas e formas de organizar informações que ajudam a compreender melhor uma situação. A proposta não é entregar respostas universais para aplicar em qualquer pessoa.',
   },
 ]
 
@@ -30,7 +30,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="border-b border-cream/10">
+    <div className="border-b border-cream/10 transition-colors duration-200 hover:bg-white/[0.05]">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
@@ -62,7 +62,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 export function GuaranteeSection() {
   return (
     <section className="section-padding pt-0">
-      <div className="container-narrow">
+      <div className="mx-auto w-full max-w-3xl">
         <FadeIn>
           <div className="border-l-4 border-cream border-r border-t border-b border-cream/10 p-8 sm:p-12 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
             <div className="flex-shrink-0">
@@ -73,9 +73,9 @@ export function GuaranteeSection() {
                 Garantia de 7 dias
               </h2>
               <p className="text-cream-muted text-lead">
-                Se você participar e sentir que esse conhecimento não ampliou sua forma de
-                compreender a si mesma, as pessoas e os padrões que influenciam decisões e
-                comportamentos,{' '}
+                Se você participar do Efeito Alta Permissão e sentir que não saiu do treinamento com
+                mais clareza para observar situações, fazer perguntas e diferenciar fatos,
+                interpretações e hipóteses,{' '}
                 <strong className="text-cream">devolvemos 100% do seu investimento.</strong>
               </p>
             </div>
@@ -89,7 +89,7 @@ export function GuaranteeSection() {
 export function GuaranteeAndFAQ() {
   return (
     <section className="section-padding bg-dark">
-      <div className="container-narrow">
+      <div className="mx-auto w-full max-w-3xl">
         <FadeIn>
           <h2 className="text-section text-white text-center mb-12">
             Ainda está com <span className="font-semibold">dúvidas</span>?

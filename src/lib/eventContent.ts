@@ -15,7 +15,7 @@ export const MARQUEE_ITEMS_POST_EVENT = [
 ]
 
 export const PRICING_FEATURES_LIVE = [
-  '8h de imersão ao vivo pelo Zoom',
+  '7 horas de imersão ao vivo no Zoom',
   'Certificado',
   'Material Extra',
 ] as const

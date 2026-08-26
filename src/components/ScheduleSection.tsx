@@ -13,7 +13,7 @@ interface ScheduleSectionProps {
 const schedule = [
   {
     time: '10:00',
-    title: 'Abertura com muito conteúdo desde o início',
+    title: 'Abertura',
   },
   {
     time: '13:00',

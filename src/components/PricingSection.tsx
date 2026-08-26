@@ -1,4 +1,4 @@
-import { Award, Check } from 'lucide-react'
+import { Award, Check, Lock } from 'lucide-react'
 import { useLot, POST_EVENT_LOT } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { INVESTMENT_SECTION_ID } from '@/lib/scroll'
@@ -10,6 +10,8 @@ import { LotExtendedAlert } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
 import type { Lot } from '@/hooks/useLot'
 import mockImg from '@/assets/mock.webp'
+
+const PAY_METHODS_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('svg - pay.svg')}`
 
 interface PricingSectionProps {
   onCtaClick: () => void
@@ -109,6 +111,13 @@ function LotCard({
           >
             {eventPast ? 'Começar agora' : 'Garantir Meu ingresso'}
           </Button>
+          <img
+            src={PAY_METHODS_SRC}
+            alt="Formas de pagamento"
+            width={1310}
+            height={132}
+            className="mx-auto mt-3 h-auto w-[72%] max-w-[188px] opacity-40"
+          />
           {!eventPast && urgency === 'countdown' && (
             <div className="mt-4">
               <LotCountdown endDate={lot.endDate} variant="card" />
@@ -117,7 +126,8 @@ function LotCard({
         </>
       ) : (
         <div className="flex-1 flex items-center justify-center py-3 sm:py-4 sm:min-h-[100px]">
-          <p className="text-cream/25 text-xs uppercase tracking-widest text-center px-2">
+          <p className="inline-flex items-center gap-1.5 rounded-full border border-cream/10 px-3 py-1.5 text-cream/30 text-[11px] uppercase tracking-widest text-center">
+            <Lock size={11} strokeWidth={2.5} aria-hidden="true" />
             Disponível em breve
           </p>
         </div>
@@ -176,11 +186,8 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
             </p>
           ) : (
             <p className="mx-auto mb-8 max-w-2xl text-center text-xl leading-relaxed text-white sm:max-w-3xl sm:text-[1.35rem] lg:max-w-4xl">
-              Se você já percebeu que comportamento humano não se resolve com fórmulas de
-              prateleira,
-              <br className="hidden lg:inline" />
-              {' '}pura intuição ou determinismo terapêutico, este treinamento é{' '}
-              <span className="whitespace-nowrap">para você.</span>
+              Se você não quer depender de respostas prontas, pura intuição ou da sensação de que
+              precisa “sacar” uma pessoa para conduzir bem, esse treinamento é o seu próximo passo.
             </p>
           )}
         </FadeIn>
@@ -202,18 +209,13 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
         </FadeIn>
 
         <FadeIn delay={0.08}>
-          <div className="mx-auto mb-8 sm:mb-10 max-w-xl border-l-4 border-lime bg-cream/[0.06] flex items-start gap-5 px-6 py-5">
+          <div className="mx-auto mb-8 sm:mb-10 flex max-w-xl items-center gap-5 border-l-4 border-lime bg-cream/[0.06] px-6 py-5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-lime">
               <Award size={20} className="text-dark" strokeWidth={2} aria-hidden="true" />
             </div>
-            <div>
-              <p className="mb-1 text-sm font-black uppercase tracking-wide text-cream">
-                Certificado de Participação
-              </p>
-              <p className="text-base leading-snug text-cream-muted">
-                Documentação oficial de conclusão do treinamento Método APS.
-              </p>
-            </div>
+            <p className="text-sm font-black uppercase tracking-wide text-cream sm:text-base">
+              Certificado de conclusão do treinamento
+            </p>
           </div>
         </FadeIn>
 

@@ -150,6 +150,14 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
                     Garantir Meu ingresso
                   </Button>
 
+                  <img
+                    src={`${import.meta.env.BASE_URL}${encodeURIComponent('svg - pay.svg')}`}
+                    alt="Formas de pagamento"
+                    width={1310}
+                    height={132}
+                    className="mx-auto h-auto w-[70%] max-w-[180px] opacity-40"
+                  />
+
                   <p className="text-cream-muted text-xs text-center">
                     Seus dados estão seguros. Você será redirecionada para o checkout.
                   </p>

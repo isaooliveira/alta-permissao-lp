@@ -7,42 +7,58 @@ const TALITA_PHOTO_SRC = `${import.meta.env.BASE_URL}quem-sou-eu.webp`
 export function MentorSection() {
   return (
     <section className="section-padding bg-dark">
-      <div className="mx-auto w-full max-w-4xl px-5 lg:max-w-5xl">
-        <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-stretch lg:justify-center lg:gap-12 lg:text-left">
-          <FadeIn delay={0.1} direction="right" className="w-full shrink-0 lg:flex lg:w-[46%] lg:max-w-[520px] lg:self-stretch">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="flex flex-col items-center gap-6 text-center lg:flex-row lg:items-stretch lg:gap-6 lg:text-left">
+          <FadeIn delay={0.1} direction="right" className="w-full lg:w-[48%] lg:shrink-0 lg:self-stretch">
             <img
               src={TALITA_PHOTO_SRC}
               alt="Talita Lopes, fundadora da Escola Missão Consciência"
               width={2034}
               height={2049}
-              className="mx-auto h-auto w-full max-w-[420px] rounded-md object-cover object-center lg:mx-0 lg:h-full lg:max-w-none lg:w-full"
+              className="mx-auto h-auto w-full rounded-md object-cover object-center lg:mx-0 lg:h-full"
             />
           </FadeIn>
 
-          <FadeIn delay={0.2} className="flex w-full max-w-xl flex-col justify-between lg:max-w-md xl:max-w-lg">
-            <SectionEyebrow className="mb-3 lg:text-left">
+          <FadeIn delay={0.2} className="flex w-full flex-col justify-center lg:flex-1">
+            <SectionEyebrow className="mb-2 lg:text-left">
               Conheça sua mentora
             </SectionEyebrow>
-            <h2 className="text-section text-white mb-6">Talita Lopes</h2>
+            <h2 className="text-section mb-4 text-white">Talita Lopes</h2>
 
-            <div className="space-y-4 text-cream-muted text-lead">
+            <div className="space-y-3 text-cream-muted text-lead">
               <p>
                 Talita Lopes é psicanalista, fundadora da Escola Missão Consciência® e criadora do
-                Método APS (Alta Permissão Sistêmica).
+                criadora do Método APS — Alta Permissão Sistêmica.
               </p>
               <p>
-                Nos últimos 10 anos, dedicou seu trabalho a investigar uma pergunta: por que pessoas
-                inteligentes, capazes e preparadas continuam voltando para o mesmo lugar?
+                Nos últimos 10 anos, dedicou seu trabalho a investigar uma pergunta: Por que pessoas
+                inteligentes, capazes e preparadas continuam repetindo padrões que elas mesmas já
+                entenderam racionalmente?
               </p>
               <p>
-                A resposta deu origem ao Método APS, uma abordagem que investiga os contratos de
-                lealdade e os significados que organizam, de forma inconsciente, a maneira como uma
-                pessoa vive, ama, prospera e sustenta o que conquista.
+                Foi dessa investigação que nasceu o Método APS, uma abordagem criada para compreender
+                não só o que uma pessoa faz, mas os significados, relações e hipóteses que precisam
+                ser considerados antes de transformar um comportamento em uma conclusão.
               </p>
-              <p>
-                Mais de <CountUp to={140} suffix=" mil mulheres" /> já tiveram contato com esse
-                trabalho.
-              </p>
+            </div>
+
+            <div className="mt-7 grid grid-cols-2 gap-4 border-t border-cream/10 pt-6 sm:gap-8">
+              <div>
+                <p className="font-serif text-3xl italic leading-none text-lime sm:text-4xl">
+                  <CountUp to={5} prefix="+" suffix=" mil" />
+                </p>
+                <p className="mt-1.5 text-sm leading-snug text-cream-muted">
+                  alunas já passaram por treinamentos do Método APS
+                </p>
+              </div>
+              <div>
+                <p className="font-serif text-3xl italic leading-none text-lime sm:text-4xl">
+                  <CountUp to={140} prefix="+" suffix=" mil" />
+                </p>
+                <p className="mt-1.5 text-sm leading-snug text-cream-muted">
+                  pessoas impactadas pela Missão Consciência®
+                </p>
+              </div>
             </div>
           </FadeIn>
         </div>

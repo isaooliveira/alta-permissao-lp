@@ -1,23 +1,15 @@
-import { Eye, MessageCircleQuestion, Scale, type LucideIcon } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { SectionEyebrow } from './SectionEyebrow'
 
-const AUDIENCE_CARDS: { title: string; body: string; icon: LucideIcon }[] = [
-  {
-    title: 'Elevar a qualidade dos seus atendimentos',
-    body: 'Compreender melhor o que está acontecendo em cada situação, fazendo perguntas mais precisas e deixando de depender de explicações prontas para entender um comportamento.',
-    icon: MessageCircleQuestion,
-  },
-  {
-    title: 'Mais segurança na sua atuação profissional',
-    body: 'Principalmente quando existem várias explicações possíveis para o mesmo problema e você precisa separar fatos, relatos, interpretações e hipóteses antes de chegar a uma conclusão.',
-    icon: Scale,
-  },
-  {
-    title: 'Amadurecer o seu olhar sobre comportamento humano',
-    body: 'Oferecer atendimentos, orientações e conteúdos com mais clareza, responsabilidade e profundidade, sem transformar opiniões ou teorias em verdades sobre a vida de alguém.',
-    icon: Eye,
-  },
+const AUDIENCE_CARDS = [
+  'Ser reconhecida como uma profissional que sabe o que está fazendo',
+  'Não quer correr o risco de parecer profunda enquanto apenas repete explicações prontas',
+  'Sabe que aquilo que você diz pode mudar a forma como alguém passa a enxergar a própria vida',
+  'Não se sente confortável em tratar uma hipótese como verdade só porque ela parece fazer sentido',
+  'Quer ter autoridade sem precisar ocupar o lugar de quem “saca tudo” sobre todo mundo',
+  'Se importa com a responsabilidade de influenciar decisões, relações e interpretações de quem confia em você',
+  'Quer que a qualidade do seu trabalho apareça na forma como você pensa, pergunta e conduz',
+  'Não quer ser mais uma profissional reproduzindo certezas que nunca aprendeu a questionar',
 ]
 
 export function AudienceSection() {
@@ -35,33 +27,21 @@ export function AudienceSection() {
           </h2>
         </FadeIn>
 
-        <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-3 md:gap-5">
-          {AUDIENCE_CARDS.map((card, i) => {
-            const Icon = card.icon
-            return (
-              <FadeIn key={card.title} delay={0.08 + i * 0.08} className="h-full">
-                <article className="group h-full rounded-md bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 p-px transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
-                  <div className="flex h-full flex-col rounded-[5px] bg-dark px-5 py-6 transition-colors duration-300 group-hover:bg-[#252520] sm:px-6 sm:py-8">
-                    <span className="mb-5 font-bold tabular-nums tracking-[0.2em] text-lime text-xs">
-                      0{i + 1}
-                    </span>
-                    <Icon
-                      size={24}
-                      className="mb-4 shrink-0 text-cream transition-all duration-300 group-hover:scale-110 group-hover:text-[#F8F0DF]"
-                      strokeWidth={1.75}
-                      aria-hidden="true"
-                    />
-                    <h3 className="mb-3 text-[22px] font-bold leading-snug text-cream transition-colors duration-300 group-hover:text-white">
-                      {card.title}
-                    </h3>
-                    <p className="text-base leading-relaxed text-cream/75 transition-colors duration-300 group-hover:text-cream/90">
-                      {card.body}
-                    </p>
-                  </div>
-                </article>
-              </FadeIn>
-            )
-          })}
+        <div className="grid grid-cols-1 items-stretch gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+          {AUDIENCE_CARDS.map((title, i) => (
+            <FadeIn key={title} delay={0.06 + i * 0.04} className="h-full">
+              <article className="group h-full rounded-md bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 p-px transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
+                <div className="flex h-full flex-col rounded-[5px] bg-dark px-5 py-5 transition-colors duration-300 group-hover:bg-[#252520] sm:px-5 sm:py-6">
+                  <span className="mb-4 font-bold tabular-nums tracking-[0.2em] text-lime text-xs">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="text-[1.05rem] font-bold leading-snug text-cream transition-colors duration-300 group-hover:text-white sm:text-[1.1rem]">
+                    {title}
+                  </h3>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>

@@ -9,9 +9,9 @@ const TESTIMONIALS = [
   { name: 'Ju Garcia', videoId: '5Vj0HSzbLig', isShort: false },
   { name: 'Suenny Bezerra', videoId: 'WXXEypdOjfg', isShort: false },
   { name: 'Valéria Cunha', videoId: 'jsdwwn-ya7s', isShort: false },
+  { name: 'Shirlene Alves', videoId: 'ryGitk-LghM', isShort: true },
   { name: 'Gabriela Cruz', videoId: 'WeINlrFzNsM', isShort: false },
   { name: 'Rafaela dos Santos', videoId: 'c0fvmW8M6GI', isShort: false },
-  { name: 'Shirlene Alves', videoId: 'ryGitk-LghM', isShort: true },
   { name: 'Marcela Giacon', videoId: '76KYP4bx-W0', isShort: true },
 ] as const
 
@@ -40,7 +40,7 @@ function TestimonialCard({
     <button
       type="button"
       onClick={onPlay}
-      className="group flex w-full flex-col overflow-hidden rounded-md border border-dark/15 bg-dark/[0.03] text-left transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-brand"
+      className="group flex w-full flex-col overflow-hidden rounded-md border border-cream/15 bg-white/[0.04] text-left transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
       aria-label={`Assistir depoimento de ${name}`}
     >
       <div
@@ -70,8 +70,8 @@ function TestimonialCard({
           </span>
         </span>
       </div>
-      <div className="border-t border-dark/10 px-4 py-3.5">
-        <p className="text-sm font-semibold leading-snug text-dark sm:text-base">{name}</p>
+      <div className="border-t border-cream/10 px-4 py-3.5">
+        <p className="text-sm font-semibold leading-snug text-cream sm:text-base">{name}</p>
       </div>
     </button>
   )
@@ -150,23 +150,26 @@ export function TestimonialsSection() {
   const active = activeIndex !== null ? TESTIMONIALS[activeIndex] : null
 
   return (
-    <section className="bg-white px-4 py-20">
+    <section className="bg-dark px-4 py-20">
       <div className="container-wide">
         <FadeIn>
-          <h2 className="text-section mx-auto mb-12 max-w-4xl text-center text-dark">
-            <span className="text-accent-warm">
-              <CountUp to={5} prefix="+" suffix=" mil mulheres" />
+          <h2 className="text-section mx-auto max-w-4xl text-center text-white">
+            <span className="text-cream">
+              <CountUp to={5} prefix="+" suffix=" mil alunas" />
             </span>{' '}
             já passaram pelo Método APS.
           </h2>
+          <p className="mx-auto mt-4 mb-12 max-w-2xl text-center text-[1.05rem] leading-relaxed text-white/65 sm:text-lg">
+            Veja o que algumas delas perceberam na prática.
+          </p>
         </FadeIn>
 
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-5">
+        <div className="columns-1 sm:columns-2 sm:gap-5 lg:columns-3">
           {TESTIMONIALS.map((testimonial, i) => (
             <FadeIn
               key={testimonial.videoId}
               delay={0.12 + i * 0.05}
-              className="w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+              className="mb-4 break-inside-avoid sm:mb-5"
             >
               <TestimonialCard
                 {...testimonial}

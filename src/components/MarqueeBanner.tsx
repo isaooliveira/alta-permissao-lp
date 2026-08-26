@@ -18,8 +18,17 @@ export function MarqueeBanner() {
   // Repeat enough to fill wide screens and loop seamlessly
   const track = [...items, ...items, ...items, ...items]
 
+  const fadeMask = {
+    maskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)',
+    WebkitMaskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)',
+  }
+
   return (
-    <div className="overflow-hidden bg-cream border-y border-dark/10 py-3" aria-hidden="true">
+    <div
+      className="overflow-hidden bg-cream border-y border-dark/10 py-3"
+      style={fadeMask}
+      aria-hidden="true"
+    >
       <div className={`flex whitespace-nowrap ${reduceMotion ? '' : 'marquee-track'}`}>
         {track.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-4 px-7">

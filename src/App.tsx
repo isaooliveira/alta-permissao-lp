@@ -5,10 +5,10 @@ import { HeroSection } from './components/HeroSection'
 import {
   ProblemSection,
   ProblemAmplificationSection,
+  WhatYouSaySection,
   InterpretationConsequenceSection,
   ProfessionalDistinctionSection,
   LevelUpReadingSection,
-  MethodIntroSection,
 } from './components/CopySections'
 import { TestimonialsSection } from './components/TestimonialsSection'
 import { ScheduleSection } from './components/ScheduleSection'
@@ -59,16 +59,16 @@ export default function App() {
         <MarqueeBanner />
         <ProblemSection />
         <ProblemAmplificationSection />
+        <WhatYouSaySection />
         <InterpretationConsequenceSection onCtaClick={scrollToInvestimento} />
         <ProfessionalDistinctionSection />
         <LevelUpReadingSection />
-        <MethodIntroSection onCtaClick={scrollToInvestimento} />
         <TestimonialsSection />
         {!eventPast && <ScheduleSection onCtaClick={scrollToInvestimento} />}
         <AudienceSection />
+        <MentorSection />
         <PricingSection onCtaClick={open} />
         <GuaranteeSection />
-        <MentorSection />
         <GuaranteeAndFAQ />
       </main>
       <Footer />

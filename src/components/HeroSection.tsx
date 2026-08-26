@@ -29,17 +29,19 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1
-      className={`text-[22px] sm:text-[26px] lg:text-[32px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
+      className={`text-[26px] sm:text-[28px] lg:text-[32px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
     >
       Num mercado em que todo mundo fala de trauma, apego,
       <br className="hidden lg:inline" />
       {' '}crenças e sistema familiar,{' '}
-      <span className="italic whitespace-nowrap">repetir os mesmos conceitos</span>
+      <span className="italic lg:whitespace-nowrap">repetir os mesmos conceitos</span>
       <br className="hidden lg:inline" />
-      {' '}já não diferencia um profissional e pode deixar
+      {' '}já não diferencia um profissional e pode
       <br className="hidden lg:inline" />
-      {' '}sua atuação com{' '}
-      <span className="font-semibold text-cream whitespace-nowrap">cara de amadora</span>.
+      {' '}
+      <span className="font-bold text-red lg:whitespace-nowrap">
+        deixar sua atuação com cara de amadora.
+      </span>
     </h1>
   )
 }
@@ -61,14 +63,12 @@ function HeroVideo() {
 
 function HeroIntro({ className = '' }: { className?: string }) {
   return (
-    <p className={`text-white/75 text-base sm:text-lg leading-relaxed ${className}`}>
-      <span className="font-semibold text-cream">No Efeito Alta Permissão</span>, você aprende uma
-      nova forma de organizar as informações de um caso, comparar possíveis explicações e fazer
-      perguntas que ajudam a entender{' '}
-      <span className="font-semibold text-cream">
-        por que aquele comportamento continua acontecendo
-      </span>
-      .
+    <p className={`text-white/75 text-[20px] sm:text-[22px] leading-relaxed ${className}`}>
+      Desenvolva um olhar que te permita perceber{' '}
+      <span className="font-semibold text-cream">o que outros profissionais deixam passar</span>,
+      fazer perguntas melhores e sustentar uma atuação que não depende de respostas prontas,
+      tendências ou{' '}
+      <span className="font-semibold text-cream">opiniões disfarçadas de verdade</span>.
     </p>
   )
 }
