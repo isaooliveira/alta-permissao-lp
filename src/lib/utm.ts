@@ -25,6 +25,26 @@ const SHORT_LINKS: Record<string, Utm> = {
   bio: { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'bio' },
 }
 
+const ORIGIN_LABELS: Record<string, string> = {
+  'grupo-avisos': 'WhatsApp Avisos',
+  'grupo-alunas': 'WhatsApp Alunas',
+  'lista-fria': 'WhatsApp Lista',
+  stories: 'IG Stories',
+  feed: 'IG Feed',
+  bio: 'IG Bio',
+}
+
+export function utmFriendlyLabel(row: {
+  source?: string
+  medium?: string
+  content?: string
+}): string {
+  const content = row.content?.trim()
+  if (content && ORIGIN_LABELS[content]) return ORIGIN_LABELS[content]
+  if (!row.source || row.source === '(sem utm)') return 'Sem UTM'
+  return [row.source, row.medium].filter((part) => part && part !== '—').join(' · ')
+}
+
 function shortFromWindow(): Utm {
   if (typeof window === 'undefined') return {}
   const fromQuery = new URLSearchParams(window.location.search).get('s')

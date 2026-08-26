@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { utmFriendlyLabel } from '@/lib/utm'
 
 type Period = '7d' | '30d' | 'all'
 
@@ -244,13 +245,10 @@ export function FunilPage() {
             <section className="mt-14">
               <h2 className="font-serif text-2xl italic">Origem dos leads</h2>
               <div className="mt-6 overflow-x-auto">
-                <table className="w-full min-w-[40rem] text-left text-sm">
+                <table className="w-full min-w-[20rem] text-left text-sm">
                   <thead className="text-[11px] uppercase tracking-[0.18em] text-cream/40">
                     <tr>
-                      <th className="pb-3 font-medium">Source</th>
-                      <th className="pb-3 font-medium">Medium</th>
-                      <th className="pb-3 font-medium">Campaign</th>
-                      <th className="pb-3 font-medium">Content</th>
+                      <th className="pb-3 font-medium">Origem</th>
                       <th className="pb-3 font-medium">Pessoas</th>
                       <th className="pb-3 font-medium">Compraram</th>
                     </tr>
@@ -258,17 +256,14 @@ export function FunilPage() {
                   <tbody>
                     {data.utm.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="py-6 text-cream/40">
+                        <td colSpan={3} className="py-6 text-cream/40">
                           Nenhum lead ainda.
                         </td>
                       </tr>
                     )}
                     {data.utm.map((row) => (
                       <tr key={`${row.source}-${row.medium}-${row.campaign}-${row.content}`} className="border-t border-cream/10">
-                        <td className="py-3">{row.source}</td>
-                        <td className="py-3">{row.medium}</td>
-                        <td className="py-3">{row.campaign}</td>
-                        <td className="py-3">{row.content}</td>
+                        <td className="py-3">{utmFriendlyLabel(row)}</td>
                         <td className="py-3">{row.filled}</td>
                         <td className="py-3 text-lime">{row.purchased}</td>
                       </tr>
