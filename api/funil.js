@@ -4,7 +4,15 @@
 import crypto from 'crypto'
 
 const LEAD_SOURCE = 'alta_permissao_jul_2026'
-const PROPERTY_ID = process.env.GA_PROPERTY_ID || '414824091'
+function resolvePropertyId() {
+  const raw = String(process.env.GA_PROPERTY_ID || '414824091').replace(/\D/g, '')
+  const known = '414824091'
+  if (raw.includes(known)) return known
+  if (raw.length >= 7 && raw.length <= 12) return raw
+  return known
+}
+
+const PROPERTY_ID = resolvePropertyId()
 
 function periodRange(period) {
   const today = new Date()
