@@ -403,7 +403,7 @@ const APS_COMPARISON = [
   },
   {
     without: 'Faz perguntas para confirmar o que suspeitou.',
-    with: 'Faz perguntas para descobrir o que ainda não sabe.',
+    with: 'Faz perguntas, observa e busca entender o que ainda não sabe.',
   },
   {
     without: 'Usa o repertório para encaixar o caso em uma teoria.',

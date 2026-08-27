@@ -66,8 +66,8 @@ function HeroIntro({ className = '' }: { className?: string }) {
     <p className={`text-white/75 text-[20px] sm:text-[22px] leading-relaxed ${className}`}>
       Desenvolva um olhar que te permita perceber{' '}
       <span className="font-semibold text-cream">o que outros profissionais deixam passar</span>,
-      fazer perguntas melhores e sustentar uma atuação que não depende de respostas prontas,
-      tendências ou{' '}
+      interpretar com mais critério, fazer perguntas melhores e sustentar uma atuação que não
+      dependa de respostas prontas, tendências ou{' '}
       <span className="font-semibold text-cream">opiniões disfarçadas de verdade</span>.
     </p>
   )

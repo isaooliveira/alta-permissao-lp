@@ -9,7 +9,8 @@ import { LotCountdown } from './LotCountdown'
 import { LotExtendedAlert } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
 import type { Lot } from '@/hooks/useLot'
-import mockImg from '@/assets/mock.webp'
+
+const MOCK_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('mock web.webp')}`
 
 const PAY_METHODS_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('svg - pay.svg')}`
 
@@ -199,7 +200,7 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
               aria-hidden="true"
             />
             <img
-              src={mockImg}
+              src={MOCK_SRC}
               alt="Ilustração dos lotes de investimento"
               width={500}
               height={300}
