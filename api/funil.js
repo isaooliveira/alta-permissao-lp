@@ -285,16 +285,28 @@ export default async function handler(req, res) {
       console.error('[funil] GA', err)
     }
 
+    const openedGa = ga.begin_checkout
+    const leadGa = ga.generate_lead
+    const openedForm = Math.max(openedGa, filled)
+    const visits = Math.max(ga.sessions, openedForm)
+    const users = Math.max(ga.users, filled)
+
     return res.status(200).json({
       period,
       range,
-      visits: ga.sessions,
-      users: ga.users,
+      visits,
+      users,
       pageviews: ga.pageviews,
-      openedForm: ga.begin_checkout,
+      openedForm,
       filled,
       purchased,
       abandoned: Math.max(filled - purchased, 0),
+      measured: {
+        visits: ga.sessions,
+        users: ga.users,
+        openedForm: openedGa,
+        generateLead: leadGa,
+      },
       utm: utmRows,
       purchaseVisits,
       gaError,

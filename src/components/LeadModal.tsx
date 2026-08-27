@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
@@ -43,6 +43,11 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
   const [form, setForm] = useState<FormState>({ name: '', phone: '', email: '' })
   const [errors, setErrors] = useState<Errors>({})
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!open) return
+    trackEvent('begin_checkout', { page: 'eap', ...utmEventParams() })
+  }, [open])
 
   function validate(): boolean {
     const e: Errors = {}

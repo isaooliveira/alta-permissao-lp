@@ -20,8 +20,6 @@ import { LeadModal } from './components/LeadModal'
 import { MarqueeBanner } from './components/MarqueeBanner'
 import { scrollToInvestimento } from '@/lib/scroll'
 import { useEventStatus } from '@/hooks/useEventStatus'
-import { trackEvent } from '@/lib/analytics'
-import { utmEventParams } from '@/lib/utm'
 
 const GRUPO_ALTA_LOGO_SRC = `${import.meta.env.BASE_URL}logo-altas.svg`
 
@@ -48,10 +46,7 @@ function Footer() {
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false)
-  const open = () => {
-    trackEvent('begin_checkout', { page: 'eap', ...utmEventParams() })
-    setModalOpen(true)
-  }
+  const open = () => setModalOpen(true)
   const close = () => setModalOpen(false)
   const { eventPast } = useEventStatus()
 
