@@ -23,6 +23,8 @@ const SHORT_LINKS: Record<string, Utm> = {
   'ig-stories': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'stories' },
   'ig-feed': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'feed' },
   bio: { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'bio' },
+  'quiz-ig': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-ig' },
+  'quiz-wa': { source: 'whatsapp', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-wa' },
 }
 
 const ORIGIN_LABELS: Record<string, string> = {
@@ -32,6 +34,8 @@ const ORIGIN_LABELS: Record<string, string> = {
   stories: 'IG Stories',
   feed: 'IG Feed',
   bio: 'IG Bio',
+  'quiz-ig': 'Quiz Instagram',
+  'quiz-wa': 'Quiz WhatsApp',
 }
 
 export function utmFriendlyLabel(row: {
