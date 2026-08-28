@@ -183,7 +183,7 @@ async function supabasePeople(startDate) {
 
     prev.purchased = prev.purchased || bought
     prev.visitCount = Math.max(prev.visitCount, visits)
-    if (row.utm_source && prev.source === '(sem utm)') Object.assign(prev, utm)
+    if (row.utm_source) Object.assign(prev, utm)
   }
 
   const map = new Map()

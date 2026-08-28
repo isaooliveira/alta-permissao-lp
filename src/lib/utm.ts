@@ -95,21 +95,20 @@ function writeStored(utm: Utm) {
   }
 }
 
-/** Primeiro clique com UTM neste navegador. Visita nova não sobrescreve a origem. */
+/** Last non-direct click in this browser: URL UTMs win, otherwise keep the stored ones. */
 export function captureUtm(): Utm {
   if (typeof window === 'undefined') return {}
-  const stored = readStored()
-  if (hasUtm(stored)) return stored
   const fromUrl = fromSearch(window.location.search)
-  if (hasUtm(fromUrl)) writeStored(fromUrl)
-  return hasUtm(fromUrl) ? fromUrl : {}
+  const utm = hasUtm(fromUrl) ? fromUrl : readStored()
+  if (hasUtm(utm)) writeStored(utm)
+  return utm
 }
 
 export function getUtm(): Utm {
   if (typeof window === 'undefined') return {}
-  const stored = readStored()
-  if (hasUtm(stored)) return stored
-  return fromSearch(window.location.search)
+  const fromUrl = fromSearch(window.location.search)
+  if (hasUtm(fromUrl)) return fromUrl
+  return readStored()
 }
 
 export function utmEventParams(utm = getUtm()): Record<string, string> {
