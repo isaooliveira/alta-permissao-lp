@@ -5,6 +5,9 @@ export const EVENT_POST_DATE = new Date('2026-09-13T00:00:00-03:00')
 
 function readPreview(): boolean | null {
   if (typeof window === 'undefined') return null
+  const hash = window.location.hash.replace(/^#/, '')
+  if (hash === 'evento-passado') return true
+  if (hash === 'evento-ao-vivo') return false
   const value = new URLSearchParams(window.location.search).get('evento')
   if (value === 'passado') return true
   if (value === 'ao-vivo') return false

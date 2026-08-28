@@ -21,6 +21,10 @@
         var params = new URLSearchParams(location.search);
         var code = params.get('s') || location.hash.replace(/^#/, '');
         if (code === 'obg' || code === 'obrigado') return;
+        if (code === 'evento-passado' || code === 'evento-ao-vivo') {
+          try { history.replaceState(null, '', '/eap#' + code); } catch (e) {}
+          return;
+        }
         if (code === 'quiz-67' || params.get('utm_content') === 'quiz-67') {
           try { sessionStorage.setItem('eap_quiz_offer', '67'); } catch (e) {}
         }
