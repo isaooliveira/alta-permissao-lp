@@ -22,44 +22,28 @@ function LotPricePair({
   currentLabel,
   currentPrice,
   upcomingPrice,
-  accent,
+  highlightPrice,
 }: {
   currentLabel: string
   currentPrice: number
   upcomingPrice: number
-  accent: 'lime' | 'cream'
+  highlightPrice?: boolean
 }) {
-  const isLime = accent === 'lime'
-
   return (
-    <div className="mb-4 grid grid-cols-2 gap-2">
-      <div
-        className={`rounded-md px-3 py-3 ${
-          isLime
-            ? 'border border-lime/40 bg-lime/[0.07]'
-            : 'border border-cream/30 bg-cream/[0.06]'
-        }`}
-      >
-        <p
-          className={`text-[10px] font-black uppercase tracking-widest ${
-            isLime ? 'text-lime' : 'text-cream'
-          }`}
-        >
+    <div className="mb-10 grid grid-cols-2 gap-2">
+      <div className="rounded-md border border-cream/30 bg-cream/[0.06] px-3 py-3">
+        <p className="text-[10px] font-black uppercase tracking-widest text-cream">
           {currentLabel}
         </p>
         <p
-          className={`mt-1.5 font-black tabular-nums leading-none tracking-tight ${
-            isLime ? 'text-[1.75rem] text-lime sm:text-[2rem]' : 'text-[1.75rem] text-cream sm:text-[2rem]'
+          className={`mt-1.5 text-[1.75rem] font-black tabular-nums leading-none tracking-tight sm:text-[2rem] ${
+            highlightPrice ? 'text-lime' : 'text-cream'
           }`}
         >
           R${currentPrice}
         </p>
-        <p
-          className={`mt-2 text-[10px] font-semibold leading-snug ${
-            isLime ? 'text-lime/75' : 'text-cream/70'
-          }`}
-        >
-          Oferta por tempo limitado.
+        <p className="mt-2 text-[10px] font-semibold leading-snug text-cream/70">
+          Oferta por tempo <span className="text-red">limitado</span>.
         </p>
       </div>
 
@@ -104,7 +88,7 @@ function TicketCard({
           ? `group relative h-full min-h-[320px] rounded-md bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 p-px opacity-100 transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)] ${
               reduceMotion ? '' : 'pricing-vip-glow'
             }`
-          : 'relative flex h-full min-h-[320px] flex-col rounded-md border border-cream/10 bg-dark/60 p-5 transition-all duration-300 sm:p-6'
+          : 'relative flex h-full min-h-[320px] flex-col rounded-md border border-cream/10 bg-dark/60 px-5 pb-5 pt-6 transition-all duration-300 sm:px-6 sm:pb-6'
       }
     >
       {featured && (
@@ -119,16 +103,22 @@ function TicketCard({
       <div
         className={
           featured
-            ? 'flex h-full min-h-[318px] flex-col rounded-[5px] bg-dark p-5 transition-colors duration-300 group-hover:bg-[#252520] sm:p-6'
+            ? 'flex h-full min-h-[318px] flex-col rounded-[5px] bg-dark px-5 pb-5 pt-6 transition-colors duration-300 group-hover:bg-[#252520] sm:px-6 sm:pb-6'
             : 'flex h-full flex-col'
         }
       >
-        <div className="mb-4 flex items-start justify-between gap-2">
-          <p className={`text-sm font-bold uppercase tracking-wide ${isVip ? 'text-lime' : 'text-cream'}`}>
-            {ticket.name}
+        <div className="mb-6 flex items-start justify-between gap-2">
+          <p className="text-sm font-bold uppercase tracking-wide text-cream">
+            {isVip ? (
+              <>
+                Ingresso <span className="text-lime">VIP</span>
+              </>
+            ) : (
+              ticket.name
+            )}
           </p>
           {isVip ? (
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-lime/50 bg-lime/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#988D49]/55 bg-[#988D49]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C4B56A]">
               Completo
             </span>
           ) : null}
@@ -139,10 +129,10 @@ function TicketCard({
             currentLabel={lotLabel}
             currentPrice={ticket.price}
             upcomingPrice={upcomingPrice}
-            accent={isVip ? 'lime' : 'cream'}
+            highlightPrice={isVip}
           />
         ) : (
-          <div className="mb-4 flex flex-col">
+          <div className="mb-10 flex flex-col">
             <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">{lotLabel}</span>
             <span className="mt-1 text-base font-normal leading-none text-white sm:text-lg">
               {quizOffer && isVip ? (
@@ -154,8 +144,8 @@ function TicketCard({
               )}
             </span>
             <span
-              className={`mt-1 font-normal leading-none tracking-tight tabular-nums ${
-                isVip ? 'text-[3.25rem] text-lime sm:text-6xl' : 'text-[2.75rem] text-cream sm:text-5xl'
+              className={`mt-1 text-[2.75rem] font-normal leading-none tracking-tight tabular-nums sm:text-5xl ${
+                isVip ? 'text-lime' : 'text-cream'
               }`}
             >
               R${ticket.price}
@@ -163,31 +153,43 @@ function TicketCard({
           </div>
         )}
 
-        <div className="mb-4 space-y-2 border-t border-cream/10 pt-4">
+        <div className="mb-10 space-y-2.5">
           {TICKET_FEATURES.map((feature) => {
             const included = isVip ? feature.vip : feature.basic
             return (
-              <div key={feature.text} className="flex items-start gap-2">
+              <div key={feature.text} className="flex items-start gap-2.5">
                 {included ? (
-                  <Check size={14} className="mt-0.5 flex-shrink-0 text-lime" />
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-lime">
+                    <Check size={12} className="text-dark" strokeWidth={3} aria-hidden="true" />
+                  </span>
                 ) : (
-                  <X size={14} className="mt-0.5 flex-shrink-0 text-cream/30" />
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10">
+                    <X size={11} className="text-white/40" strokeWidth={2.5} aria-hidden="true" />
+                  </span>
                 )}
                 <span
                   className={
                     included
-                      ? 'text-base text-cream-muted'
-                      : 'text-base text-cream/35 line-through decoration-cream/40'
+                      ? 'text-base leading-snug text-white'
+                      : 'text-base leading-snug text-white/40 line-through decoration-white/35'
                   }
                 >
-                  {feature.text}
+                  {feature.parts.map((part, i) =>
+                    part.bold ? (
+                      <strong key={i} className="font-bold">
+                        {part.t}
+                      </strong>
+                    ) : (
+                      <span key={i}>{part.t}</span>
+                    ),
+                  )}
                 </span>
               </div>
             )
           })}
         </div>
 
-        <Button size="md" onClick={onCtaClick} showTicket className="mt-auto w-full">
+        <Button size="md" onClick={onCtaClick} showTicket className="w-full">
           Garantir {ticket.name}
         </Button>
         <img
@@ -195,7 +197,7 @@ function TicketCard({
           alt="Formas de pagamento"
           width={1310}
           height={132}
-          className="mx-auto mt-3 h-auto w-[72%] max-w-[188px] opacity-40"
+          className="mx-auto mt-4 h-auto w-[72%] max-w-[188px] opacity-40"
         />
         {featured && urgency === 'countdown' && (
           <div className="mt-4">

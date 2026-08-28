@@ -36,12 +36,42 @@ export const PRICING_FEATURES_POST_EVENT = [
 ] as const
 
 export const TICKET_FEATURES = [
-  { text: '7 horas de imersão ao vivo no Zoom', vip: true, basic: true },
-  { text: 'Certificado', vip: true, basic: true },
-  { text: 'Material Extra', vip: true, basic: false },
-  { text: 'Gravação do Treinamento', vip: true, basic: false },
+  {
+    text: '7 horas de imersão ao vivo no Zoom',
+    parts: [
+      { t: '7 horas', bold: true },
+      { t: ' de imersão ao vivo no Zoom' },
+    ],
+    vip: true,
+    basic: true,
+  },
+  {
+    text: 'Certificado',
+    parts: [{ t: 'Certificado', bold: true }],
+    vip: true,
+    basic: true,
+  },
+  {
+    text: 'Material Extra',
+    parts: [{ t: 'Material ' }, { t: 'Extra', bold: true }],
+    vip: true,
+    basic: false,
+  },
+  {
+    text: 'Gravação do Treinamento',
+    parts: [{ t: 'Gravação', bold: true }, { t: ' do Treinamento' }],
+    vip: true,
+    basic: false,
+  },
   {
     text: 'Chance de participar do sorteio de 1 vaga para Escola da Nova Linhagem',
+    parts: [
+      { t: 'Chance de participar do sorteio', bold: true },
+      { t: ' de ' },
+      { t: '1 vaga', bold: true },
+      { t: ' para ' },
+      { t: 'Escola da Nova Linhagem', bold: true },
+    ],
     vip: true,
     basic: false,
   },
