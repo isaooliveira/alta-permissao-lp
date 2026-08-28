@@ -25,8 +25,17 @@
           try { history.replaceState(null, '', '/eap#' + code); } catch (e) {}
           return;
         }
-        if (code === 'quiz-67' || params.get('utm_content') === 'quiz-67') {
+        if (
+          code === 'quiz-67' ||
+          code === 'quiz-ig' ||
+          params.get('utm_content') === 'quiz-67' ||
+          params.get('utm_content') === 'quiz-ig'
+        ) {
           try { sessionStorage.setItem('eap_quiz_offer', '67'); } catch (e) {}
+        }
+        if (code === 'quiz-67' || code === 'quiz-ig') {
+          window.__eapUtmQuery = codes[code] || '';
+          return;
         }
         var utmQuery = (code && codes[code]) ? codes[code] : '';
         if (utmQuery && !params.get('utm_source')) {

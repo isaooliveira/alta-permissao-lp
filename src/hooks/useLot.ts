@@ -40,8 +40,11 @@ function captureQuizOffer() {
   const hash = window.location.hash.replace(/^#/, '')
   const fromUrl =
     hash === 'quiz-67' ||
+    hash === 'quiz-ig' ||
     params.get('s') === 'quiz-67' ||
-    params.get('utm_content') === 'quiz-67'
+    params.get('s') === 'quiz-ig' ||
+    params.get('utm_content') === 'quiz-67' ||
+    params.get('utm_content') === 'quiz-ig'
   if (fromUrl) {
     try {
       sessionStorage.setItem(QUIZ_OFFER_KEY, '67')
