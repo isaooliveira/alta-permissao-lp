@@ -73,12 +73,22 @@
     },
     {
       "source": "/eap/quiz-67",
-      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127",
       "permanent": false
     },
     {
       "source": "/eap/quiz-67/",
-      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127",
+      "permanent": false
+    },
+    {
+      "source": "/eap/quiz-127",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127",
+      "permanent": false
+    },
+    {
+      "source": "/eap/quiz-127/",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127",
       "permanent": false
     }
   ],

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { useLot } from '@/hooks/useLot'
+import { useLot, POST_EVENT_COMPARE, type TicketKind } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { saveLead } from '@/lib/supabase'
 import { trackEvent } from '@/lib/analytics'
@@ -14,6 +14,7 @@ import { ctaLabel } from '@/lib/eventContent'
 interface LeadModalProps {
   open: boolean
   onClose: () => void
+  ticketKind?: TicketKind
 }
 
 function formatPhone(value: string) {
@@ -37,9 +38,10 @@ interface Errors {
   email?: string
 }
 
-export function LeadModal({ open, onClose }: LeadModalProps) {
-  const { currentLot } = useLot()
+export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps) {
+  const { currentLot, quizOffer } = useLot()
   const { eventPast } = useEventStatus()
+  const ticket = currentLot.tickets[quizOffer ? 'vip' : ticketKind]
   const reduceMotion = useReducedMotion()
   const [form, setForm] = useState<FormState>({ name: '', phone: '', email: '' })
   const [errors, setErrors] = useState<Errors>({})
@@ -66,7 +68,7 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
 
     setLoading(true)
     const utm = utmEventParams()
-    trackEvent('generate_lead', { lot: currentLot.number, ...utm })
+    trackEvent('generate_lead', { lot: currentLot.number, ticket: ticket.kind, ...utm })
     try {
       await saveLead({
         name: form.name.trim(),
@@ -80,7 +82,7 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
       console.error('[LeadModal] falha ao salvar lead:', err)
     } finally {
       setLoading(false)
-      window.location.href = withHotmartTracking(currentLot.hotmartUrl)
+      window.location.href = withHotmartTracking(ticket.hotmartUrl)
     }
   }
 
@@ -117,7 +119,9 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
 
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-wide text-red mb-2">
-                    {eventPast ? currentLot.priceFormatted : `${currentLot.label} · ${currentLot.priceFormatted}`}
+                    {eventPast
+                      ? <>De <s className="text-white/45">{`R$${POST_EVENT_COMPARE}`}</s> por {currentLot.priceFormatted}</>
+                      : `${ticket.name} · ${currentLot.label} · ${ticket.priceFormatted}`}
                   </p>
                   <Dialog.Title className="text-white font-semibold text-2xl leading-tight">
                     Antes de ir para o checkout
@@ -166,7 +170,7 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
                     showTicket={!eventPast}
                     className="w-full mt-2"
                   >
-                    {ctaLabel(eventPast)}
+                    {ctaLabel(eventPast, quizOffer)}
                   </Button>
 
                   <img

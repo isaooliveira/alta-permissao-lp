@@ -15,7 +15,8 @@
           'ig-feed': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed',
           bio: 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio',
           'quiz-ig': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-ig',
-          'quiz-67': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67',
+          'quiz-127': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127',
+          'quiz-67': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-127',
           'quiz-wa': 'utm_source=whatsapp&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-wa'
         };
         var params = new URLSearchParams(location.search);
@@ -26,15 +27,15 @@
           return;
         }
         if (
+          code === 'quiz-127' ||
           code === 'quiz-67' ||
-          code === 'quiz-ig' ||
-          params.get('utm_content') === 'quiz-67' ||
-          params.get('utm_content') === 'quiz-ig'
+          params.get('utm_content') === 'quiz-127' ||
+          params.get('utm_content') === 'quiz-67'
         ) {
-          try { sessionStorage.setItem('eap_quiz_offer', '67'); } catch (e) {}
+          try { sessionStorage.setItem('eap_quiz_offer', 'vip127'); } catch (e) {}
         }
-        if (code === 'quiz-67' || code === 'quiz-ig') {
-          window.__eapUtmQuery = codes[code] || '';
+        if (code === 'quiz-127' || code === 'quiz-67') {
+          window.__eapUtmQuery = codes[code] || codes['quiz-127'] || '';
           return;
         }
         var utmQuery = (code && codes[code]) ? codes[code] : '';

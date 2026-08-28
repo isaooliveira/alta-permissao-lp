@@ -24,7 +24,8 @@ const SHORT_LINKS: Record<string, Utm> = {
   'ig-feed': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'feed' },
   bio: { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'bio' },
   'quiz-ig': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-ig' },
-  'quiz-67': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-67' },
+  'quiz-127': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-127' },
+  'quiz-67': { source: 'instagram', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-127' },
   'quiz-wa': { source: 'whatsapp', medium: 'organico', campaign: 'eap-set-2026', content: 'quiz-wa' },
 }
 
@@ -36,7 +37,8 @@ const ORIGIN_LABELS: Record<string, string> = {
   feed: 'IG Feed',
   bio: 'IG Bio',
   'quiz-ig': 'Quiz Instagram',
-  'quiz-67': 'Quiz R$67',
+  'quiz-127': 'Quiz VIP',
+  'quiz-67': 'Quiz VIP',
   'quiz-wa': 'Quiz WhatsApp',
 }
 

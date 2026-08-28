@@ -15,7 +15,7 @@ const faqsLive = [
   },
   {
     q: 'O treinamento vai ficar gravado?',
-    a: 'A gravação é opcional. Você pode adicionar o acesso na hora da compra do ingresso, pela Hotmart.',
+    a: 'A gravação é disponibilizada no ingresso VIP.',
   },
   {
     q: 'Preciso ser psicóloga ou psicanalista?',

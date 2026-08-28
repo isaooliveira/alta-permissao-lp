@@ -29,7 +29,7 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1
-      className={`text-[26px] sm:text-[28px] lg:text-[32px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
+      className={`text-[26px] sm:text-[28px] lg:text-[28px] xl:text-[32px] short-lg:text-[26px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
     >
       Num mercado em que todo mundo fala de trauma, apego,
       <br className="hidden lg:inline" />
@@ -63,7 +63,7 @@ function HeroVideo() {
 
 function HeroIntro({ className = '' }: { className?: string }) {
   return (
-    <p className={`text-white/75 text-[20px] sm:text-[22px] leading-relaxed ${className}`}>
+    <p className={`text-white/75 text-[20px] sm:text-[22px] short-lg:text-[18px] leading-relaxed ${className}`}>
       Desenvolva um olhar que te permita perceber{' '}
       <span className="font-semibold text-cream">o que outros profissionais deixam passar</span>,
       interpretar com mais critério, fazer perguntas melhores e sustentar uma atuação que não
@@ -112,7 +112,7 @@ function HeroPromiseContent({
       <HeroHeadline className={isMobile ? 'text-center mt-2' : ''} />
       <HeroIntro className={isMobile ? 'text-center text-white/70' : ''} />
 
-      <div className={`w-full max-w-md ${isMobile ? 'mx-auto mt-6' : 'mt-8'}`}>
+      <div className={`w-full max-w-md ${isMobile ? 'mx-auto mt-6' : 'mt-5 xl:mt-8 short-lg:mt-4'}`}>
         <LotCtaCard
           onCtaClick={onCtaClick}
           variant={isMobile ? 'mobile' : 'hero'}
@@ -139,21 +139,20 @@ function HeroPromiseBlock({
         </div>
       </div>
 
-      {/* Desktop: imagem de fundo com conteúdo à esquerda, no mesmo eixo do header */}
-      <div className="relative hidden w-full overflow-hidden pb-24 lg:block lg:aspect-[2040/1080]">
-        <div
-          className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
-          style={{ backgroundImage: `url("${HERO_IMAGE_SRC}")` }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/85 via-[42%] to-transparent"
-          aria-hidden="true"
-        />
+      {/* Desktop: imagem de fundo com conteúdo à esquerda. Altura segue o conteúdo
+          para o CTA nunca ser cortado em laptops; min-h deixa a foto cinematic em telas altas. */}
+      <div className="relative hidden w-full lg:block">
+        <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div
+            className="absolute inset-0 bg-cover bg-no-repeat bg-right bg-center"
+            style={{ backgroundImage: `url("${HERO_IMAGE_SRC}")` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/85 via-[42%] to-transparent" />
+        </div>
 
-        <div className="relative z-10 h-full px-4 pt-10">
-          <div className="mx-auto flex h-full min-h-[460px] max-w-6xl items-start">
-            <div className="flex w-full max-w-xl flex-col items-start gap-5 pt-0 pb-12 lg:max-w-[min(100%,45rem)]">
+        <div className="relative z-10 min-h-[calc(100svh-2.75rem)] px-4 pt-8 pb-8 xl:pt-10 xl:pb-12 short-lg:pt-5 short-lg:pb-6">
+          <div className="mx-auto flex max-w-6xl items-start">
+            <div className="flex w-full max-w-xl flex-col items-start gap-4 xl:max-w-[min(100%,45rem)] xl:gap-5 short-lg:gap-3">
               <HeroPromiseContent onCtaClick={onCtaClick} layout="desktop" />
             </div>
           </div>

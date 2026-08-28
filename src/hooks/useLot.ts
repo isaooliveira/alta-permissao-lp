@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
 import { isEventPast } from './useEventStatus'
 
+export type TicketKind = 'vip' | 'basic'
+
+export interface Ticket {
+  kind: TicketKind
+  name: string
+  price: number
+  priceFormatted: string
+  hotmartUrl: string
+}
+
 export interface Lot {
   number: 1 | 2
   price: number
@@ -8,6 +18,7 @@ export interface Lot {
   label: string
   endDate: Date | null
   hotmartUrl: string
+  tickets: Record<TicketKind, Ticket>
 }
 
 export type LotUrgency = 'soon' | 'extended' | 'countdown'
@@ -25,61 +36,88 @@ const LOT_1_EXTENDED_AT = new Date('2026-09-03T00:00:00-03:00')
 const LOT_1_COUNTDOWN_AT = new Date('2026-09-06T00:00:00-03:00')
 
 const HOTMART_CHECKOUTS = {
-  1: 'https://pay.hotmart.com/J107328514K?off=0xl6k1bh&checkoutMode=10',
-  2: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
+  1: {
+    basic: 'https://pay.hotmart.com/J107328514K?off=0xl6k1bh&checkoutMode=10',
+    vip: 'https://pay.hotmart.com/J107328514K?off=oahnio0t&checkoutMode=10',
+  },
+  2: {
+    basic: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
+    vip: 'https://pay.hotmart.com/J107328514K?off=rnlwed07&checkoutMode=10',
+  },
 } as const
 
-/** Oferta do quiz — só vale na sessão que chegou com #quiz-67. */
+/** Oferta do quiz — só vale quem chega pelo botão do resultado (`#quiz-127`). */
+const QUIZ_OFFER_CODES = ['quiz-127', 'quiz-67']
 const QUIZ_OFFER_KEY = 'eap_quiz_offer'
+const QUIZ_OFFER_VALUE = 'vip127'
+const QUIZ_VIP_PRICE = 127
+export const QUIZ_VIP_COMPARE = 197
+/** Âncora do acesso imediato (pós-12/set): De R$197 por R$127. */
+export const POST_EVENT_COMPARE = 197
 const QUIZ_HOTMART =
   'https://pay.hotmart.com/J107328514K?off=3hb3u72h&checkoutMode=10'
 
-function captureQuizOffer() {
-  if (typeof window === 'undefined') return
-  const params = new URLSearchParams(window.location.search)
-  const hash = window.location.hash.replace(/^#/, '')
-  const fromUrl =
-    hash === 'quiz-67' ||
-    hash === 'quiz-ig' ||
-    params.get('s') === 'quiz-67' ||
-    params.get('s') === 'quiz-ig' ||
-    params.get('utm_content') === 'quiz-67' ||
-    params.get('utm_content') === 'quiz-ig'
-  if (fromUrl) {
-    try {
-      sessionStorage.setItem(QUIZ_OFFER_KEY, '67')
-    } catch {
-      /* private mode */
-    }
-  }
+function formatBrl(price: number) {
+  return `R$ ${price},00`
 }
 
-function hasQuizOffer() {
+function makeTicket(
+  kind: TicketKind,
+  name: string,
+  price: number,
+  hotmartUrl: string,
+): Ticket {
+  return { kind, name, price, priceFormatted: formatBrl(price), hotmartUrl }
+}
+
+function isQuizOfferUrl() {
   if (typeof window === 'undefined') return false
-  captureQuizOffer()
+  const params = new URLSearchParams(window.location.search)
+  const hash = window.location.hash.replace(/^#/, '')
+  const path = window.location.pathname.replace(/\/$/, '')
+  return (
+    QUIZ_OFFER_CODES.includes(hash) ||
+    QUIZ_OFFER_CODES.includes(params.get('s') || '') ||
+    QUIZ_OFFER_CODES.includes(params.get('utm_content') || '') ||
+    QUIZ_OFFER_CODES.some((code) => path.endsWith(`/${code}`))
+  )
+}
+
+export function hasQuizOffer() {
+  if (typeof window === 'undefined') return false
+  if (!isQuizOfferUrl()) return false
   try {
-    return sessionStorage.getItem(QUIZ_OFFER_KEY) === '67'
+    sessionStorage.setItem(QUIZ_OFFER_KEY, QUIZ_OFFER_VALUE)
   } catch {
-    return false
+    /* private mode */
   }
+  return true
 }
 
 const LOTS: Lot[] = [
   {
     number: 1,
-    price: 97,
-    priceFormatted: 'R$ 97,00',
+    price: 47,
+    priceFormatted: formatBrl(47),
     label: '1º LOTE',
     endDate: LOT_1_END,
-    hotmartUrl: HOTMART_CHECKOUTS[1],
+    hotmartUrl: HOTMART_CHECKOUTS[1].basic,
+    tickets: {
+      vip: makeTicket('vip', 'Ingresso VIP', 147, HOTMART_CHECKOUTS[1].vip),
+      basic: makeTicket('basic', 'Ingresso Básico', 47, HOTMART_CHECKOUTS[1].basic),
+    },
   },
   {
     number: 2,
-    price: 147,
-    priceFormatted: 'R$ 147,00',
+    price: 97,
+    priceFormatted: formatBrl(97),
     label: '2º LOTE',
     endDate: LOT_2_END,
-    hotmartUrl: HOTMART_CHECKOUTS[2],
+    hotmartUrl: HOTMART_CHECKOUTS[2].basic,
+    tickets: {
+      vip: makeTicket('vip', 'Ingresso VIP', 197, HOTMART_CHECKOUTS[2].vip),
+      basic: makeTicket('basic', 'Ingresso Básico', 97, HOTMART_CHECKOUTS[2].basic),
+    },
   },
 ]
 
@@ -87,10 +125,14 @@ const LOTS: Lot[] = [
 export const POST_EVENT_LOT: Lot = {
   number: 2,
   price: 127,
-  priceFormatted: 'R$ 127,00',
+  priceFormatted: formatBrl(127),
   label: 'ACESSO IMEDIATO',
   endDate: null,
   hotmartUrl: 'https://pay.hotmart.com/G107328971N?off=v3x36p1y',
+  tickets: {
+    vip: makeTicket('vip', 'Acesso imediato', 127, 'https://pay.hotmart.com/G107328971N?off=v3x36p1y'),
+    basic: makeTicket('basic', 'Acesso imediato', 127, 'https://pay.hotmart.com/G107328971N?off=v3x36p1y'),
+  },
 }
 
 function getCurrentLot(now = new Date()): Lot {
@@ -138,12 +180,15 @@ export function getLotUrgency(now = new Date(), lot = getCurrentLot(now)): LotUr
 
 function withQuizOffer(lot: Lot): Lot {
   if (isEventPast() || !hasQuizOffer()) return lot
+  const vip = makeTicket('vip', 'Ingresso VIP', QUIZ_VIP_PRICE, QUIZ_HOTMART)
   return {
     ...lot,
-    price: 67,
-    priceFormatted: 'R$ 67,00',
+    price: QUIZ_VIP_PRICE,
+    priceFormatted: formatBrl(QUIZ_VIP_PRICE),
+    label: 'OFERTA QUIZ',
     endDate: null,
     hotmartUrl: QUIZ_HOTMART,
+    tickets: { vip, basic: vip },
   }
 }
 
@@ -165,7 +210,11 @@ export function useLot() {
       setCurrentLot((prev) =>
         prev.number !== lot.number ||
         prev.price !== lot.price ||
-        prev.hotmartUrl !== lot.hotmartUrl
+        prev.label !== lot.label ||
+        prev.hotmartUrl !== lot.hotmartUrl ||
+        prev.tickets.vip.price !== lot.tickets.vip.price ||
+        prev.tickets.vip.hotmartUrl !== lot.tickets.vip.hotmartUrl ||
+        prev.tickets.basic.hotmartUrl !== lot.tickets.basic.hotmartUrl
           ? lot
           : prev,
       )

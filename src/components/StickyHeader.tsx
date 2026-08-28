@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { useLot } from '@/hooks/useLot'
+import { useLot, POST_EVENT_COMPARE, QUIZ_VIP_COMPARE } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
@@ -12,8 +12,7 @@ interface StickyHeaderProps {
 }
 
 function HeaderLotPrice({ className = '' }: { className?: string }) {
-  const { currentLot, lots, urgency, quizOffer } = useLot()
-  const publicLot = lots.find((l) => l.number === currentLot.number) ?? currentLot
+  const { currentLot, urgency, quizOffer } = useLot()
 
   if (urgency === 'countdown') {
     return (
@@ -32,22 +31,23 @@ function HeaderLotPrice({ className = '' }: { className?: string }) {
   if (quizOffer) {
     return (
       <span className={`shrink-0 tabular-nums tracking-wide text-sm sm:text-base ${className}`}>
-        <s className="font-black text-white/40">{`R$${publicLot.price}`}</s>
+        <span className="mr-1.5 text-[10px] font-black uppercase tracking-widest text-lime">VIP</span>
+        <s className="font-black text-white/40">{`R$${QUIZ_VIP_COMPARE}`}</s>
         {' '}
-        <span className="font-black text-lime">{`R$${currentLot.price}`}</span>
+        <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
       </span>
     )
   }
 
   return (
     <span className={`shrink-0 font-black tabular-nums tracking-wide text-lime text-sm sm:text-base ${className}`}>
-      {currentLot.priceFormatted}
+      {currentLot.tickets.basic.priceFormatted}
     </span>
   )
 }
 
 export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
-  const { currentLot } = useLot()
+  const { currentLot, quizOffer } = useLot()
   const { eventPast } = useEventStatus()
   const reduceMotion = useReducedMotion()
   const [visible, setVisible] = useState(false)
@@ -75,8 +75,10 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
       <div className="px-3 py-2 lg:hidden">
         {eventPast ? (
           <div className="flex min-w-0 items-center justify-between gap-2">
-            <span className="shrink-0 font-black tabular-nums tracking-wide text-lime text-sm">
-              {currentLot.priceFormatted}
+            <span className="shrink-0 tabular-nums tracking-wide text-sm">
+              <s className="font-black text-white/40">{`R$${POST_EVENT_COMPARE}`}</s>
+              {' '}
+              <span className="font-black text-lime">{currentLot.priceFormatted}</span>
             </span>
             <Button
               size="sm"
@@ -99,7 +101,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
               onClick={onCtaClick}
               className="shrink-0 whitespace-nowrap text-[10px] px-2 py-1.5 tracking-normal"
             >
-              {ctaLabel(false)}
+              {ctaLabel(false, quizOffer)}
             </Button>
           </div>
         )}
@@ -108,8 +110,10 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
       <div className="hidden px-4 py-2.5 lg:block">
         {eventPast ? (
           <div className="container-narrow mx-auto flex items-center justify-between gap-3 lg:max-w-6xl">
-            <span className="shrink-0 font-black tabular-nums tracking-wide text-lime text-sm sm:text-base">
-              {currentLot.priceFormatted}
+            <span className="shrink-0 tabular-nums tracking-wide text-sm sm:text-base">
+              <s className="font-black text-white/40">{`R$${POST_EVENT_COMPARE}`}</s>
+              {' '}
+              <span className="font-black text-lime">{currentLot.priceFormatted}</span>
             </span>
             <Button
               size="sm"
@@ -134,7 +138,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
                 onClick={onCtaClick}
                 className="whitespace-nowrap text-xs px-3 py-1.5 tracking-wide sm:text-sm sm:px-4 sm:py-2"
               >
-                {ctaLabel(false)}
+                {ctaLabel(false, quizOffer)}
               </Button>
             </div>
           </div>

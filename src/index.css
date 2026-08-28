@@ -19,6 +19,9 @@
   --font-serif: 'Instrument Serif', Georgia, serif;
 }
 
+/* Desktop largo, mas com pouca altura (laptop, janela baixa) */
+@custom-variant short-lg (@media (min-width: 1024px) and (max-height: 920px));
+
 @layer components {
   .container-narrow {
     @apply max-w-2xl mx-auto w-full;
@@ -189,6 +192,19 @@ body {
   animation: audience-highlight-glow 3.2s ease-in-out infinite;
 }
 
+@keyframes pricing-vip-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(209, 255, 3, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px 3px rgba(209, 255, 3, 0.3);
+  }
+}
+
+.pricing-vip-glow {
+  animation: pricing-vip-glow 3s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-shimmer::after {
     animation: none;
@@ -197,7 +213,8 @@ body {
 
   .lot-alert-ping,
   .lot-alert-glow,
-  .audience-highlight-glow {
+  .audience-highlight-glow,
+  .pricing-vip-glow {
     animation: none !important;
   }
 

@@ -1,4 +1,4 @@
-import { useLot } from '@/hooks/useLot'
+import { useLot, POST_EVENT_COMPARE, QUIZ_VIP_COMPARE } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { ctaLabel } from '@/lib/eventContent'
 import { Button } from './Button'
@@ -11,8 +11,7 @@ interface LotCtaCardProps {
 }
 
 export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: LotCtaCardProps) {
-  const { currentLot, lots, urgency, quizOffer } = useLot()
-  const publicLot = lots.find((l) => l.number === currentLot.number) ?? currentLot
+  const { currentLot, urgency, quizOffer } = useLot()
   const { eventPast } = useEventStatus()
   const isHero = variant === 'hero'
   const isMobile = variant === 'mobile'
@@ -24,29 +23,32 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
           isMobile
             ? 'rounded-lg border border-cream/15 bg-dark p-6'
             : isHero
-              ? 'rounded-lg border border-white/5 bg-dark/75 p-5 backdrop-blur-sm sm:p-6'
+              ? 'rounded-lg border border-white/5 bg-dark/75 p-5 backdrop-blur-sm sm:p-6 short-lg:gap-3 short-lg:p-4'
               : 'border border-cream/10 p-6 sm:p-8'
         }`}
       >
         {eventPast ? (
           <p className="text-center text-base leading-snug">
-            <span className="text-white/90">por apenas </span>
+            <span className="text-white/90">De </span>
+            <s className="font-black tracking-wide text-white/45">{`R$${POST_EVENT_COMPARE}`}</s>
+            <span className="text-white/90"> por </span>
             <span className="font-black text-lime">{currentLot.priceFormatted}</span>
           </p>
         ) : (
           <p className="text-center text-base leading-snug">
             {quizOffer ? (
               <>
-                <span className="text-white/90">De </span>
-                <s className="font-black tracking-wide text-white/45">{`R$${publicLot.price}`}</s>
-                <span className="text-white/90"> por apenas </span>
-                <span className="font-black text-lime">{`R$${currentLot.price}`}</span>
+                <span className="font-black uppercase tracking-wide text-lime">Ingresso VIP</span>
+                <span className="text-white/90"> · De </span>
+                <s className="font-black tracking-wide text-white/45">{`R$${QUIZ_VIP_COMPARE}`}</s>
+                <span className="text-white/90"> por </span>
+                <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
               </>
             ) : (
               <>
                 <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
-                <span className="text-white/90">apenas por</span>{' '}
-                <span className="font-black text-lime">{currentLot.priceFormatted}</span>
+                <span className="text-white/90">a partir de</span>{' '}
+                <span className="font-black text-lime">{currentLot.tickets.basic.priceFormatted}</span>
               </>
             )}
           </p>
@@ -60,7 +62,7 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
           showTicket={!eventPast}
           className="w-full"
         >
-          {ctaLabel(eventPast)}
+          {ctaLabel(eventPast, quizOffer)}
         </Button>
 
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-white/45">
