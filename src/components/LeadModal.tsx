@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { useLot, POST_EVENT_COMPARE, type TicketKind } from '@/hooks/useLot'
+import { useLot, POST_EVENT_COMPARE, QUIZ_HOTMART, type TicketKind } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { saveLead } from '@/lib/supabase'
 import { trackEvent } from '@/lib/analytics'
@@ -82,7 +82,9 @@ export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps)
       console.error('[LeadModal] falha ao salvar lead:', err)
     } finally {
       setLoading(false)
-      window.location.href = withHotmartTracking(ticket.hotmartUrl)
+      const checkoutUrl =
+        quizOffer && !eventPast ? QUIZ_HOTMART : ticket.hotmartUrl
+      window.location.href = withHotmartTracking(checkoutUrl)
     }
   }
 

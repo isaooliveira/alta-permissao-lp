@@ -35,6 +35,7 @@ const LOT_1_EXTENDED_AT = new Date('2026-09-03T00:00:00-03:00')
 /** Dia 05/set depois de 23:59 BRT — a partir de 06/set 00:00. */
 const LOT_1_COUNTDOWN_AT = new Date('2026-09-06T00:00:00-03:00')
 
+/** Básico: checkout com order bump. VIP: checkout sem order bump. */
 const HOTMART_CHECKOUTS = {
   1: {
     basic: 'https://pay.hotmart.com/J107328514K?off=0xl6k1bh&checkoutMode=10',
@@ -54,7 +55,7 @@ const QUIZ_VIP_PRICE = 127
 export const QUIZ_VIP_COMPARE = 197
 /** Âncora do acesso imediato (pós-12/set): De R$197 por R$127. */
 export const POST_EVENT_COMPARE = 197
-const QUIZ_HOTMART =
+export const QUIZ_HOTMART =
   'https://pay.hotmart.com/J107328514K?off=3hb3u72h&checkoutMode=10'
 
 function formatBrl(price: number) {
