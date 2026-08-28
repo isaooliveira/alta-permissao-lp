@@ -175,7 +175,7 @@ function TicketCard({
                   }
                 >
                   {feature.parts.map((part, i) =>
-                    part.bold ? (
+                    'bold' in part && part.bold ? (
                       <strong key={i} className="font-bold">
                         {part.t}
                       </strong>
