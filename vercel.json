@@ -60,6 +60,26 @@
       "source": "/eap/bio/",
       "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio",
       "permanent": false
+    },
+    {
+      "source": "/eap/quiz-ig",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-ig",
+      "permanent": false
+    },
+    {
+      "source": "/eap/quiz-ig/",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-ig",
+      "permanent": false
+    },
+    {
+      "source": "/eap/quiz-67",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67",
+      "permanent": false
+    },
+    {
+      "source": "/eap/quiz-67/",
+      "destination": "/eap?utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67",
+      "permanent": false
     }
   ],
   "rewrites": [
