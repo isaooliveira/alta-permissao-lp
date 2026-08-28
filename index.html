@@ -35,16 +35,49 @@
         window.__eapUtmQuery = utmQuery || (location.search.indexOf('utm_') !== -1 ? location.search.slice(1) : '');
       })();
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Y98DTB03J4', {
-        page_title: 'Efeito Alta Permissão',
-        page_path: '/eap',
-        page_location: location.origin + '/eap' + (window.__eapUtmQuery ? '?' + window.__eapUtmQuery : ''),
-      });
+      (function () {
+        var path = location.pathname.replace(/\/$/, '');
+        var host = location.hostname;
+        var params = new URLSearchParams(location.search);
+        var skip = false;
+        try {
+          if (params.get('interno') === '1') {
+            localStorage.setItem('eap_internal', '1');
+            params.delete('interno');
+            var qs = params.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+          }
+          if (params.get('interno') === '0') {
+            localStorage.removeItem('eap_internal');
+            params.delete('interno');
+            var qsOff = params.toString();
+            history.replaceState(null, '', location.pathname + (qsOff ? '?' + qsOff : '') + location.hash);
+          }
+          skip = localStorage.getItem('eap_internal') === '1';
+        } catch (e) {}
+        if (path.indexOf('/funil') !== -1) {
+          skip = true;
+          try { localStorage.setItem('eap_internal', '1'); } catch (e) {}
+        }
+        if (host === 'localhost' || host === '127.0.0.1') skip = true;
+        window.__eapSkipGa = skip;
+        if (skip) return;
+
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y98DTB03J4';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-Y98DTB03J4', {
+          page_title: 'Efeito Alta Permissão',
+          page_path: '/eap',
+          page_location: location.origin + '/eap' + (window.__eapUtmQuery ? '?' + window.__eapUtmQuery : ''),
+        });
+      })();
     </script>
   </head>
   <body>

@@ -45,10 +45,15 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Lote inválido' })
   }
 
+  const emailNorm = email.trim().toLowerCase()
+  if (emailNorm === 'isaooliveira@gmail.com' || emailNorm === 'talitafabilopes@gmail.com') {
+    return res.status(200).json({ ok: true })
+  }
+
   const payload = {
     name: name.trim(),
     phone: String(phone).replace(/\D/g, ''),
-    email: email.trim().toLowerCase(),
+    email: emailNorm,
     lot: Number(lot),
     source: 'alta_permissao_jul_2026',
     status: 'checkout_iniciado',

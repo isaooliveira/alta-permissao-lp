@@ -73,6 +73,10 @@ async function saveLeadDirect(lead: Lead): Promise<void> {
 }
 
 export async function saveLead(lead: Lead): Promise<void> {
+  const email = lead.email.trim().toLowerCase()
+  if (email === 'isaooliveira@gmail.com' || email === 'talitafabilopes@gmail.com') {
+    return
+  }
   if (supabase) {
     try {
       await saveLeadDirect(lead)

@@ -117,14 +117,25 @@ function metricValue(report, name) {
   return Number(row.metricValues[index]?.value || 0)
 }
 
-function eventCounts(report) {
-  const counts = { begin_checkout: 0, generate_lead: 0 }
+function eventMetrics(report) {
+  const headers = report.metricHeaders || []
+  const countIdx = headers.findIndex((h) => h.name === 'eventCount')
+  const usersIdx = headers.findIndex((h) => h.name === 'activeUsers')
+  const out = {
+    begin_checkout: 0,
+    generate_lead: 0,
+    begin_checkout_users: 0,
+    generate_lead_users: 0,
+  }
   for (const row of report.rows || []) {
     const name = row.dimensionValues?.[0]?.value
-    const value = Number(row.metricValues?.[0]?.value || 0)
-    if (name === 'begin_checkout' || name === 'generate_lead') counts[name] = value
+    if (name !== 'begin_checkout' && name !== 'generate_lead') continue
+    const count = Number(row.metricValues?.[countIdx]?.value || 0)
+    const users = Number(row.metricValues?.[usersIdx >= 0 ? usersIdx : 0]?.value || 0)
+    out[name] = count
+    out[`${name}_users`] = usersIdx >= 0 ? users : count
   }
-  return counts
+  return out
 }
 
 async function supabaseFetch(path, extraHeaders = {}) {
@@ -165,6 +176,7 @@ async function supabasePeople(startDate) {
   for (const row of rows) {
     const email = String(row.email || '').trim().toLowerCase()
     if (!email) continue
+    if (email === 'isaooliveira@gmail.com' || email === 'talitafabilopes@gmail.com') continue
 
     const utm = {
       source: row.utm_source || '(sem utm)',
@@ -234,7 +246,16 @@ export default async function handler(req, res) {
     const filled = utmRows.reduce((n, row) => n + row.filled, 0)
     const purchased = utmRows.reduce((n, row) => n + row.purchased, 0)
 
-    let ga = { sessions: 0, users: 0, pageviews: 0, begin_checkout: 0, generate_lead: 0 }
+    let ga = {
+      sessions: 0,
+      engagedSessions: 0,
+      users: 0,
+      pageviews: 0,
+      begin_checkout: 0,
+      begin_checkout_users: 0,
+      generate_lead: 0,
+      generate_lead_users: 0,
+    }
     let gaError = ''
 
     try {
@@ -250,6 +271,7 @@ export default async function handler(req, res) {
           dateRanges: [range],
           metrics: [
             { name: 'sessions' },
+            { name: 'engagedSessions' },
             { name: 'activeUsers' },
             { name: 'screenPageViews' },
           ],
@@ -258,7 +280,7 @@ export default async function handler(req, res) {
         runReport(token, {
           dateRanges: [range],
           dimensions: [{ name: 'eventName' }],
-          metrics: [{ name: 'eventCount' }],
+          metrics: [{ name: 'eventCount' }, { name: 'activeUsers' }],
           dimensionFilter: {
             andGroup: {
               expressions: [
@@ -272,30 +294,57 @@ export default async function handler(req, res) {
               ],
             },
           },
-        }),
+        }).catch(() =>
+          runReport(token, {
+            dateRanges: [range],
+            dimensions: [{ name: 'eventName' }],
+            metrics: [{ name: 'eventCount' }],
+            dimensionFilter: {
+              andGroup: {
+                expressions: [
+                  {
+                    filter: {
+                      fieldName: 'eventName',
+                      inListFilter: { values: ['begin_checkout', 'generate_lead'] },
+                    },
+                  },
+                  pageFilter,
+                ],
+              },
+            },
+          }),
+        ),
       ])
+      const eventsGa = eventMetrics(events)
       ga = {
         sessions: metricValue(traffic, 'sessions'),
+        engagedSessions: metricValue(traffic, 'engagedSessions'),
         users: metricValue(traffic, 'activeUsers'),
         pageviews: metricValue(traffic, 'screenPageViews'),
-        ...eventCounts(events),
+        begin_checkout: eventsGa.begin_checkout,
+        begin_checkout_users: eventsGa.begin_checkout_users,
+        generate_lead: eventsGa.generate_lead,
+        generate_lead_users: eventsGa.generate_lead_users,
       }
     } catch (err) {
       gaError = err instanceof Error ? err.message : 'Falha ao ler o Analytics'
       console.error('[funil] GA', err)
     }
 
-    const openedGa = ga.begin_checkout
-    const leadGa = ga.generate_lead
+    const openedGa = ga.begin_checkout_users || ga.begin_checkout
+    const leadGa = ga.generate_lead_users || ga.generate_lead
     const openedForm = Math.max(openedGa, filled)
-    const visits = Math.max(ga.sessions, openedForm)
     const users = Math.max(ga.users, filled)
+    const engagedSessions = Math.max(ga.engagedSessions, filled)
+    const visits = engagedSessions
 
     return res.status(200).json({
       period,
       range,
       visits,
       users,
+      engagedSessions,
+      sessions: ga.sessions,
       pageviews: ga.pageviews,
       openedForm,
       filled,
@@ -303,6 +352,7 @@ export default async function handler(req, res) {
       abandoned: Math.max(filled - purchased, 0),
       measured: {
         visits: ga.sessions,
+        engagedSessions: ga.engagedSessions,
         users: ga.users,
         openedForm: openedGa,
         generateLead: leadGa,

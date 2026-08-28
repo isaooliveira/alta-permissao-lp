@@ -17,6 +17,8 @@ interface FunnelData {
   range: { startDate: string; endDate: string }
   visits: number
   users: number
+  engagedSessions?: number
+  sessions?: number
   pageviews: number
   openedForm: number
   filled: number
@@ -24,6 +26,7 @@ interface FunnelData {
   abandoned: number
   measured?: {
     visits: number
+    engagedSessions?: number
     users: number
     openedForm: number
     generateLead: number
@@ -101,6 +104,9 @@ export function FunilPage() {
       .then(async (res) => {
         const body = await res.json().catch(() => ({}))
         if (!res.ok) throw new Error(body.error || `Erro ${res.status}`)
+        if (!body.range?.startDate) {
+          throw new Error('A API do funil não respondeu. No local, recarrega depois que o proxy subir.')
+        }
         return body as FunnelData
       })
       .then((json) => {
@@ -134,24 +140,25 @@ export function FunilPage() {
   const reading = useMemo(() => {
     if (!data) return null
     const measured = data.measured ?? {
-      visits: data.visits,
+      visits: data.sessions ?? data.visits,
+      engagedSessions: data.engagedSessions,
       users: data.users,
       openedForm: data.openedForm,
       generateLead: 0,
     }
     const gaCapture = captureRate(measured.generateLead, data.filled)
     const recoveredOpens = Math.max(data.filled - measured.openedForm, 0)
-    const recoveredVisits = Math.max(data.openedForm - measured.visits, 0)
+    const people = data.users
     const close = wilson(data.purchased, data.filled)
-    const visitLead = wilson(data.filled, data.visits)
+    const visitLead = wilson(data.filled, people)
     const openFill = wilson(data.filled, data.openedForm)
 
     let visitLeadLow = visitLead?.low ?? null
     let visitLeadHigh = visitLead?.high ?? null
-    if (gaCapture && gaCapture < 1 && measured.visits > 0) {
-      const correctedVisits = measured.visits / gaCapture
-      visitLeadLow = clamp(data.filled / correctedVisits, 0, 1)
-      visitLeadHigh = clamp(data.filled / Math.max(data.visits, data.filled), 0, 1)
+    if (gaCapture && gaCapture < 1 && measured.users > 0) {
+      const correctedUsers = measured.users / gaCapture
+      visitLeadLow = clamp(data.filled / correctedUsers, 0, 1)
+      visitLeadHigh = clamp(data.filled / Math.max(people, data.filled), 0, 1)
       if (visitLeadLow > visitLeadHigh) {
         const swap = visitLeadLow
         visitLeadLow = visitLeadHigh
@@ -163,7 +170,6 @@ export function FunilPage() {
       measured,
       gaCapture,
       recoveredOpens,
-      recoveredVisits,
       close,
       visitLead,
       openFill,
@@ -210,7 +216,7 @@ export function FunilPage() {
           <div>
             <p className="text-eyebrow text-lime">Painel interno</p>
             <h1 className="mt-3 font-serif text-4xl italic sm:text-5xl">Funil EAP</h1>
-            {data && (
+            {data?.range && (
               <p className="mt-2 text-sm text-cream/45">
                 {formatDate(data.range.startDate)} — {formatDate(data.range.endDate)}
               </p>
@@ -254,7 +260,7 @@ export function FunilPage() {
           </p>
         )}
 
-        {data && reading && (
+        {data && reading && data.utm && (
           <>
             {reading.smallSample && (
               <p className="mt-8 max-w-2xl border border-cream/15 px-5 py-4 text-sm leading-relaxed text-cream/70">
@@ -281,12 +287,12 @@ export function FunilPage() {
               </p>
               <div className="mt-8 grid gap-px bg-cream/10 sm:grid-cols-3">
                 <Stat
-                  label="Preencheram"
+                  label="Iniciou checkout"
                   value={data.filled}
                   hint="E-mails únicos que foram para o checkout"
                 />
                 <Stat
-                  label="Compraram"
+                  label="Comprou"
                   value={data.purchased}
                   hint="Pagamento aprovado"
                 />
@@ -311,36 +317,40 @@ export function FunilPage() {
             <section className="mt-14">
               <h2 className="font-serif text-2xl italic">Tráfego</h2>
               <p className="mt-2 max-w-2xl text-sm text-cream/45">
-                Analytics pode atrasar ou perder bloqueador. O funil completa o que o CRM já prova:
-                quem preencheu, abriu o form; quem abriu o form, visitou.
+                Pessoas = visitante único. Sessões engajadas = ficou ~10s ou interagiu (sem bounce).
+                O painel /eap/funil e localhost não entram no GA.
               </p>
               <div className="mt-8 grid gap-px bg-cream/10 sm:grid-cols-4">
                 <Stat
-                  label="Visitas"
-                  value={data.visits}
+                  label="Pessoas"
+                  value={data.users}
+                  hint="Origem: GA | visitantes únicos no /eap"
+                />
+                <Stat
+                  label="Sessões engajadas"
+                  value={data.engagedSessions ?? data.visits}
                   hint={
-                    reading.recoveredVisits
-                      ? `${reading.measured.visits} no GA · +${reading.recoveredVisits} pelo CRM`
-                      : 'Sessões no /eap'
+                    data.sessions && data.sessions !== (data.engagedSessions ?? data.visits)
+                      ? `De ${data.sessions} sessões totais no GA`
+                      : 'Origem: GA | sem bounce'
                   }
                 />
                 <Stat
-                  label="Abriram o form"
+                  label="Clicou em checkout"
                   value={data.openedForm}
                   hint={
                     reading.recoveredOpens
-                      ? `${reading.measured.openedForm} no GA · +${reading.recoveredOpens} pelo CRM`
-                      : 'Abriram o modal de ingresso'
+                      ? `Origem: ${reading.measured.openedForm} no GA +${reading.recoveredOpens} pelo CRM`
+                      : 'Origem: GA | pessoas que abriram o form'
                   }
                 />
-                <Stat label="Preencheram" value={data.filled} hint="Mesmo número do CRM" />
-                <Stat label="Compraram" value={data.purchased} hint="Mesmo número do CRM" />
+                <Stat label="Iniciou checkout" value={data.filled} hint="Origem: CRM" />
               </div>
               <div className="mt-6 grid gap-6 sm:grid-cols-2">
                 <Rate
-                  label="Visita → lead"
-                  value={pct(data.filled, data.visits)}
-                  fraction={`${data.filled} de ${data.visits}`}
+                  label="Pessoas x Iniciou checkout"
+                  value={pct(data.filled, data.users)}
+                  fraction={`${data.filled} de ${data.users}`}
                   range={
                     reading.visitLeadLow !== null && reading.visitLeadHigh !== null
                       ? `${fmtPct(reading.visitLeadLow)} – ${fmtPct(reading.visitLeadHigh)}`
@@ -349,10 +359,10 @@ export function FunilPage() {
                         : null
                   }
                   trust="média"
-                  note="Pode estar um pouco alta se o GA perdeu visita. A faixa já desconta isso quando dá."
+                  note={`${data.users} ${data.users === 1 ? 'pessoa visitou' : 'pessoas visitaram'} o /eap (GA, único no período). ${data.filled} ${data.filled === 1 ? 'enviou' : 'enviaram'} o formulário e foram para a Hotmart (CRM).`}
                 />
                 <Rate
-                  label="Form → lead"
+                  label="Clicou em Checkout → Iniciou Checkout"
                   value={pct(data.filled, data.openedForm)}
                   fraction={`${data.filled} de ${data.openedForm}`}
                   range={
@@ -361,7 +371,7 @@ export function FunilPage() {
                       : null
                   }
                   trust="média"
-                  note="De quem abriu o form, quantos enviaram. Nunca passa de 100%."
+                  note={`De quem abriu o formulário, quantos de fato enviaram e iniciaram o checkout. Aqui: ${data.openedForm} ${data.openedForm === 1 ? 'abriu' : 'abriram'}, ${data.filled} ${data.filled === 1 ? 'enviou' : 'enviaram'}.`}
                 />
               </div>
             </section>
@@ -404,7 +414,7 @@ export function FunilPage() {
                     <tr>
                       <th className="pb-3 font-medium">Origem</th>
                       <th className="pb-3 font-medium">Pessoas</th>
-                      <th className="pb-3 font-medium">Compraram</th>
+                      <th className="pb-3 font-medium">Comprou</th>
                       <th className="pb-3 font-medium">Fecha</th>
                     </tr>
                   </thead>
@@ -465,9 +475,11 @@ function Rate({
 }) {
   return (
     <div className="border border-cream/10 px-5 py-6">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cream/40">{label}</p>
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-cream/35">
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-[11px] font-bold uppercase leading-snug tracking-[0.2em] text-cream/40">
+          {label}
+        </p>
+        <p className="shrink-0 text-[10px] font-bold uppercase tracking-[0.16em] text-cream/35">
           {trust === 'alta' ? 'Régua CRM' : 'Com ajuste de GA'}
         </p>
       </div>

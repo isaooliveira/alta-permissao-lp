@@ -78,12 +78,16 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, skipped: true, event })
     }
 
-    const email = body?.data?.buyer?.email
+    const email = String(body?.data?.buyer?.email || '').trim().toLowerCase()
     const transactionId = body?.data?.purchase?.transaction
 
     if (!email || !transactionId) {
       console.warn('[webhook] payload sem email ou transactionId')
       return res.status(200).json({ ok: true, skipped: true })
+    }
+
+    if (email === 'isaooliveira@gmail.com' || email === 'talitafabilopes@gmail.com') {
+      return res.status(200).json({ ok: true, skipped: true, test: true })
     }
 
     const existing = await supabaseFetch(

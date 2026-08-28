@@ -11,4 +11,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/eap/api': {
+        target: 'https://www.missaoconsciencia.com.br',
+        changeOrigin: true,
+      },
+    },
+  },
 })
