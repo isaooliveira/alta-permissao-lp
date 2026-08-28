@@ -31,7 +31,7 @@ function LotCard({
   onCtaClick: () => void
   eventPast: boolean
 }) {
-  const { urgency } = useLot()
+  const { urgency, quizOffer } = useLot()
   if (isPast) {
     return (
       <div
@@ -82,14 +82,20 @@ function LotCard({
               isActive ? 'text-base text-white sm:text-lg' : 'text-sm text-cream/30'
             }`}
           >
-            por apenas
+            {isActive && quizOffer ? (
+              <>
+                De <s className="text-white/45">R${lot.price}</s> por apenas
+              </>
+            ) : (
+              'por apenas'
+            )}
           </span>
           <span
             className={`mt-1 font-normal leading-none tracking-tight tabular-nums ${
               isActive ? 'text-[3.25rem] text-lime sm:text-6xl' : 'text-3xl text-cream/30 sm:text-4xl'
             }`}
           >
-            R${lot.price}
+            R${isActive && quizOffer ? 67 : lot.price}
           </span>
         </div>
       )}
@@ -107,7 +113,7 @@ function LotCard({
           <Button
             size="md"
             onClick={onCtaClick}
-            showTicket
+            showTicket={!eventPast}
             className="w-full"
           >
             {eventPast ? 'Começar agora' : 'Garantir Meu ingresso'}
@@ -171,7 +177,7 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
           <h2 className="text-section text-white text-center mb-4">
             {eventPast ? (
               <>
-                Garanta seu <span className="font-semibold">ingresso</span>
+                Garanta seu <span className="font-semibold">acesso</span>
               </>
             ) : (
               <>

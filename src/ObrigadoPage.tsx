@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { EventTag } from '@/components/EventTag'
 import { WHATSAPP_GRUPO_EAP } from '@/lib/eventContent'
+import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
 const FOOTER_LOGO_SRC = `${import.meta.env.BASE_URL}logo-altas.svg`
@@ -21,10 +22,16 @@ function ObrigadoBackdrop() {
   )
 }
 
-const STEPS = [
+const STEPS_LIVE = [
   { title: 'Pagamento', detail: 'confirmado' },
   { title: 'Confirmar', detail: 'ingresso' },
   { title: 'Ao vivo', detail: '12 de set' },
+] as const
+
+const STEPS_POST = [
+  { title: 'Pagamento', detail: 'confirmado' },
+  { title: 'Acesso', detail: 'liberado' },
+  { title: 'Começar', detail: 'agora' },
 ] as const
 
 const CURRENT_STEP = 1
@@ -70,13 +77,14 @@ function StepConnector({ active, reduceMotion }: { active: boolean; reduceMotion
   )
 }
 
-function ConfirmStepper() {
+function ConfirmStepper({ eventPast }: { eventPast: boolean }) {
   const reduceMotion = Boolean(useReducedMotion())
+  const steps = eventPast ? STEPS_POST : STEPS_LIVE
 
   return (
     <div className="w-full" role="group" aria-label="Passos da inscrição">
       <div className="grid grid-cols-3">
-        {STEPS.map((step, index) => (
+        {steps.map((step, index) => (
           <div key={`here-${step.title}`} className="flex h-10 flex-col items-center justify-end">
             {index === CURRENT_STEP ? (
               <>
@@ -103,7 +111,7 @@ function ConfirmStepper() {
         </div>
 
         <ol className="grid grid-cols-3">
-          {STEPS.map((step, index) => {
+          {steps.map((step, index) => {
             const done = index < CURRENT_STEP
             const current = index === CURRENT_STEP
 
@@ -134,7 +142,7 @@ function ConfirmStepper() {
       </div>
 
       <div className="mt-2 grid grid-cols-3">
-        {STEPS.map((step, index) => {
+        {steps.map((step, index) => {
           const done = index < CURRENT_STEP
           const current = index === CURRENT_STEP
 
@@ -156,6 +164,8 @@ function ConfirmStepper() {
 }
 
 export function ObrigadoPage() {
+  const { eventPast } = useEventStatus()
+
   return (
     <main className="relative flex min-h-svh flex-col overflow-hidden text-cream">
       <ObrigadoBackdrop />
@@ -171,7 +181,7 @@ export function ObrigadoPage() {
         </p>
 
         <div className="mt-10 w-full">
-          <ConfirmStepper />
+          <ConfirmStepper eventPast={eventPast} />
         </div>
 
         {WHATSAPP_GRUPO_EAP ? (
@@ -181,7 +191,9 @@ export function ObrigadoPage() {
               <h2 className="font-serif text-2xl italic leading-tight">Entre no grupo de WhatsApp</h2>
             </div>
             <p className="mt-4 text-base leading-relaxed text-cream/65">
-              É por lá que enviamos materiais pré-evento, atualizações e detalhes do Treinamento.
+              {eventPast
+                ? 'É por lá que enviamos materiais e avisos do treinamento.'
+                : 'É por lá que enviamos materiais pré-evento, atualizações e detalhes do Treinamento.'}
             </p>
             <a
               href={WHATSAPP_GRUPO_EAP}
@@ -200,7 +212,15 @@ export function ObrigadoPage() {
 
         <div className="mt-12 flex w-full flex-col items-center gap-4">
           <p className="text-center text-base text-white">
-            <span className="font-bold">Lembre-se:</span> o treinamento acontece:
+            {eventPast ? (
+              <>
+                <span className="font-bold">Lembre-se:</span> o acesso é imediato após a confirmação.
+              </>
+            ) : (
+              <>
+                <span className="font-bold">Lembre-se:</span> o treinamento acontece:
+              </>
+            )}
           </p>
           <EventTag className="mx-auto max-w-full" />
         </div>

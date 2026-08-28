@@ -1,6 +1,24 @@
-import { Calendar, Clock } from 'lucide-react'
+import { Calendar, Clock, Zap } from 'lucide-react'
+import { useEventStatus } from '@/hooks/useEventStatus'
 
 export function EventTag({ className = '' }: { className?: string }) {
+  const { eventPast } = useEventStatus()
+
+  if (eventPast) {
+    return (
+      <div
+        className={`inline-flex items-stretch rounded-md overflow-hidden shrink-0 shadow-[0_2px_12px_rgba(0,0,0,0.25)] ${className}`}
+      >
+        <div className="flex items-center gap-2 bg-accent-brand-light px-3 sm:px-4 py-2 sm:py-2.5">
+          <Zap size={15} className="text-dark shrink-0" strokeWidth={2.2} aria-hidden="true" />
+          <span className="text-dark font-bold text-[10px] sm:text-xs uppercase tracking-wide whitespace-nowrap">
+            Acesso Imediato
+          </span>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`inline-flex items-stretch rounded-md overflow-hidden shrink-0 shadow-[0_2px_12px_rgba(0,0,0,0.25)] ${className}`}

@@ -8,6 +8,8 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { SectionEyebrow } from './SectionEyebrow'
+import { useEventStatus } from '@/hooks/useEventStatus'
+import { ctaLabel } from '@/lib/eventContent'
 import sonhosImg from '@/assets/sonhos.webp'
 
 interface SectionProps {
@@ -263,6 +265,8 @@ export function WhatYouSaySection() {
 
 /* ─── Bloco 4: a interpretação não termina quando é dita ─── */
 export function InterpretationConsequenceSection({ onCtaClick }: SectionProps) {
+  const { eventPast } = useEventStatus()
+
   return (
     <section className="bg-white px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
       <div className="mx-auto flex w-full max-w-[22rem] flex-col items-center text-center sm:max-w-xl lg:max-w-3xl">
@@ -301,10 +305,10 @@ export function InterpretationConsequenceSection({ onCtaClick }: SectionProps) {
             <Button
               size="md"
               onClick={onCtaClick}
-              showTicket
+              showTicket={!eventPast}
               className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10"
             >
-              Garantir Meu ingresso
+              {ctaLabel(eventPast)}
             </Button>
           </FadeIn>
         )}
@@ -421,6 +425,8 @@ const APS_COMPARISON = [
 
 /* ─── Bloco 6: subir de nível / comparação APS ─── */
 export function LevelUpReadingSection() {
+  const { eventPast } = useEventStatus()
+
   return (
     <section className="bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
       <div className="mx-auto flex w-full max-w-xl flex-col items-center text-center lg:max-w-5xl">
@@ -447,7 +453,9 @@ export function LevelUpReadingSection() {
 
         <FadeIn delay={0.12}>
           <p className="mt-6 text-[1.15rem] font-bold tracking-tight text-dark sm:mt-8 sm:text-xl">
-            É isso que nós vamos praticar ao vivo
+            {eventPast
+              ? 'É isso que o treinamento desenvolve'
+              : 'É isso que nós vamos praticar ao vivo'}
           </p>
         </FadeIn>
 
@@ -602,6 +610,7 @@ function SolutionArchModule() {
 
 /* ─── Section 2: Diagnóstico — padrões nos bastidores ─── */
 export function DiagnosisSection({ onCtaClick }: SectionProps) {
+  const { eventPast } = useEventStatus()
   const patterns = [
     'O teto exato de grana que você se permite reter todos os meses.',
     'O preço que você cobra pelo seu serviço sem sentir aquele desconforto terrível.',
@@ -653,8 +662,13 @@ export function DiagnosisSection({ onCtaClick }: SectionProps) {
 
         {onCtaClick && (
           <FadeIn delay={0.9} className="mt-12 flex justify-center">
-            <Button size="md" onClick={onCtaClick} showTicket className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10">
-              Garantir Meu ingresso
+            <Button
+              size="md"
+              onClick={onCtaClick}
+              showTicket={!eventPast}
+              className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10"
+            >
+              {ctaLabel(eventPast)}
             </Button>
           </FadeIn>
         )}

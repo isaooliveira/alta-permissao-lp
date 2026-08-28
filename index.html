@@ -15,11 +15,15 @@
           'ig-feed': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=feed',
           bio: 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=bio',
           'quiz-ig': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-ig',
+          'quiz-67': 'utm_source=instagram&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-67',
           'quiz-wa': 'utm_source=whatsapp&utm_medium=organico&utm_campaign=eap-set-2026&utm_content=quiz-wa'
         };
         var params = new URLSearchParams(location.search);
         var code = params.get('s') || location.hash.replace(/^#/, '');
         if (code === 'obg' || code === 'obrigado') return;
+        if (code === 'quiz-67' || params.get('utm_content') === 'quiz-67') {
+          try { sessionStorage.setItem('eap_quiz_offer', '67'); } catch (e) {}
+        }
         var utmQuery = (code && codes[code]) ? codes[code] : '';
         if (utmQuery && !params.get('utm_source')) {
           try { history.replaceState(null, '', '/eap?' + utmQuery); } catch (e) {}

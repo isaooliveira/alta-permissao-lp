@@ -5,13 +5,15 @@ import { useEventStatus } from '@/hooks/useEventStatus'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
 import { LotExtendedAlert } from './LotExtendedBadge'
+import { ctaLabel } from '@/lib/eventContent'
 
 interface StickyHeaderProps {
   onCtaClick: () => void
 }
 
 function HeaderLotPrice({ className = '' }: { className?: string }) {
-  const { currentLot, urgency } = useLot()
+  const { currentLot, lots, urgency, quizOffer } = useLot()
+  const publicLot = lots.find((l) => l.number === currentLot.number) ?? currentLot
 
   if (urgency === 'countdown') {
     return (
@@ -25,6 +27,16 @@ function HeaderLotPrice({ className = '' }: { className?: string }) {
 
   if (urgency === 'extended') {
     return <LotExtendedAlert variant="header" className={className} />
+  }
+
+  if (quizOffer) {
+    return (
+      <span className={`shrink-0 tabular-nums tracking-wide text-sm sm:text-base ${className}`}>
+        <s className="font-black text-white/40">{`R$${publicLot.price}`}</s>
+        {' '}
+        <span className="font-black text-lime">{`R$${currentLot.price}`}</span>
+      </span>
+    )
   }
 
   return (
@@ -62,13 +74,16 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
     >
       <div className="px-3 py-2 lg:hidden">
         {eventPast ? (
-          <div className="flex justify-center">
+          <div className="flex min-w-0 items-center justify-between gap-2">
+            <span className="shrink-0 font-black tabular-nums tracking-wide text-lime text-sm">
+              {currentLot.priceFormatted}
+            </span>
             <Button
               size="sm"
               onClick={onCtaClick}
-              className="whitespace-nowrap text-xs px-3 py-1.5 tracking-wide"
+              className="shrink-0 whitespace-nowrap text-[10px] px-2 py-1.5 tracking-normal"
             >
-              Garantir Meu ingresso
+              {ctaLabel(true)}
             </Button>
           </div>
         ) : (
@@ -84,7 +99,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
               onClick={onCtaClick}
               className="shrink-0 whitespace-nowrap text-[10px] px-2 py-1.5 tracking-normal"
             >
-              Garantir Meu ingresso
+              {ctaLabel(false)}
             </Button>
           </div>
         )}
@@ -92,13 +107,16 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
 
       <div className="hidden px-4 py-2.5 lg:block">
         {eventPast ? (
-          <div className="container-narrow mx-auto flex justify-center">
+          <div className="container-narrow mx-auto flex items-center justify-between gap-3 lg:max-w-6xl">
+            <span className="shrink-0 font-black tabular-nums tracking-wide text-lime text-sm sm:text-base">
+              {currentLot.priceFormatted}
+            </span>
             <Button
               size="sm"
               onClick={onCtaClick}
               className="whitespace-nowrap text-xs px-3 py-1.5 tracking-wide sm:text-sm sm:px-4 sm:py-2"
             >
-              Garantir Meu ingresso
+              {ctaLabel(true)}
             </Button>
           </div>
         ) : (
@@ -116,7 +134,7 @@ export function StickyHeader({ onCtaClick }: StickyHeaderProps) {
                 onClick={onCtaClick}
                 className="whitespace-nowrap text-xs px-3 py-1.5 tracking-wide sm:text-sm sm:px-4 sm:py-2"
               >
-                Garantir Meu ingresso
+                {ctaLabel(false)}
               </Button>
             </div>
           </div>

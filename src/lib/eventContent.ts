@@ -9,10 +9,17 @@ export const MARQUEE_ITEMS_LIVE = [
 
 export const MARQUEE_ITEMS_POST_EVENT = [
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
-  { text: 'TREINAMENTO INTRODUTÓRIO', icon: 'zap' as const },
+  { text: 'ACESSO IMEDIATO', icon: 'zap' as const },
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
   { text: 'TREINAMENTO INTRODUTÓRIO', icon: 'zap' as const },
 ]
+
+export const CTA_LIVE = 'Garantir Meu ingresso'
+export const CTA_POST_EVENT = 'Começar agora'
+
+export function ctaLabel(eventPast: boolean) {
+  return eventPast ? CTA_POST_EVENT : CTA_LIVE
+}
 
 export const PRICING_FEATURES_LIVE = [
   '7 horas de imersão ao vivo no Zoom',

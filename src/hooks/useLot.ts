@@ -29,6 +29,38 @@ const HOTMART_CHECKOUTS = {
   2: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
 } as const
 
+/** Oferta do quiz — só vale na sessão que chegou com #quiz-67. */
+const QUIZ_OFFER_KEY = 'eap_quiz_offer'
+const QUIZ_HOTMART =
+  'https://pay.hotmart.com/J107328514K?off=3hb3u72h&checkoutMode=10'
+
+function captureQuizOffer() {
+  if (typeof window === 'undefined') return
+  const params = new URLSearchParams(window.location.search)
+  const hash = window.location.hash.replace(/^#/, '')
+  const fromUrl =
+    hash === 'quiz-67' ||
+    params.get('s') === 'quiz-67' ||
+    params.get('utm_content') === 'quiz-67'
+  if (fromUrl) {
+    try {
+      sessionStorage.setItem(QUIZ_OFFER_KEY, '67')
+    } catch {
+      /* private mode */
+    }
+  }
+}
+
+function hasQuizOffer() {
+  if (typeof window === 'undefined') return false
+  captureQuizOffer()
+  try {
+    return sessionStorage.getItem(QUIZ_OFFER_KEY) === '67'
+  } catch {
+    return false
+  }
+}
+
 const LOTS: Lot[] = [
   {
     number: 1,
@@ -48,8 +80,15 @@ const LOTS: Lot[] = [
   },
 ]
 
-/** Preço padrão pós-evento (2º lote). */
-export const POST_EVENT_LOT = LOTS[1]
+/** Checkout de acesso imediato após o dia 12/set. */
+export const POST_EVENT_LOT: Lot = {
+  number: 2,
+  price: 127,
+  priceFormatted: 'R$ 127,00',
+  label: 'ACESSO IMEDIATO',
+  endDate: null,
+  hotmartUrl: 'https://pay.hotmart.com/G107328971N?off=v3x36p1y',
+}
 
 function getCurrentLot(now = new Date()): Lot {
   if (isEventPast(now)) return POST_EVENT_LOT
@@ -94,17 +133,38 @@ export function getLotUrgency(now = new Date(), lot = getCurrentLot(now)): LotUr
   return msLeft <= FORTY_EIGHT_HOURS_MS ? 'countdown' : 'soon'
 }
 
+function withQuizOffer(lot: Lot): Lot {
+  if (isEventPast() || !hasQuizOffer()) return lot
+  return {
+    ...lot,
+    price: 67,
+    priceFormatted: 'R$ 67,00',
+    endDate: null,
+    hotmartUrl: QUIZ_HOTMART,
+  }
+}
+
 export function useLot() {
-  const [currentLot, setCurrentLot] = useState<Lot>(() => getCurrentLot())
-  const [urgency, setUrgency] = useState<LotUrgency>(() => getLotUrgency())
+  const [currentLot, setCurrentLot] = useState<Lot>(() => withQuizOffer(getCurrentLot()))
+  const [urgency, setUrgency] = useState<LotUrgency>(() =>
+    hasQuizOffer() ? 'soon' : getLotUrgency(),
+  )
+  const [quizOffer, setQuizOffer] = useState(() => hasQuizOffer())
 
   useEffect(() => {
     const tick = () => {
       const now = new Date()
-      const lot = getCurrentLot(now)
-      const nextUrgency = getLotUrgency(now, lot)
+      const publicLot = getCurrentLot(now)
+      const lot = withQuizOffer(publicLot)
+      const offer = hasQuizOffer()
+      const nextUrgency = offer ? 'soon' : getLotUrgency(now, publicLot)
+      setQuizOffer(offer)
       setCurrentLot((prev) =>
-        prev.number !== lot.number || prev.price !== lot.price ? lot : prev,
+        prev.number !== lot.number ||
+        prev.price !== lot.price ||
+        prev.hotmartUrl !== lot.hotmartUrl
+          ? lot
+          : prev,
       )
       setUrgency((prev) => (prev !== nextUrgency ? nextUrgency : prev))
     }
@@ -114,7 +174,7 @@ export function useLot() {
     return () => clearInterval(interval)
   }, [])
 
-  return { currentLot, lots: LOTS, urgency }
+  return { currentLot, lots: LOTS, urgency, quizOffer }
 }
 
 export function useCountdown(endDate: Date | null) {

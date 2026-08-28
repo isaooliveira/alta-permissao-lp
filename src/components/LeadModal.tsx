@@ -9,6 +9,7 @@ import { trackEvent } from '@/lib/analytics'
 import { utmEventParams, utmLeadFields, withHotmartTracking } from '@/lib/utm'
 import { getVisitCount } from '@/lib/visits'
 import { Button } from './Button'
+import { ctaLabel } from '@/lib/eventContent'
 
 interface LeadModalProps {
   open: boolean
@@ -158,8 +159,14 @@ export function LeadModal({ open, onClose }: LeadModalProps) {
                     error={errors.email}
                   />
 
-                  <Button type="submit" size="md" loading={loading} showTicket className="w-full mt-2">
-                    Garantir Meu ingresso
+                  <Button
+                    type="submit"
+                    size="md"
+                    loading={loading}
+                    showTicket={!eventPast}
+                    className="w-full mt-2"
+                  >
+                    {ctaLabel(eventPast)}
                   </Button>
 
                   <img

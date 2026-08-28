@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { ShieldCheck, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from './FadeIn'
+import { useEventStatus } from '@/hooks/useEventStatus'
 
-const faqs = [
+const faqsLive = [
   {
     q: 'O treinamento oferece certificação oficial?',
     a: 'Sim. Ao concluir o treinamento, você recebe um certificado de conclusão do Efeito Alta Permissão, emitido pela Escola Missão Consciência, referente à formação introdutória no Método APS.',
@@ -24,6 +25,17 @@ const faqs = [
     q: 'Vou receber técnicas prontas para usar com clientes?',
     a: 'Você vai aprender critérios, perguntas e formas de organizar informações que ajudam a compreender melhor uma situação. A proposta não é entregar respostas universais para aplicar em qualquer pessoa.',
   },
+]
+
+const faqsPostEvent = [
+  faqsLive[0],
+  faqsLive[1],
+  {
+    q: 'Quando eu recebo o acesso?',
+    a: 'Imediatamente após a confirmação do pagamento. Você recebe o acesso no e-mail da compra.',
+  },
+  faqsLive[3],
+  faqsLive[4],
 ]
 
 function FAQItem({ q, a }: { q: string; a: string }) {
@@ -87,6 +99,8 @@ export function GuaranteeSection() {
 }
 
 export function GuaranteeAndFAQ() {
+  const { eventPast } = useEventStatus()
+  const faqs = eventPast ? faqsPostEvent : faqsLive
   return (
     <section className="section-padding bg-dark">
       <div className="mx-auto w-full max-w-3xl">
