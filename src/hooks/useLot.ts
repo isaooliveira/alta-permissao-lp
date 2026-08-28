@@ -186,7 +186,7 @@ function withQuizOffer(lot: Lot): Lot {
     ...lot,
     price: QUIZ_VIP_PRICE,
     priceFormatted: formatBrl(QUIZ_VIP_PRICE),
-    label: 'OFERTA QUIZ',
+    label: 'OPORTUNIDADE',
     endDate: null,
     hotmartUrl: QUIZ_HOTMART,
     tickets: { vip, basic: vip },

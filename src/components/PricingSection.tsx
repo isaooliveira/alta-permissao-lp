@@ -9,6 +9,7 @@ import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
 import { LotExtendedAlert } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
+import { QuizOfferBar } from './QuizOfferBar'
 
 const MOCK_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('mock web.webp')}`
 
@@ -75,11 +76,9 @@ function TicketCard({
   const reduceMotion = useReducedMotion()
   const isVip = ticket.kind === 'vip'
   const nextLot = lots.find((lot) => lot.number > currentLot.number)
-  const upcomingPrice = quizOffer && isVip
-    ? QUIZ_VIP_COMPARE
-    : nextLot?.tickets[ticket.kind].price
+  const upcomingPrice = quizOffer ? undefined : nextLot?.tickets[ticket.kind].price
   const showCompare =
-    typeof upcomingPrice === 'number' && upcomingPrice > ticket.price
+    !quizOffer && typeof upcomingPrice === 'number' && upcomingPrice > ticket.price
 
   return (
     <div
@@ -91,7 +90,7 @@ function TicketCard({
           : 'relative flex h-full min-h-[320px] flex-col rounded-md border border-cream/10 bg-dark/60 px-5 pb-5 pt-6 transition-all duration-300 sm:px-6 sm:pb-6'
       }
     >
-      {featured && (
+      {featured && !quizOffer && (
         <div className="absolute -top-3.5 left-1/2 z-20 -translate-x-1/2">
           <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-lime px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wide text-dark shadow-[0_6px_20px_rgba(209,255,3,0.4)]">
             <Star size={12} strokeWidth={2.5} fill="currentColor" aria-hidden="true" />
@@ -100,58 +99,82 @@ function TicketCard({
         </div>
       )}
 
-      <div
-        className={
-          featured
-            ? 'flex h-full min-h-[318px] flex-col rounded-[5px] bg-dark px-5 pb-5 pt-6 transition-colors duration-300 group-hover:bg-[#252520] sm:px-6 sm:pb-6'
-            : 'flex h-full flex-col'
-        }
-      >
-        <div className="mb-6 flex items-start justify-between gap-2">
-          <p className="text-sm font-bold uppercase tracking-wide text-cream">
-            {isVip ? (
-              <>
-                Ingresso <span className="text-lime">VIP</span>
-              </>
-            ) : (
-              ticket.name
-            )}
-          </p>
-          {isVip ? (
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#988D49]/55 bg-[#988D49]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C4B56A]">
-              Completo
-            </span>
+        <div
+          className={
+            featured
+              ? 'flex h-full min-h-[318px] flex-col rounded-[5px] bg-dark px-5 pb-5 pt-6 transition-colors duration-300 group-hover:bg-[#252520] sm:px-6 sm:pb-6'
+              : 'flex h-full flex-col'
+          }
+        >
+          {quizOffer ? (
+            <div className="mb-5 flex justify-center">
+              <QuizOfferBar />
+            </div>
           ) : null}
-        </div>
+          {quizOffer ? (
+            <div className="mb-6 flex flex-col items-center text-center">
+              <p className="text-sm font-bold uppercase tracking-wide text-cream">
+                Ingresso <span className="text-lime">VIP</span>
+              </p>
+              <span className="mt-2 inline-flex items-center rounded-full bg-red px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-white">
+                35% de desconto
+              </span>
+              <span className="mt-5 text-base font-normal leading-none text-white sm:text-lg">
+                De <s className="text-white/45">R${QUIZ_VIP_COMPARE}</s> por
+              </span>
+              <span className="mt-1 text-[2.75rem] font-normal leading-none tracking-tight tabular-nums text-lime sm:text-5xl">
+                R${ticket.price}
+              </span>
+              <p className="mt-3 text-[11px] font-semibold leading-snug text-cream/70">
+                Oferta exclusiva.
+              </p>
+              <div className="mt-6 w-full border-t border-cream/10" />
+            </div>
+          ) : (
+            <>
+              <div className="mb-6 flex items-start justify-between gap-2">
+                <p className="text-sm font-bold uppercase tracking-wide text-cream">
+                  {isVip ? (
+                    <>
+                      Ingresso <span className="text-lime">VIP</span>
+                    </>
+                  ) : (
+                    ticket.name
+                  )}
+                </p>
+                {isVip ? (
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#988D49]/55 bg-[#988D49]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C4B56A]">
+                    Completo
+                  </span>
+                ) : null}
+              </div>
 
-        {showCompare && upcomingPrice != null ? (
-          <LotPricePair
-            currentLabel={lotLabel}
-            currentPrice={ticket.price}
-            upcomingPrice={upcomingPrice}
-            highlightPrice={isVip}
-          />
-        ) : (
-          <div className="mb-10 flex flex-col">
-            <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">{lotLabel}</span>
-            <span className="mt-1 text-base font-normal leading-none text-white sm:text-lg">
-              {quizOffer && isVip ? (
-                <>
-                  De <s className="text-white/45">R${QUIZ_VIP_COMPARE}</s> por
-                </>
+              {showCompare && upcomingPrice != null ? (
+                <LotPricePair
+                  currentLabel={lotLabel}
+                  currentPrice={ticket.price}
+                  upcomingPrice={upcomingPrice}
+                  highlightPrice={isVip}
+                />
               ) : (
-                'por apenas'
+                <div className="mb-10 flex flex-col">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-cream-muted">
+                    {lotLabel}
+                  </span>
+                  <span className="mt-1 text-base font-normal leading-none text-white sm:text-lg">
+                    por apenas
+                  </span>
+                  <span
+                    className={`mt-1 text-[2.75rem] font-normal leading-none tracking-tight tabular-nums sm:text-5xl ${
+                      isVip ? 'text-lime' : 'text-cream'
+                    }`}
+                  >
+                    R${ticket.price}
+                  </span>
+                </div>
               )}
-            </span>
-            <span
-              className={`mt-1 text-[2.75rem] font-normal leading-none tracking-tight tabular-nums sm:text-5xl ${
-                isVip ? 'text-lime' : 'text-cream'
-              }`}
-            >
-              R${ticket.price}
-            </span>
-          </div>
-        )}
+            </>
+          )}
 
         <div className="mb-10 space-y-2.5">
           {TICKET_FEATURES.map((feature) => {
@@ -327,20 +350,22 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
             <PostEventCard onCtaClick={() => onCtaClick()} />
           </FadeIn>
         ) : (
-          <div className={`mx-auto grid items-stretch gap-4 ${
-            quizOffer ? 'max-w-md grid-cols-1' : 'max-w-4xl grid-cols-1 sm:grid-cols-2'
-          }`}>
-            {tickets.map((ticket, i) => (
-              <FadeIn key={ticket.kind} delay={i * 0.1} className="h-full">
-                <TicketCard
-                  ticket={ticket}
-                  lotLabel={currentLot.label}
-                  featured={ticket.kind === 'vip'}
-                  onCtaClick={() => onCtaClick(ticket.kind)}
-                />
-              </FadeIn>
-            ))}
-          </div>
+          <>
+            <div className={`mx-auto grid items-stretch gap-4 ${
+              quizOffer ? 'max-w-md grid-cols-1' : 'max-w-4xl grid-cols-1 sm:grid-cols-2'
+            }`}>
+              {tickets.map((ticket, i) => (
+                <FadeIn key={ticket.kind} delay={i * 0.1} className="h-full">
+                  <TicketCard
+                    ticket={ticket}
+                    lotLabel={currentLot.label}
+                    featured={ticket.kind === 'vip'}
+                    onCtaClick={() => onCtaClick(ticket.kind)}
+                  />
+                </FadeIn>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </section>

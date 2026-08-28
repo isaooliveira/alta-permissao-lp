@@ -3,6 +3,7 @@ import { useEventStatus } from '@/hooks/useEventStatus'
 import { ctaLabel } from '@/lib/eventContent'
 import { Button } from './Button'
 import { LotExtendedAlert } from './LotExtendedBadge'
+import { QuizOfferBar } from './QuizOfferBar'
 
 interface LotCtaCardProps {
   onCtaClick: () => void
@@ -34,23 +35,22 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
             <span className="text-white/90"> por </span>
             <span className="font-black text-lime">{currentLot.priceFormatted}</span>
           </p>
+        ) : quizOffer ? (
+          <div className="flex w-full flex-col items-center gap-3">
+            <QuizOfferBar />
+            <p className="text-center text-base leading-snug">
+              <span className="font-black uppercase tracking-wide text-lime">Ingresso VIP</span>
+              <span className="text-white/90"> · De </span>
+              <s className="font-black tracking-wide text-white/45">{`R$${QUIZ_VIP_COMPARE}`}</s>
+              <span className="text-white/90"> por </span>
+              <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
+            </p>
+          </div>
         ) : (
           <p className="text-center text-base leading-snug">
-            {quizOffer ? (
-              <>
-                <span className="font-black uppercase tracking-wide text-lime">Ingresso VIP</span>
-                <span className="text-white/90"> · De </span>
-                <s className="font-black tracking-wide text-white/45">{`R$${QUIZ_VIP_COMPARE}`}</s>
-                <span className="text-white/90"> por </span>
-                <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
-              </>
-            ) : (
-              <>
-                <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
-                <span className="text-white/90">a partir de</span>{' '}
-                <span className="font-black text-lime">{currentLot.tickets.basic.priceFormatted}</span>
-              </>
-            )}
+            <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
+            <span className="text-white/90">a partir de</span>{' '}
+            <span className="font-black text-lime">{currentLot.tickets.basic.priceFormatted}</span>
           </p>
         )}
 
