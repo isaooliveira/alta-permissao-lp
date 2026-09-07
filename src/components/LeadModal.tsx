@@ -9,7 +9,6 @@ import { trackEvent } from '@/lib/analytics'
 import { utmEventParams, utmLeadFields, withHotmartTracking } from '@/lib/utm'
 import { getVisitCount } from '@/lib/visits'
 import { Button } from './Button'
-import { ctaLabel } from '@/lib/eventContent'
 
 interface LeadModalProps {
   open: boolean
@@ -124,10 +123,14 @@ export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps)
                     {`${ticket.name} · ${currentLot.label} · ${ticket.priceFormatted}`}
                   </p>
                   <Dialog.Title className="text-white font-semibold text-2xl leading-tight">
-                    Antes de ir para o checkout
+                    Antes de continuar para o pagamento
                   </Dialog.Title>
                   <Dialog.Description className="text-cream-muted text-sm mt-1">
-                    Preencha seus dados para garantir sua vaga.
+                    Preencha seus dados.{' '}
+                    <span className="font-bold text-cream">
+                      Na próxima etapa, você será direcionada ao checkout seguro para concluir sua
+                      inscrição
+                    </span>
                   </Dialog.Description>
                 </div>
 
@@ -170,7 +173,7 @@ export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps)
                     showTicket={!eventPast}
                     className="w-full mt-2"
                   >
-                    {ctaLabel(eventPast, quizOffer)}
+                    Continuar para o pagamento
                   </Button>
 
                   <img

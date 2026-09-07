@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ScrollProgress } from './components/ScrollProgress'
 import { StickyHeader } from './components/StickyHeader'
 import { HeroSection } from './components/HeroSection'
+import { MaturitySection } from './components/MaturitySection'
 import {
   ProblemSection,
   ProblemAmplificationSection,
@@ -62,6 +63,7 @@ export default function App() {
       <main>
         <HeroSection onCtaClick={scrollToInvestimento} />
         <MarqueeBanner />
+        <MaturitySection />
         <ProblemSection />
         <ProblemAmplificationSection />
         <WhatYouSaySection />

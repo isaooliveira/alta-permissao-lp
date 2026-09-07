@@ -29,18 +29,11 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1
-      className={`text-[26px] sm:text-[28px] lg:text-[28px] xl:text-[32px] short-lg:text-[26px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
+      className={`text-[26px] sm:text-[28px] lg:text-[32px] xl:text-[36px] short-lg:text-[30px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
     >
-      Num mercado em que todo mundo fala de trauma, apego,
-      <br className="hidden lg:inline" />
-      {' '}crenças e sistema familiar,{' '}
-      <span className="italic lg:whitespace-nowrap">repetir os mesmos conceitos</span>
-      <br className="hidden lg:inline" />
-      {' '}já não diferencia um profissional e pode
-      <br className="hidden lg:inline" />
-      {' '}
-      <span className="font-bold text-red lg:whitespace-nowrap">
-        deixar sua atuação com cara de amadora.
+      Seja a terapeuta insubstituível que o cliente{' '}
+      <span className="font-bold text-red">
+        não troca por nenhum vídeo ou post de internet.
       </span>
     </h1>
   )
@@ -64,11 +57,11 @@ function HeroVideo() {
 function HeroIntro({ className = '' }: { className?: string }) {
   return (
     <p className={`text-white/75 text-[20px] sm:text-[22px] short-lg:text-[18px] leading-relaxed ${className}`}>
-      Desenvolva um olhar que te permita perceber{' '}
-      <span className="font-semibold text-cream">o que outros profissionais deixam passar</span>,
-      interpretar com mais critério, fazer perguntas melhores e sustentar uma atuação que não
-      dependa de respostas prontas, tendências ou{' '}
-      <span className="font-semibold text-cream">opiniões disfarçadas de verdade</span>.
+      Neste treinamento, você vai desenvolver um olhar investigativo para perceber{' '}
+      <span className="font-semibold text-cream">o que a maioria dos terapeutas deixam passar</span>.
+      Aprenda a fazer perguntas estratégicas, interpretar casos com critério e sustentar uma{' '}
+      <span className="font-semibold text-cream">atuação de alto nível</span>, não importa qual
+      seja a sua ferramenta de trabalho.
     </p>
   )
 }
@@ -150,8 +143,8 @@ function HeroPromiseBlock({
           <div className="absolute inset-0 bg-gradient-to-r from-dark from-0% via-dark/85 via-[42%] to-transparent" />
         </div>
 
-        <div className="relative z-10 min-h-[calc(100svh-2.75rem)] px-4 pt-8 pb-8 xl:pt-10 xl:pb-12 short-lg:pt-5 short-lg:pb-6">
-          <div className="mx-auto flex max-w-6xl items-start">
+        <div className="relative z-10 flex min-h-[calc(100svh-2.75rem)] items-center px-4 py-8 xl:py-12 short-lg:py-6">
+          <div className="mx-auto flex w-full max-w-6xl">
             <div className="flex w-full max-w-xl flex-col items-start gap-4 xl:max-w-[min(100%,45rem)] xl:gap-5 short-lg:gap-3">
               <HeroPromiseContent onCtaClick={onCtaClick} layout="desktop" />
             </div>
