@@ -95,7 +95,7 @@ function HeroPromiseContent({
     <>
       <div
         className={`flex w-full flex-col ${
-          isMobile ? 'items-center gap-4' : 'items-start gap-3'
+          isMobile ? 'items-center gap-6' : 'items-start gap-7'
         }`}
       >
         <HeroLogo className={isMobile ? 'max-w-[260px] mx-auto' : 'max-w-[240px] lg:max-w-[280px] lg:w-[280px]'} />
@@ -145,7 +145,7 @@ function HeroPromiseBlock({
 
         <div className="relative z-10 flex min-h-[calc(100svh-2.75rem)] items-center px-4 py-8 xl:py-12 short-lg:py-6">
           <div className="mx-auto flex w-full max-w-6xl">
-            <div className="flex w-full max-w-xl flex-col items-start gap-4 xl:max-w-[min(100%,45rem)] xl:gap-5 short-lg:gap-3">
+            <div className="flex w-full max-w-lg flex-col items-start gap-4 xl:gap-5 short-lg:gap-3">
               <HeroPromiseContent onCtaClick={onCtaClick} layout="desktop" />
             </div>
           </div>
