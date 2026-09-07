@@ -283,7 +283,7 @@ export function FunilPage() {
             <section className="mt-12">
               <h2 className="font-serif text-2xl italic">Para decidir</h2>
               <p className="mt-2 max-w-2xl text-sm text-cream/45">
-                CRM: e-mail único. Compra só conta com o webhook da Hotmart. Esta é a régua confiável.
+                Pessoa única (e-mail). Compra só conta com o webhook da Hotmart. Esta é a régua confiável.
               </p>
               <div className="mt-8 grid gap-px bg-cream/10 sm:grid-cols-3">
                 <Stat
@@ -317,15 +317,11 @@ export function FunilPage() {
             <section className="mt-14">
               <h2 className="font-serif text-2xl italic">Tráfego</h2>
               <p className="mt-2 max-w-2xl text-sm text-cream/45">
-                Pessoas = visitante único. Sessões engajadas = ficou ~10s ou interagiu (sem bounce).
-                O painel /eap/funil e localhost não entram no GA.
+                Pessoas únicas = visitante único no /eap. Sessões engajadas = ficou ~10s ou
+                interagiu (sem bounce). Checkout e as taxas abaixo também são pessoa única. O
+                painel /eap/funil e localhost não entram no GA.
               </p>
               <div className="mt-8 grid gap-px bg-cream/10 sm:grid-cols-4">
-                <Stat
-                  label="Pessoas"
-                  value={data.users}
-                  hint="Origem: GA | visitantes únicos no /eap"
-                />
                 <Stat
                   label="Sessões engajadas"
                   value={data.engagedSessions ?? data.visits}
@@ -336,19 +332,24 @@ export function FunilPage() {
                   }
                 />
                 <Stat
+                  label="Pessoas únicas"
+                  value={data.users}
+                  hint="Origem: GA | visitantes únicos no /eap"
+                />
+                <Stat
                   label="Clicou em checkout"
                   value={data.openedForm}
                   hint={
                     reading.recoveredOpens
-                      ? `Origem: ${reading.measured.openedForm} no GA +${reading.recoveredOpens} pelo CRM`
-                      : 'Origem: GA | pessoas que abriram o form'
+                      ? `Origem: ${reading.measured.openedForm} no GA +${reading.recoveredOpens} pelo CRM (pessoa única)`
+                      : 'Origem: GA | pessoas únicas que abriram o form'
                   }
                 />
-                <Stat label="Iniciou checkout" value={data.filled} hint="Origem: CRM" />
+                <Stat label="Iniciou checkout" value={data.filled} hint="Origem: CRM | e-mail único" />
               </div>
               <div className="mt-6 grid gap-6 sm:grid-cols-2">
                 <Rate
-                  label="Pessoas x Iniciou checkout"
+                  label="Pessoas únicas → Iniciou checkout"
                   value={pct(data.filled, data.users)}
                   fraction={`${data.filled} de ${data.users}`}
                   range={
@@ -359,7 +360,7 @@ export function FunilPage() {
                         : null
                   }
                   trust="média"
-                  note={`${data.users} ${data.users === 1 ? 'pessoa visitou' : 'pessoas visitaram'} o /eap (GA, único no período). ${data.filled} ${data.filled === 1 ? 'enviou' : 'enviaram'} o formulário e foram para a Hotmart (CRM).`}
+                  note={`${data.users} ${data.users === 1 ? 'pessoa única visitou' : 'pessoas únicas visitaram'} o /eap (GA). ${data.filled} ${data.filled === 1 ? 'enviou' : 'enviaram'} o formulário e foram para a Hotmart (CRM).`}
                 />
                 <Rate
                   label="Clicou em Checkout → Iniciou Checkout"
@@ -413,7 +414,7 @@ export function FunilPage() {
                   <thead className="text-[11px] uppercase tracking-[0.18em] text-cream/40">
                     <tr>
                       <th className="pb-3 font-medium">Origem</th>
-                      <th className="pb-3 font-medium">Pessoas</th>
+                      <th className="pb-3 font-medium">Pessoas únicas</th>
                       <th className="pb-3 font-medium">Comprou</th>
                       <th className="pb-3 font-medium">Fecha</th>
                     </tr>
