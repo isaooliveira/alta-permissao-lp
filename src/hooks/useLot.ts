@@ -47,10 +47,9 @@ const HOTMART_CHECKOUTS = {
     basic: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
     vip: 'https://pay.hotmart.com/J107328514K?off=rnlwed07&checkoutMode=10',
   },
-  /** Trocar pelos offs do 3º lote (básico com bump, VIP sem). */
   3: {
-    basic: 'https://pay.hotmart.com/J107328514K?checkoutMode=10',
-    vip: 'https://pay.hotmart.com/J107328514K?checkoutMode=10',
+    basic: 'https://pay.hotmart.com/J107328514K?off=lgrfkyqq&checkoutMode=10',
+    vip: 'https://pay.hotmart.com/J107328514K?off=hmxfaoqu&checkoutMode=10',
   },
 } as const
 

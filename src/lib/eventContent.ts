@@ -24,7 +24,7 @@ export function ctaLabel(eventPast: boolean, quizOffer = false) {
 }
 
 export const PRICING_FEATURES_LIVE = [
-  '7 horas de imersão ao vivo no Zoom',
+  'Acesso ao Treinamento Ao vivo no Zoom',
   'Certificado',
   'Material Extra',
 ] as const
@@ -37,10 +37,10 @@ export const PRICING_FEATURES_POST_EVENT = [
 
 export const TICKET_FEATURES = [
   {
-    text: '7 horas de imersão ao vivo no Zoom',
+    text: 'Acesso ao Treinamento Ao vivo no Zoom',
     parts: [
-      { t: '7 horas', bold: true },
-      { t: ' de imersão ao vivo no Zoom' },
+      { t: 'Acesso ao Treinamento', bold: true },
+      { t: ' Ao vivo no Zoom' },
     ],
     vip: true,
     basic: true,

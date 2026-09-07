@@ -19,7 +19,7 @@ const faqsLive = [
   },
   {
     q: 'Preciso ser psicóloga ou psicanalista?',
-    a: 'Não. O treinamento é indicado para profissionais que trabalham com pessoas, como terapeutas, mentoras, líderes, professoras, facilitadoras e profissionais de desenvolvimento humano.',
+    a: 'Não. O treinamento foi criado para quem atende, orienta ou estuda comportamento humano. Ele não habilita para exercício profissional e não substitui a formação exigida para atividades regulamentadas.',
   },
   {
     q: 'Vou receber técnicas prontas para usar com clientes?',

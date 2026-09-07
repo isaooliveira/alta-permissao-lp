@@ -3,14 +3,12 @@ import { FadeIn } from './FadeIn'
 import { SectionEyebrow } from './SectionEyebrow'
 
 const AUDIENCE_CARDS = [
-  'Ser reconhecida como uma profissional que sabe o que está fazendo',
-  'Não quer correr o risco de parecer profunda enquanto apenas repete explicações prontas',
-  'Sabe que aquilo que você diz, interpreta ou conduz pode mudar a forma como alguém passa a enxergar a própria vida.',
-  'Não se sente confortável em tratar uma hipótese como verdade só porque ela parece fazer sentido',
-  'Quer ter autoridade sem precisar ocupar o lugar de quem “saca tudo” sobre todo mundo',
-  'Se importa com a responsabilidade de influenciar decisões, relações e interpretações de quem confia em você',
-  'Quer que a qualidade do seu trabalho apareça na forma como você percebe, interpreta, pergunta e conduz.',
-  'Não quer ser mais uma profissional reproduzindo certezas que nunca aprendeu a questionar',
+  'Tem muito conhecimento, mas às vezes ainda fica em dúvida sobre o que perguntar ou para onde conduzir o atendimento.',
+  'Percebe que algumas explicações fazem sentido rápido demais e não quer transformar uma boa hipótese em uma certeza.',
+  'Quer parar de repetir interpretações prontas e desenvolver uma forma própria e criteriosa de pensar os casos que chegam até você.',
+  'Quer perceber detalhes, contradições e informações que podem mudar completamente a forma como um caso é compreendido.',
+  'Quer ter mais segurança para sustentar o que pode afirmar e reconhecer quando ainda precisa compreender melhor antes de concluir.',
+  'Quer que a qualidade do seu trabalho apareça na forma como você observa, pergunta, interpreta e conduz, não apenas na quantidade de técnicas que conhece.',
 ]
 
 function PenUnderline() {
@@ -105,7 +103,7 @@ export function AudienceSection() {
           </h2>
         </FadeIn>
 
-        <div className="grid grid-cols-1 items-stretch gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5">
           {AUDIENCE_CARDS.map((title, i) => (
             <FadeIn key={title} delay={0.06 + i * 0.04} className="h-full">
               <article className="group h-full rounded-md bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 p-px transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">

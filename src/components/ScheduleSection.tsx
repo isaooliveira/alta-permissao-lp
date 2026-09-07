@@ -1,4 +1,3 @@
-import { Video } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { EventTag } from './EventTag'
@@ -10,22 +9,66 @@ interface ScheduleSectionProps {
   onCtaClick: () => void
 }
 
-const schedule = [
+type ScheduleBlock = {
+  label: string
+  title: string
+  description?: string
+}
+
+type ScheduleSlot = {
+  time: string
+  title: string
+  muted?: boolean
+  blocks?: ScheduleBlock[]
+}
+
+const schedule: ScheduleSlot[] = [
   {
     time: '10:00',
     title: 'Abertura',
+    blocks: [
+      {
+        label: 'Bloco 1',
+        title: 'O problema das interpretações automáticas',
+        description:
+          'Como repertório, opinião e leitura pessoal começam a se misturar no atendimento.',
+      },
+      {
+        label: 'Bloco 2',
+        title: 'O que você precisa perceber antes de concluir',
+        description:
+          'Como separar aquilo que aconteceu daquilo que foi interpretado sobre o que aconteceu.',
+      },
+    ],
   },
   {
     time: '13:00',
     title: 'Pausa para almoço',
+    muted: true,
   },
   {
     time: '14:00',
     title: 'Retorno do Almoço',
+    blocks: [
+      {
+        label: 'Bloco 3',
+        title: 'Perguntas que ampliam o caso',
+        description: 'Como deixar de conduzir a pessoa para a resposta que você já imaginou.',
+      },
+      {
+        label: 'Bloco 4',
+        title: 'Aplicação Prática Método APS',
+        description: 'Casos, exemplos e prática do olhar APS.',
+      },
+      {
+        label: 'Bloco 5',
+        title: 'Como levar esse raciocínio para a sua ferramenta de trabalho',
+      },
+    ],
   },
   {
     time: '17:00',
-    title: 'Encerramento com perguntas e respostas',
+    title: 'Encerramento',
   },
 ]
 
@@ -68,7 +111,7 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
 
       {/* Conteúdo: só este bloco fica à esquerda */}
       <div className="relative z-10 container-wide">
-        <div className="w-full max-w-md lg:max-w-lg">
+        <div className="w-full max-w-md lg:max-w-xl">
           <FadeIn>
             <SectionEyebrow className="mb-4 text-left">Como vai funcionar</SectionEyebrow>
             <h2 className="text-section text-white text-left mb-6">
@@ -90,11 +133,34 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
                         <TimelineConnector step={i as 0 | 1 | 2} />
                       )}
                     </div>
-                    <div className={`flex-1 min-w-0 ${i < schedule.length - 1 ? 'pb-10' : 'pb-2'}`}>
-                      <span className="text-cream font-semibold text-2xl leading-none block mb-1">
+                    <div
+                      className={`flex-1 min-w-0 ${i < schedule.length - 1 ? 'pb-10' : 'pb-2'} ${
+                        item.muted ? 'opacity-70' : ''
+                      }`}
+                    >
+                      <span className="mb-1 block text-2xl font-semibold leading-none text-cream">
                         {item.time}
                       </span>
-                      <p className="text-white font-semibold text-base leading-tight">{item.title}</p>
+                      <p className="text-base font-semibold leading-tight text-white">{item.title}</p>
+                      {item.blocks?.length ? (
+                        <div className="mt-3 divide-y divide-cream/10">
+                          {item.blocks.map((block) => (
+                            <div key={block.label} className="py-2.5 first:pt-0 last:pb-0">
+                              <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-lime">
+                                {block.label}
+                              </span>
+                              <p className="mt-0.5 text-[0.95rem] font-semibold leading-snug text-cream">
+                                {block.title}
+                              </p>
+                              {block.description ? (
+                                <p className="mt-1 text-sm leading-relaxed text-cream/60">
+                                  {block.description}
+                                </p>
+                              ) : null}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </FadeIn>
@@ -102,16 +168,7 @@ export function ScheduleSection({ onCtaClick }: ScheduleSectionProps) {
             </div>
           </div>
 
-          <FadeIn delay={0.5} className="mt-14 w-fit max-w-full">
-            <div className="inline-flex items-center gap-3 border border-cream/10 bg-dark/50 px-4 py-3.5 backdrop-blur-sm sm:gap-4 sm:px-5 sm:py-4">
-              <Video size={20} className="text-cream flex-shrink-0" />
-              <p className="text-cream font-semibold text-base">
-                Conteúdo 100% online ao vivo
-              </p>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.6} className="mt-10 w-full sm:flex sm:justify-start">
+          <FadeIn delay={0.5} className="mt-10 w-full sm:flex sm:justify-start">
             <Button size="md" onClick={onCtaClick} showTicket className="w-full sm:w-auto sm:min-w-[22rem] sm:px-10">
               Garantir Meu ingresso
             </Button>

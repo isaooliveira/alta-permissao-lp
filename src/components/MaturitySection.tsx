@@ -1,17 +1,21 @@
+import { Eye, Filter, MessageCircleQuestion, type LucideIcon } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 
-const MATURITY_CARDS = [
+const MATURITY_CARDS: { title: string; body: string; icon: LucideIcon }[] = [
   {
     title: 'Enxergar além do óbvio',
     body: 'Perceber nuances no comportamento que a maioria deixa passar.',
+    icon: Eye,
   },
   {
     title: 'Filtrar com critério',
     body: 'Separar o que é fato real do que é apenas tendência teórica ou opinião.',
+    icon: Filter,
   },
   {
     title: 'Perguntar com estratégia',
     body: 'Dominar a condução dos casos e abandonar de vez as respostas prontas e superficiais.',
+    icon: MessageCircleQuestion,
   },
 ]
 
@@ -21,9 +25,8 @@ export function MaturitySection() {
       <div className="mx-auto w-full max-w-6xl">
         <FadeIn>
           <h2 className="mx-auto max-w-4xl text-center text-[1.45rem] font-normal leading-[1.3] tracking-tight text-white sm:text-[1.85rem] lg:text-[2.15rem] lg:leading-[1.25]">
-            Para profissionais que já atendem e buscam o{' '}
-            <span className="font-bold text-lime">topo da maturidade</span> na atuação com o
-            comportamento humano.
+            Para quem atende, orienta ou estuda o comportamento humano e quer ir além de{' '}
+            <span className="font-bold text-lime">respostas prontas</span>
           </h2>
         </FadeIn>
 
@@ -48,8 +51,8 @@ export function MaturitySection() {
               <FadeIn key={card.title} delay={0.1 + i * 0.08} className="h-full">
                 <article className="group h-full rounded-md bg-gradient-to-b from-[#988D49]/70 to-[#988D49]/30 p-px transition-all duration-300 ease-out hover:-translate-y-1 hover:from-[#988D49]/95 hover:to-[#988D49]/45 hover:shadow-[0_14px_36px_rgba(152,141,73,0.28)]">
                   <div className="flex h-full flex-col rounded-[5px] bg-dark px-5 py-6 transition-colors duration-300 group-hover:bg-[#252520] sm:px-6 sm:py-7">
-                    <span className="mb-4 font-bold tabular-nums tracking-[0.2em] text-lime text-xs">
-                      {String(i + 1).padStart(2, '0')}
+                    <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-lime/10 text-lime">
+                      <card.icon size={20} strokeWidth={1.75} aria-hidden="true" />
                     </span>
                     <h3 className="text-[1.15rem] font-bold leading-snug text-cream transition-colors duration-300 group-hover:text-white sm:text-[1.25rem]">
                       {card.title}

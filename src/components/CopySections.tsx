@@ -97,32 +97,18 @@ export function ProblemSection() {
               <span className="font-bold">como se fossem fatos.</span>
             </p>
           </FadeIn>
-
-          <FadeIn delay={0.16}>
-            <p className="mx-auto max-w-2xl text-[1.05rem] leading-relaxed text-dark/75 sm:text-xl lg:text-[1.35rem] lg:leading-[1.45]">
-              Quando essas ideias são repetidas o suficiente, passam a parecer{' '}
-              <span className="font-bold text-red">verdades absolutas.</span>
-            </p>
-          </FadeIn>
         </div>
 
-        <FadeIn delay={0.24}>
+        <FadeIn delay={0.16}>
           <article className="mx-auto mt-12 max-w-3xl rounded-2xl border border-red/35 bg-dark px-6 py-8 text-center sm:mt-16 sm:px-10 sm:py-12 lg:mt-20 lg:max-w-4xl lg:px-16 lg:py-14">
             <p className="text-[1.25rem] font-bold leading-snug tracking-tight text-cream sm:text-[1.5rem] lg:text-[1.75rem]">
-              Trauma, apego, narcisismo, crenças, família.
-            </p>
-            <p className="mt-3 text-base leading-relaxed text-cream/70 sm:text-lg lg:text-xl">
-              Existem várias formas de explicar um mesmo comportamento.
+              Trauma, apego, narcisismo, crenças, família… repertório não falta.
             </p>
             <p className="mt-8 text-base leading-relaxed text-cream/75 sm:text-lg lg:text-xl">
-              O problema não é existir mais de uma interpretação.
+              O problema começa quando uma explicação que pode ser possível passa a ser usada como
             </p>
-            <p className="mt-3 text-[1.15rem] font-bold leading-snug text-cream sm:text-[1.35rem] lg:text-[1.55rem]">
-              É escolher uma delas e usá-la como{' '}
-              <span className="text-cream">resposta para todo mundo.</span>
-            </p>
-            <p className="mt-8 font-serif text-[1.85rem] italic leading-snug text-red sm:text-[2.25rem] lg:text-[2.6rem]">
-              É aí que começa o amadorismo.
+            <p className="mt-1 font-serif text-[1.85rem] italic leading-snug text-red sm:mt-1.5 sm:text-[2.25rem] lg:text-[2.6rem]">
+              resposta para todo mundo.
             </p>
           </article>
         </FadeIn>
@@ -251,7 +237,7 @@ export function WhatYouSaySection() {
       </span>
       <FadeIn className="relative">
         <p className="mx-auto max-w-4xl text-center text-[1.45rem] font-normal leading-[1.3] tracking-tight text-white sm:text-[1.95rem] lg:text-[2.35rem] lg:leading-[1.28]">
-          Nos dois casos, <span className="font-bold text-cream">o que você diz</span> pode{' '}
+          <span className="font-bold text-cream">O que você diz</span> pode{' '}
           <span className="font-bold">confirmar</span> uma interpretação,{' '}
           <span className="font-bold">criar</span> uma nova ou{' '}
           <span className="font-bold">
@@ -278,24 +264,20 @@ export function InterpretationConsequenceSection({ onCtaClick }: SectionProps) {
         </FadeIn>
 
         <FadeIn delay={0.12}>
-          <div className="mt-8 space-y-6 text-[1.05rem] leading-relaxed text-dark/55 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
-            <p>
-              Ela pode mudar a forma como alguém passa a olhar para a própria infância, para a mãe,
-              para o pai, para um relacionamento, para uma escolha ou até para quem acredita ser.
-            </p>
-            <p>
-              Uma possibilidade repetida com convicção pode ganhar o peso de uma{' '}
-              <span className="font-bold text-dark">verdade pessoal.</span>
-            </p>
-          </div>
+          <p className="mt-8 text-[1.05rem] leading-relaxed text-dark/55 sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
+            Uma possibilidade repetida com convicção pode ganhar o peso de uma{' '}
+            <span className="font-bold text-dark">verdade pessoal</span> e mudar a forma como
+            alguém passa a olhar para a própria infância, para os pais, para um relacionamento ou
+            até para si mesma.
+          </p>
         </FadeIn>
 
         <FadeIn delay={0.18}>
           <p className="mt-8 text-[1.05rem] leading-relaxed text-dark sm:mt-10 sm:text-lg lg:text-xl lg:leading-relaxed">
-            E quanto maior a influência que você tem sobre a forma como alguém entende a própria
+            Quanto maior a influência que você tem sobre a forma como alguém entende a própria
             vida, maior precisa ser o{' '}
             <span className="font-serif text-[1.15em] italic text-red">
-              cuidado com aquilo que você afirma.
+              seu critério antes de afirmar o que aquilo significa.
             </span>
           </p>
         </FadeIn>
@@ -363,15 +345,15 @@ export function ProfessionalDistinctionSection() {
       <div className="mx-auto w-full max-w-[22rem] sm:max-w-xl lg:max-w-3xl">
         <FadeIn>
           <h2 className="text-[1.55rem] font-normal leading-[1.25] tracking-tight text-white sm:text-[1.9rem] lg:text-[2.35rem] lg:leading-[1.22]">
-            É aqui que <span className="font-bold">uma atuação profissional</span> começa a se
-            separar de uma atuação <span className="font-bold text-red">amadora.</span>
+            É aqui que o <span className="font-bold">repertório</span> deixa de ser{' '}
+            <span className="font-bold text-red">suficiente.</span>
           </h2>
         </FadeIn>
 
         <FadeIn delay={0.08}>
           <p className="mt-7 text-[1.05rem] leading-relaxed text-white/70 sm:mt-8 sm:text-lg lg:text-xl">
-            Não pela quantidade de nomes, teorias ou técnicas conhecidas. Mas pela capacidade de
-            distinguir:
+            Porque não basta conhecer nomes, teorias e técnicas. A qualidade da sua atuação também
+            aparece na capacidade de distinguir:
           </p>
         </FadeIn>
 
@@ -425,8 +407,6 @@ const APS_COMPARISON = [
 
 /* ─── Bloco 6: subir de nível / comparação APS ─── */
 export function LevelUpReadingSection() {
-  const { eventPast } = useEventStatus()
-
   return (
     <section className="bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
       <div className="mx-auto flex w-full max-w-xl flex-col items-center text-center lg:max-w-5xl">
@@ -439,23 +419,15 @@ export function LevelUpReadingSection() {
         <FadeIn delay={0.06}>
           <h2 className="mt-5 text-[1.55rem] font-normal leading-[1.25] tracking-tight text-dark sm:mt-6 sm:text-[1.9rem] lg:max-w-3xl lg:text-[2.35rem] lg:leading-[1.22]">
             Subir de nível <span className="font-bold">não significa</span> virar a{' '}
-            <span className="font-bold">Mãe Diná</span>, a sabe-tudo, nem olhar para alguém e{' '}
-            “sacar” tudo o que acontece com ela em uma sessão.
+            <span className="font-bold">Mãe Diná…</span>
           </h2>
         </FadeIn>
 
         <FadeIn delay={0.1}>
           <p className="mt-8 text-[1.05rem] leading-relaxed text-dark/70 sm:mt-10 sm:text-lg lg:max-w-3xl lg:text-xl">
-            O que muda quando você deixa de depender apenas do repertório e começa a desenvolver{' '}
-            <span className="font-bold text-dark">capacidade de leitura?</span>
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={0.12}>
-          <p className="mt-6 text-[1.15rem] font-bold tracking-tight text-dark sm:mt-8 sm:text-xl">
-            {eventPast
-              ? 'É isso que o treinamento desenvolve'
-              : 'É isso que nós vamos praticar ao vivo'}
+            O diferencial não está em adivinhar o que acontece com alguém. Está em saber o que
+            observar, o que perguntar e o que ainda precisa ser compreendido{' '}
+            <span className="font-bold text-dark">antes de concluir.</span>
           </p>
         </FadeIn>
 
