@@ -24,6 +24,10 @@ function getHottok(req, body) {
   )
 }
 
+function emailEq(email) {
+  return `email=eq.${encodeURIComponent(String(email).trim().toLowerCase())}`
+}
+
 async function supabaseFetch(path, { method = 'GET', body } = {}) {
   const url = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -98,22 +102,42 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, duplicate: true })
     }
 
-    const updated = await supabaseFetch(
-      `alta_permissao_leads?email=ilike.${encodeURIComponent(email)}&source=eq.${LEAD_SOURCE}`,
-      {
-        method: 'PATCH',
-        body: {
-          status: 'comprou',
-          purchased_at: new Date().toISOString(),
-          hotmart_txn_id: transactionId,
-        },
-      },
+    const leads = await supabaseFetch(
+      `alta_permissao_leads?${emailEq(email)}&source=eq.${LEAD_SOURCE}&select=id,status,created_at&order=created_at.desc`,
     )
 
-    console.log(`[webhook] compra: ${email} — txn ${transactionId}`)
+    const purchase = {
+      status: 'comprou',
+      purchased_at: new Date().toISOString(),
+      hotmart_txn_id: transactionId,
+    }
+
+    if (Array.isArray(leads) && leads.length > 0) {
+      const target = leads.find((row) => row.status !== 'comprou') || leads[0]
+      await supabaseFetch(`alta_permissao_leads?id=eq.${target.id}`, {
+        method: 'PATCH',
+        body: purchase,
+      })
+      console.log(`[webhook] compra: ${email} — txn ${transactionId} — lead ${target.id}`)
+      return res.status(200).json({ ok: true, updated: 1, leadId: target.id })
+    }
+
+    const buyer = body?.data?.buyer || {}
+    const inserted = await supabaseFetch('alta_permissao_leads', {
+      method: 'POST',
+      body: {
+        name: String(buyer.name || email).trim() || email,
+        phone: String(buyer.checkout_phone || buyer.phone || '').replace(/\D/g, '') || '00000000000',
+        email,
+        lot: 2,
+        source: LEAD_SOURCE,
+        ...purchase,
+      },
+    })
+    console.log(`[webhook] compra sem lead prévio: ${email} — txn ${transactionId}`)
     return res.status(200).json({
       ok: true,
-      updated: Array.isArray(updated) ? updated.length : 0,
+      inserted: Array.isArray(inserted) ? inserted.length : 1,
     })
   } catch (err) {
     console.error('[webhook] erro inesperado:', err)
