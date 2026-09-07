@@ -12,7 +12,7 @@ export interface Ticket {
 }
 
 export interface Lot {
-  number: 1 | 2
+  number: 1 | 2 | 3
   price: number
   priceFormatted: string
   label: string
@@ -27,8 +27,10 @@ const FORTY_EIGHT_HOURS_MS = 48 * 60 * 60 * 1000
 
 /** 1º lote: até 06/set 23:59 BRT (vira 07/set 00:00). */
 const LOT_1_END = new Date('2026-09-07T00:00:00-03:00')
-/** 2º lote: até o início do evento (12/set 10:00 BRT). */
-const LOT_2_END = new Date('2026-09-12T10:00:00-03:00')
+/** 2º lote: até 10/set 23:59 BRT (vira 11/set 00:00). */
+const LOT_2_END = new Date('2026-09-11T00:00:00-03:00')
+/** 3º lote: até o início do evento (12/set 10:00 BRT). */
+const LOT_3_END = new Date('2026-09-12T10:00:00-03:00')
 
 /** Depois do dia 02/set — a partir de 03/set 00:00 BRT. */
 const LOT_1_EXTENDED_AT = new Date('2026-09-03T00:00:00-03:00')
@@ -45,6 +47,11 @@ const HOTMART_CHECKOUTS = {
     basic: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
     vip: 'https://pay.hotmart.com/J107328514K?off=rnlwed07&checkoutMode=10',
   },
+  /** Trocar pelos offs do 3º lote (básico com bump, VIP sem). */
+  3: {
+    basic: 'https://pay.hotmart.com/J107328514K?checkoutMode=10',
+    vip: 'https://pay.hotmart.com/J107328514K?checkoutMode=10',
+  },
 } as const
 
 /** Oferta do quiz — só vale quem chega pelo botão do resultado (`#quiz-127`). */
@@ -53,8 +60,8 @@ const QUIZ_OFFER_KEY = 'eap_quiz_offer'
 const QUIZ_OFFER_VALUE = 'vip127'
 const QUIZ_VIP_PRICE = 127
 export const QUIZ_VIP_COMPARE = 197
-/** Âncora do acesso imediato (pós-12/set): De R$197 por R$127. */
-export const POST_EVENT_COMPARE = 197
+/** Âncora do acesso imediato: teto do 3º lote (VIP). */
+export const POST_EVENT_COMPARE = 297
 export const QUIZ_HOTMART =
   'https://pay.hotmart.com/J107328514K?off=3hb3u72h&checkoutMode=10'
 
@@ -120,26 +127,48 @@ const LOTS: Lot[] = [
       basic: makeTicket('basic', 'Ingresso Básico', 97, HOTMART_CHECKOUTS[2].basic),
     },
   },
+  {
+    number: 3,
+    price: 147,
+    priceFormatted: formatBrl(147),
+    label: '3º LOTE',
+    endDate: LOT_3_END,
+    hotmartUrl: HOTMART_CHECKOUTS[3].basic,
+    tickets: {
+      vip: makeTicket('vip', 'Ingresso VIP', 297, HOTMART_CHECKOUTS[3].vip),
+      basic: makeTicket('basic', 'Ingresso Básico', 147, HOTMART_CHECKOUTS[3].basic),
+    },
+  },
 ]
 
-/** Checkout de acesso imediato após o dia 12/set. */
+/** Depois do 12/set: mesmos ingressos e preços do 3º lote. */
 export const POST_EVENT_LOT: Lot = {
-  number: 2,
-  price: 127,
-  priceFormatted: formatBrl(127),
+  number: 3,
+  price: 147,
+  priceFormatted: formatBrl(147),
   label: 'ACESSO IMEDIATO',
   endDate: null,
-  hotmartUrl: 'https://pay.hotmart.com/G107328971N?off=v3x36p1y',
+  hotmartUrl: HOTMART_CHECKOUTS[3].basic,
   tickets: {
-    vip: makeTicket('vip', 'Acesso imediato', 127, 'https://pay.hotmart.com/G107328971N?off=v3x36p1y'),
-    basic: makeTicket('basic', 'Acesso imediato', 127, 'https://pay.hotmart.com/G107328971N?off=v3x36p1y'),
+    vip: makeTicket('vip', 'Ingresso VIP', 297, HOTMART_CHECKOUTS[3].vip),
+    basic: makeTicket('basic', 'Ingresso Básico', 147, HOTMART_CHECKOUTS[3].basic),
   },
+}
+
+function readPreviewLotNumber(): 1 | 2 | 3 | null {
+  if (typeof window === 'undefined') return null
+  const value = new URLSearchParams(window.location.search).get('lote')
+  if (value === '1') return 1
+  if (value === '2') return 2
+  if (value === '3') return 3
+  return null
 }
 
 function getCurrentLot(now = new Date()): Lot {
   if (isEventPast(now)) return POST_EVENT_LOT
-  if (now < LOT_1_END) return LOTS[0]
-  return LOTS[1]
+  const preview = readPreviewLotNumber()
+  if (preview) return LOTS[preview - 1]
+  return LOTS.find((lot) => lot.endDate && now < lot.endDate) ?? LOTS[LOTS.length - 1]
 }
 
 function readPreviewUrgency(): LotUrgency | null {
@@ -159,7 +188,7 @@ function readPreviewUrgency(): LotUrgency | null {
  * - a partir de 06/set 00:00 (05/set depois de 23:59): contador
  * 2º lote: menção até faltar 48h; depois, contador.
  *
- * Preview local: ?lote=prorrogado | ?lote=contador
+ * Preview local: ?lote=1 | ?lote=2 | ?lote=3 | ?lote=prorrogado | ?lote=contador
  */
 export function getLotUrgency(now = new Date(), lot = getCurrentLot(now)): LotUrgency {
   const preview = readPreviewUrgency()

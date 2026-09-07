@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { useLot, POST_EVENT_COMPARE, QUIZ_HOTMART, type TicketKind } from '@/hooks/useLot'
+import { useLot, QUIZ_HOTMART, type TicketKind } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { saveLead } from '@/lib/supabase'
 import { trackEvent } from '@/lib/analytics'
@@ -121,9 +121,7 @@ export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps)
 
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-wide text-red mb-2">
-                    {eventPast
-                      ? <>De <s className="text-white/45">{`R$${POST_EVENT_COMPARE}`}</s> por {currentLot.priceFormatted}</>
-                      : `${ticket.name} · ${currentLot.label} · ${ticket.priceFormatted}`}
+                    {`${ticket.name} · ${currentLot.label} · ${ticket.priceFormatted}`}
                   </p>
                   <Dialog.Title className="text-white font-semibold text-2xl leading-tight">
                     Antes de ir para o checkout

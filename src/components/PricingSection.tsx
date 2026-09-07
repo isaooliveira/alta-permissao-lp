@@ -1,9 +1,9 @@
 import { Award, Check, Star, X } from 'lucide-react'
 import { useReducedMotion } from 'framer-motion'
-import { useLot, POST_EVENT_COMPARE, POST_EVENT_LOT, QUIZ_VIP_COMPARE, type Ticket, type TicketKind } from '@/hooks/useLot'
+import { useLot, QUIZ_VIP_COMPARE, type Ticket, type TicketKind } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { INVESTMENT_SECTION_ID } from '@/lib/scroll'
-import { PRICING_FEATURES_POST_EVENT, TICKET_FEATURES } from '@/lib/eventContent'
+import { TICKET_FEATURES } from '@/lib/eventContent'
 import { FadeIn } from './FadeIn'
 import { Button } from './Button'
 import { LotCountdown } from './LotCountdown'
@@ -22,11 +22,13 @@ interface PricingSectionProps {
 function LotPricePair({
   currentLabel,
   currentPrice,
+  upcomingLabel,
   upcomingPrice,
   highlightPrice,
 }: {
   currentLabel: string
   currentPrice: number
+  upcomingLabel: string
   upcomingPrice: number
   highlightPrice?: boolean
 }) {
@@ -50,7 +52,7 @@ function LotPricePair({
 
       <div className="rounded-md border border-cream/10 bg-white/[0.02] px-3 py-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-white/35">
-          Lote sem desconto
+          {upcomingLabel}
         </p>
         <p className="mt-1.5 text-[1.75rem] font-black tabular-nums leading-none tracking-tight text-white/30 sm:text-[2rem]">
           R${upcomingPrice}
@@ -149,10 +151,11 @@ function TicketCard({
                 ) : null}
               </div>
 
-              {showCompare && upcomingPrice != null ? (
+              {showCompare && upcomingPrice != null && nextLot ? (
                 <LotPricePair
                   currentLabel={lotLabel}
                   currentPrice={ticket.price}
+                  upcomingLabel={nextLot.label}
                   upcomingPrice={upcomingPrice}
                   highlightPrice={isVip}
                 />
@@ -237,45 +240,6 @@ function TicketCard({
   )
 }
 
-function PostEventCard({ onCtaClick }: { onCtaClick: () => void }) {
-  const lot = POST_EVENT_LOT
-  return (
-    <div className="group relative min-h-[320px] rounded-md bg-gradient-to-b from-[#988D49]/60 to-[#988D49]/20 p-px">
-      <div className="flex h-full min-h-[318px] flex-col rounded-[5px] bg-dark p-5 sm:p-6">
-        <div className="mb-4 flex flex-col">
-          <span className="text-base font-normal leading-none text-white sm:text-lg">
-            De <s className="text-white/45">R${POST_EVENT_COMPARE}</s> por
-          </span>
-          <span
-            className="mt-1 font-normal leading-none tracking-tight tabular-nums text-lime"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}
-          >
-            {lot.priceFormatted}
-          </span>
-        </div>
-        <div className="mb-4 space-y-2 border-t border-cream/10 pt-4">
-          {PRICING_FEATURES_POST_EVENT.map((f) => (
-            <div key={f} className="flex items-center gap-2">
-              <Check size={14} className="flex-shrink-0 text-cream" />
-              <span className="text-base text-cream-muted">{f}</span>
-            </div>
-          ))}
-        </div>
-        <Button size="md" onClick={onCtaClick} className="w-full">
-          Começar agora
-        </Button>
-        <img
-          src={PAY_METHODS_SRC}
-          alt="Formas de pagamento"
-          width={1310}
-          height={132}
-          className="mx-auto mt-3 h-auto w-[72%] max-w-[188px] opacity-40"
-        />
-      </div>
-    </div>
-  )
-}
-
 export function PricingSection({ onCtaClick }: PricingSectionProps) {
   const { currentLot, quizOffer } = useLot()
   const { eventPast } = useEventStatus()
@@ -345,28 +309,25 @@ export function PricingSection({ onCtaClick }: PricingSectionProps) {
           </div>
         </FadeIn>
 
-        {eventPast ? (
-          <FadeIn delay={0.1} className="mx-auto h-full max-w-md">
-            <PostEventCard onCtaClick={() => onCtaClick()} />
-          </FadeIn>
-        ) : (
-          <>
-            <div className={`mx-auto grid items-stretch gap-4 ${
-              quizOffer ? 'max-w-md grid-cols-1' : 'max-w-4xl grid-cols-1 sm:grid-cols-2'
-            }`}>
-              {tickets.map((ticket, i) => (
-                <FadeIn key={ticket.kind} delay={i * 0.1} className="h-full">
-                  <TicketCard
-                    ticket={ticket}
-                    lotLabel={currentLot.label}
-                    featured={ticket.kind === 'vip'}
-                    onCtaClick={() => onCtaClick(ticket.kind)}
-                  />
-                </FadeIn>
-              ))}
-            </div>
-          </>
-        )}
+        <div className={`mx-auto grid items-stretch gap-4 ${
+          quizOffer && !eventPast ? 'max-w-md grid-cols-1' : 'max-w-4xl grid-cols-1 sm:grid-cols-2'
+        }`}>
+          {tickets.map((ticket, i) => (
+            <FadeIn key={ticket.kind} delay={i * 0.1} className="h-full">
+              <TicketCard
+                ticket={ticket}
+                lotLabel={currentLot.label}
+                featured={ticket.kind === 'vip'}
+                onCtaClick={() => onCtaClick(ticket.kind)}
+              />
+            </FadeIn>
+          ))}
+        </div>
+        {!eventPast && !quizOffer && currentLot.number === 1 ? (
+          <p className="mx-auto mt-5 max-w-4xl text-center text-sm text-white/45">
+            Depois do 2º lote, o valor sobe de novo.
+          </p>
+        ) : null}
       </div>
     </section>
   )
