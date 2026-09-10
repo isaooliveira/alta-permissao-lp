@@ -105,6 +105,20 @@ body {
   animation-play-state: paused;
 }
 
+@keyframes testimonial-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.testimonial-marquee-track {
+  animation: testimonial-marquee 48s linear infinite;
+  will-change: transform;
+}
+
+.testimonial-marquee-track:hover {
+  animation-play-state: paused;
+}
+
 .btn-shimmer {
   position: relative;
   overflow: hidden;
@@ -223,6 +237,12 @@ body {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;
+  }
+
+  .marquee-track,
+  .testimonial-marquee-track {
+    animation: none !important;
+    transform: none !important;
   }
 }
 

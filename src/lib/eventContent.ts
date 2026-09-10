@@ -80,4 +80,4 @@ export const TICKET_FEATURES = [
 /** Grupo de WhatsApp — Efeito Alta Permissão 2ª Ed. */
 export const WHATSAPP_GRUPO_EAP =
   (import.meta.env.VITE_WHATSAPP_GRUPO_URL as string | undefined) ||
-  'https://chat.whatsapp.com/EZWobbSUyGX9sLbRvgaJkL'
+  'https://chat.whatsapp.com/BEdi7KpAl7L1n8lCO2sD84'

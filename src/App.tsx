@@ -11,6 +11,7 @@ import {
   ProfessionalDistinctionSection,
   LevelUpReadingSection,
 } from './components/CopySections'
+import { FirstEditionSection } from './components/FirstEditionSection'
 import { TestimonialsSection } from './components/TestimonialsSection'
 import { ScheduleSection } from './components/ScheduleSection'
 import { AudienceSection } from './components/AudienceSection'
@@ -68,6 +69,7 @@ export default function App() {
         <ProblemAmplificationSection />
         <WhatYouSaySection />
         <InterpretationConsequenceSection onCtaClick={scrollToInvestimento} />
+        <FirstEditionSection />
         <ProfessionalDistinctionSection />
         <LevelUpReadingSection />
         <TestimonialsSection />
