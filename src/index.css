@@ -178,10 +178,10 @@ body {
 
 @keyframes lot-alert-glow {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(209, 255, 3, 0);
+    box-shadow: 0 0 0 0 rgba(233, 0, 0, 0);
   }
   50% {
-    box-shadow: 0 0 14px 1px rgba(209, 255, 3, 0.28);
+    box-shadow: 0 0 16px 1px rgba(233, 0, 0, 0.4);
   }
 }
 

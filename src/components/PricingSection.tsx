@@ -10,6 +10,7 @@ import { LotCountdown } from './LotCountdown'
 import { LotExtendedAlert } from './LotExtendedBadge'
 import { SectionEyebrow } from './SectionEyebrow'
 import { QuizOfferBar } from './QuizOfferBar'
+import { QuizCtaLabel } from './QuizCtaLabel'
 
 const MOCK_SRC = `${import.meta.env.BASE_URL}${encodeURIComponent('mock web.webp')}`
 
@@ -146,12 +147,12 @@ function TicketCard({
                 </p>
                 {isVip ? (
                   <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#988D49]/55 bg-[#988D49]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C4B56A]">
-                    Completo
+                    Experiência completa
                   </span>
                 ) : null}
               </div>
 
-              {showCompare && upcomingPrice != null && nextLot ? (
+              {showCompare && upcomingPrice != null && nextLot && urgency !== 'extended' ? (
                 <LotPricePair
                   currentLabel={lotLabel}
                   currentPrice={ticket.price}
@@ -174,6 +175,11 @@ function TicketCard({
                   >
                     R${ticket.price}
                   </span>
+                  {urgency === 'extended' ? (
+                    <div className="mt-4">
+                      <LotExtendedAlert variant="badge" />
+                    </div>
+                  ) : null}
                 </div>
               )}
             </>
@@ -215,8 +221,13 @@ function TicketCard({
           })}
         </div>
 
-        <Button size="md" onClick={onCtaClick} showTicket className="w-full">
-          Garantir {ticket.name}
+        <Button
+          size="md"
+          onClick={onCtaClick}
+          showTicket
+          className={`w-full ${quizOffer ? 'py-3.5 sm:py-4' : ''}`}
+        >
+          {quizOffer ? <QuizCtaLabel /> : `Garantir ${ticket.name}`}
         </Button>
         <img
           src={PAY_METHODS_SRC}
@@ -228,11 +239,6 @@ function TicketCard({
         {featured && urgency === 'countdown' && (
           <div className="mt-4">
             <LotCountdown endDate={currentLot.endDate} variant="card" />
-          </div>
-        )}
-        {featured && urgency === 'extended' && (
-          <div className="mt-4">
-            <LotExtendedAlert variant="badge" />
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { EventTag } from '@/components/EventTag'
-import { WHATSAPP_GRUPO_EAP } from '@/lib/eventContent'
+import { EVENT_DATE_SHORT, WHATSAPP_GRUPO_EAP } from '@/lib/eventContent'
 import { useEventStatus } from '@/hooks/useEventStatus'
 
 const LOGO_SRC = `${import.meta.env.BASE_URL}logo-alta.svg`
@@ -25,7 +25,7 @@ function ObrigadoBackdrop() {
 const STEPS_LIVE = [
   { title: 'Pagamento', detail: 'confirmado' },
   { title: 'Confirmar', detail: 'ingresso' },
-  { title: 'Ao vivo', detail: '12 de set' },
+  { title: 'Ao vivo', detail: EVENT_DATE_SHORT },
 ] as const
 
 const STEPS_POST = [

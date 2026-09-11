@@ -8,6 +8,7 @@ import { saveLead } from '@/lib/supabase'
 import { trackEvent } from '@/lib/analytics'
 import { utmEventParams, utmLeadFields, withHotmartTracking } from '@/lib/utm'
 import { getVisitCount } from '@/lib/visits'
+import { OFFER_EXTENDED_LABEL } from '@/lib/eventContent'
 import { Button } from './Button'
 
 interface LeadModalProps {
@@ -38,9 +39,13 @@ interface Errors {
 }
 
 export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps) {
-  const { currentLot, quizOffer } = useLot()
+  const { currentLot, quizOffer, urgency } = useLot()
   const { eventPast } = useEventStatus()
   const ticket = currentLot.tickets[quizOffer ? 'vip' : ticketKind]
+  const offerLabel =
+    urgency === 'extended' && !eventPast && !quizOffer
+      ? OFFER_EXTENDED_LABEL
+      : currentLot.label
   const reduceMotion = useReducedMotion()
   const [form, setForm] = useState<FormState>({ name: '', phone: '', email: '' })
   const [errors, setErrors] = useState<Errors>({})
@@ -120,7 +125,7 @@ export function LeadModal({ open, onClose, ticketKind = 'vip' }: LeadModalProps)
 
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-wide text-red mb-2">
-                    {`${ticket.name} · ${currentLot.label} · ${ticket.priceFormatted}`}
+                    {`${ticket.name} · ${offerLabel} · ${ticket.priceFormatted}`}
                   </p>
                   <Dialog.Title className="text-white font-semibold text-2xl leading-tight">
                     Antes de continuar para o pagamento

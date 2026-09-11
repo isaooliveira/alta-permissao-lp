@@ -24,10 +24,6 @@ function HeaderLotPrice({ className = '' }: { className?: string }) {
     )
   }
 
-  if (urgency === 'extended') {
-    return <LotExtendedAlert variant="header" className={className} />
-  }
-
   if (quizOffer) {
     return (
       <span className={`shrink-0 tabular-nums tracking-wide text-sm sm:text-base ${className}`}>
@@ -37,6 +33,10 @@ function HeaderLotPrice({ className = '' }: { className?: string }) {
         <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
       </span>
     )
+  }
+
+  if (urgency === 'extended') {
+    return <LotExtendedAlert variant="header" className={className} />
   }
 
   return (

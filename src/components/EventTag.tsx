@@ -1,5 +1,6 @@
 import { Calendar, Clock, Zap } from 'lucide-react'
 import { useEventStatus } from '@/hooks/useEventStatus'
+import { EVENT_DATE_TAG, EVENT_POSTPONED_LABEL } from '@/lib/eventContent'
 
 export function EventTag({ className = '' }: { className?: string }) {
   const { eventPast } = useEventStatus()
@@ -33,8 +34,13 @@ export function EventTag({ className = '' }: { className?: string }) {
       <div className="flex items-stretch bg-white text-dark">
         <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 border-r border-dark/10">
           <Calendar size={15} className="text-accent-brand shrink-0" strokeWidth={2} aria-hidden="true" />
-          <span className="font-bold text-[10px] sm:text-xs uppercase tracking-wide whitespace-nowrap">
-            Sáb, 12 de Set
+          <span className="flex flex-col gap-0.5 leading-none">
+            <span className="text-[8px] font-black uppercase tracking-[0.14em] text-accent-brand whitespace-nowrap">
+              {EVENT_POSTPONED_LABEL}
+            </span>
+            <span className="font-bold text-[10px] sm:text-xs uppercase tracking-wide whitespace-nowrap">
+              {EVENT_DATE_TAG}
+            </span>
           </span>
         </div>
 

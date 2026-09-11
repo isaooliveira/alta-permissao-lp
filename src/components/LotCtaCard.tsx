@@ -1,8 +1,9 @@
-import { useLot, QUIZ_VIP_COMPARE } from '@/hooks/useLot'
+import { useLot } from '@/hooks/useLot'
 import { useEventStatus } from '@/hooks/useEventStatus'
 import { ctaLabel } from '@/lib/eventContent'
 import { Button } from './Button'
 import { LotExtendedAlert } from './LotExtendedBadge'
+import { QuizCtaLabel } from './QuizCtaLabel'
 import { QuizOfferBar } from './QuizOfferBar'
 
 interface LotCtaCardProps {
@@ -35,16 +36,7 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
             <span className="font-black text-lime">{currentLot.tickets.basic.priceFormatted}</span>
           </p>
         ) : quizOffer ? (
-          <div className="flex w-full flex-col items-center gap-3">
-            <QuizOfferBar />
-            <p className="text-center text-base leading-snug">
-              <span className="font-black uppercase tracking-wide text-lime">Ingresso VIP</span>
-              <span className="text-white/90"> · De </span>
-              <s className="font-black tracking-wide text-white/45">{`R$${QUIZ_VIP_COMPARE}`}</s>
-              <span className="text-white/90"> por </span>
-              <span className="font-black text-lime">{currentLot.tickets.vip.priceFormatted}</span>
-            </p>
-          </div>
+          <QuizOfferBar />
         ) : (
           <p className="text-center text-base leading-snug">
             <span className="font-black uppercase tracking-wide text-red">{currentLot.label}</span>{' '}
@@ -53,15 +45,17 @@ export function LotCtaCard({ onCtaClick, className = '', variant = 'default' }: 
           </p>
         )}
 
-        {!eventPast && urgency === 'extended' && <LotExtendedAlert variant="hero" />}
+        {!eventPast && !quizOffer && urgency === 'extended' && (
+          <LotExtendedAlert variant="hero" />
+        )}
 
         <Button
           size="md"
           onClick={onCtaClick}
           showTicket={!eventPast}
-          className="w-full"
+          className={`w-full ${quizOffer && !eventPast ? 'py-3.5 sm:py-4' : ''}`}
         >
-          {ctaLabel(eventPast, quizOffer)}
+          {quizOffer && !eventPast ? <QuizCtaLabel /> : ctaLabel(eventPast, quizOffer)}
         </Button>
 
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-white/45">

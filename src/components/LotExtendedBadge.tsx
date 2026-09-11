@@ -10,8 +10,16 @@ function AlertDot({ size = 'md' }: { size?: 'sm' | 'md' }) {
 
   return (
     <span className={`relative inline-flex ${dim} shrink-0`} aria-hidden="true">
-      <span className={`lot-alert-ping absolute inset-0 rounded-full bg-lime ${dim}`} />
-      <span className={`relative rounded-full bg-lime ${dim}`} />
+      <span className={`lot-alert-ping absolute inset-0 rounded-full bg-red ${dim}`} />
+      <span className={`relative rounded-full bg-red ${dim}`} />
+    </span>
+  )
+}
+
+function ExtendedLabel({ className = '' }: { className?: string }) {
+  return (
+    <span className={className}>
+      Prorrogado por tempo <span className="text-red">limitado</span>
     </span>
   )
 }
@@ -26,14 +34,12 @@ export function LotExtendedAlert({
     return (
       <motion.div
         role="status"
-        className={`lot-alert-glow flex w-full items-center justify-center gap-2 rounded-md border border-lime/40 bg-lime/10 px-3 py-2.5 ${className}`}
+        className={`lot-alert-glow flex w-full items-center justify-center gap-2 rounded-md border border-red/50 bg-red/15 px-3 py-2.5 ${className}`}
         animate={reduceMotion ? undefined : { opacity: [1, 0.82, 1] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
       >
         <AlertDot />
-        <span className="text-[11px] font-black uppercase tracking-[0.16em] text-lime sm:text-xs">
-          Prorrogado
-        </span>
+        <ExtendedLabel className="text-center text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-xs" />
       </motion.div>
     )
   }
@@ -42,12 +48,10 @@ export function LotExtendedAlert({
     return (
       <span
         role="status"
-        className={`lot-alert-glow inline-flex items-center gap-1.5 rounded-full border border-lime/40 bg-lime/10 px-2 py-0.5 ${className}`}
+        className={`lot-alert-glow inline-flex max-w-full items-center gap-1.5 rounded-full border border-red/50 bg-red/15 px-2 py-0.5 ${className}`}
       >
         <AlertDot size="sm" />
-        <span className="text-[10px] font-black uppercase tracking-wide text-lime sm:text-xs">
-          Prorrogado
-        </span>
+        <ExtendedLabel className="text-[9px] font-black uppercase leading-tight tracking-wide text-white sm:text-[10px]" />
       </span>
     )
   }
@@ -55,12 +59,10 @@ export function LotExtendedAlert({
   return (
     <span
       role="status"
-      className={`lot-alert-glow inline-flex items-center gap-1.5 rounded-full border border-lime/50 bg-lime/10 px-2 py-0.5 ${className}`}
+      className={`lot-alert-glow inline-flex items-center gap-1.5 rounded-full border border-red/55 bg-red/15 px-2.5 py-1 ${className}`}
     >
       <AlertDot size="sm" />
-      <span className="text-[10px] font-semibold uppercase tracking-wide text-lime">
-        Prorrogado
-      </span>
+      <ExtendedLabel className="text-[10px] font-black uppercase tracking-wide text-white" />
     </span>
   )
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-/** Virada pós-evento: 13/set/2026 00:00 BRT — logo após o dia 12 de setembro. */
-export const EVENT_POST_DATE = new Date('2026-09-13T00:00:00-03:00')
+/** Virada pós-evento: 20/set/2026 00:00 BRT — logo após o dia 19 de setembro. */
+export const EVENT_POST_DATE = new Date('2026-09-20T00:00:00-03:00')
 
 function readPreview(): boolean | null {
   if (typeof window === 'undefined') return null

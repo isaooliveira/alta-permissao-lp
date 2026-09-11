@@ -1,8 +1,14 @@
+export const EVENT_DATE_TAG = 'Sáb, 19 de Set'
+export const EVENT_DATE_SHORT = '19 de set'
+export const EVENT_DATE_MARQUEE = '19 DE SETEMBRO'
+export const EVENT_POSTPONED_LABEL = 'Data prorrogada'
+export const OFFER_EXTENDED_LABEL = 'Prorrogado por tempo limitado'
+
 export const MARQUEE_ITEMS_LIVE = [
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
   { text: 'TREINAMENTO INTRODUTÓRIO', icon: 'zap' as const },
-  { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
-  { text: '12 DE SETEMBRO', icon: 'zap' as const },
+  { text: 'DATA PRORROGADA', icon: 'diamond' as const },
+  { text: EVENT_DATE_MARQUEE, icon: 'zap' as const },
   { text: 'ALTA PERMISSÃO', icon: 'diamond' as const },
   { text: 'AO VIVO', icon: 'zap' as const },
 ]
@@ -19,7 +25,7 @@ export const CTA_POST_EVENT = 'Começar agora'
 
 export function ctaLabel(eventPast: boolean, quizOffer = false) {
   if (eventPast) return CTA_POST_EVENT
-  if (quizOffer) return 'Garantir Ingresso VIP'
+  if (quizOffer) return 'Pegar meu ingresso'
   return CTA_LIVE
 }
 

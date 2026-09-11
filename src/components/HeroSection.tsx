@@ -29,7 +29,7 @@ function HeroLogo({ className = '' }: { className?: string }) {
 function HeroHeadline({ className = '' }: { className?: string }) {
   return (
     <h1
-      className={`text-[26px] sm:text-[28px] lg:text-[32px] xl:text-[36px] short-lg:text-[30px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
+      className={`text-[26px] sm:text-[28px] lg:text-[38px] xl:text-[42px] short-lg:text-[36px] font-normal leading-[1.2] tracking-tight text-white ${className}`}
     >
       Seja a terapeuta insubstituível que o cliente{' '}
       <span className="font-bold text-red">

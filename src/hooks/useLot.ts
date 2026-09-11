@@ -23,14 +23,12 @@ export interface Lot {
 
 export type LotUrgency = 'soon' | 'extended' | 'countdown'
 
-const FORTY_EIGHT_HOURS_MS = 48 * 60 * 60 * 1000
-
 /** 1º lote: até 06/set 23:59 BRT (vira 07/set 00:00). */
 const LOT_1_END = new Date('2026-09-07T00:00:00-03:00')
-/** 2º lote: até 10/set 23:59 BRT (vira 11/set 00:00). */
-const LOT_2_END = new Date('2026-09-11T00:00:00-03:00')
-/** 3º lote: até o início do evento (12/set 10:00 BRT). */
-const LOT_3_END = new Date('2026-09-12T10:00:00-03:00')
+/** 2º lote: até o início do evento (19/set 10:00 BRT). Sem 3º lote. */
+const LOT_2_END = new Date('2026-09-19T10:00:00-03:00')
+/** Contador do 2º lote: a partir de 17/set 00:00 BRT (faltam 2 dias). */
+const LOT_2_COUNTDOWN_AT = new Date('2026-09-17T00:00:00-03:00')
 
 /** Depois do dia 02/set — a partir de 03/set 00:00 BRT. */
 const LOT_1_EXTENDED_AT = new Date('2026-09-03T00:00:00-03:00')
@@ -47,10 +45,11 @@ const HOTMART_CHECKOUTS = {
     basic: 'https://pay.hotmart.com/J107328514K?off=k2ndc1ab&checkoutMode=10',
     vip: 'https://pay.hotmart.com/J107328514K?off=rnlwed07&checkoutMode=10',
   },
-  3: {
-    basic: 'https://pay.hotmart.com/J107328514K?off=lgrfkyqq&checkoutMode=10',
-    vip: 'https://pay.hotmart.com/J107328514K?off=hmxfaoqu&checkoutMode=10',
-  },
+} as const
+
+const POST_EVENT_CHECKOUTS = {
+  basic: 'https://pay.hotmart.com/J107328514K?off=lgrfkyqq&checkoutMode=10',
+  vip: 'https://pay.hotmart.com/J107328514K?off=hmxfaoqu&checkoutMode=10',
 } as const
 
 /** Oferta do quiz — só vale quem chega pelo botão do resultado (`#quiz-127`). */
@@ -126,40 +125,27 @@ const LOTS: Lot[] = [
       basic: makeTicket('basic', 'Ingresso Básico', 97, HOTMART_CHECKOUTS[2].basic),
     },
   },
-  {
-    number: 3,
-    price: 147,
-    priceFormatted: formatBrl(147),
-    label: '3º LOTE',
-    endDate: LOT_3_END,
-    hotmartUrl: HOTMART_CHECKOUTS[3].basic,
-    tickets: {
-      vip: makeTicket('vip', 'Ingresso VIP', 297, HOTMART_CHECKOUTS[3].vip),
-      basic: makeTicket('basic', 'Ingresso Básico', 147, HOTMART_CHECKOUTS[3].basic),
-    },
-  },
 ]
 
-/** Depois do 12/set: mesmos ingressos e preços do 3º lote. */
+/** Depois do 19/set: acesso imediato (preços do antigo 3º lote). */
 export const POST_EVENT_LOT: Lot = {
   number: 3,
   price: 147,
   priceFormatted: formatBrl(147),
   label: 'ACESSO IMEDIATO',
   endDate: null,
-  hotmartUrl: HOTMART_CHECKOUTS[3].basic,
+  hotmartUrl: POST_EVENT_CHECKOUTS.basic,
   tickets: {
-    vip: makeTicket('vip', 'Ingresso VIP', 297, HOTMART_CHECKOUTS[3].vip),
-    basic: makeTicket('basic', 'Ingresso Básico', 147, HOTMART_CHECKOUTS[3].basic),
+    vip: makeTicket('vip', 'Ingresso VIP', 297, POST_EVENT_CHECKOUTS.vip),
+    basic: makeTicket('basic', 'Ingresso Básico', 147, POST_EVENT_CHECKOUTS.basic),
   },
 }
 
-function readPreviewLotNumber(): 1 | 2 | 3 | null {
+function readPreviewLotNumber(): 1 | 2 | null {
   if (typeof window === 'undefined') return null
   const value = new URLSearchParams(window.location.search).get('lote')
   if (value === '1') return 1
   if (value === '2') return 2
-  if (value === '3') return 3
   return null
 }
 
@@ -185,9 +171,9 @@ function readPreviewUrgency(): LotUrgency | null {
  * - até 02/set: "o lote vira em breve"
  * - a partir de 03/set: "1º Lote foi Prorrogado"
  * - a partir de 06/set 00:00 (05/set depois de 23:59): contador
- * 2º lote: menção até faltar 48h; depois, contador.
+ * 2º lote: oferta prorrogada até 16/set; contador a partir de 17/set. Sem 3º lote.
  *
- * Preview local: ?lote=1 | ?lote=2 | ?lote=3 | ?lote=prorrogado | ?lote=contador
+ * Preview local: ?lote=1 | ?lote=2 | ?lote=prorrogado | ?lote=contador
  */
 export function getLotUrgency(now = new Date(), lot = getCurrentLot(now)): LotUrgency {
   const preview = readPreviewUrgency()
@@ -204,7 +190,7 @@ export function getLotUrgency(now = new Date(), lot = getCurrentLot(now)): LotUr
     return 'soon'
   }
 
-  return msLeft <= FORTY_EIGHT_HOURS_MS ? 'countdown' : 'soon'
+  return now.getTime() >= LOT_2_COUNTDOWN_AT.getTime() ? 'countdown' : 'extended'
 }
 
 function withQuizOffer(lot: Lot): Lot {
@@ -215,7 +201,6 @@ function withQuizOffer(lot: Lot): Lot {
     price: QUIZ_VIP_PRICE,
     priceFormatted: formatBrl(QUIZ_VIP_PRICE),
     label: 'OPORTUNIDADE',
-    endDate: null,
     hotmartUrl: QUIZ_HOTMART,
     tickets: { vip, basic: vip },
   }
@@ -223,9 +208,7 @@ function withQuizOffer(lot: Lot): Lot {
 
 export function useLot() {
   const [currentLot, setCurrentLot] = useState<Lot>(() => withQuizOffer(getCurrentLot()))
-  const [urgency, setUrgency] = useState<LotUrgency>(() =>
-    hasQuizOffer() ? 'soon' : getLotUrgency(),
-  )
+  const [urgency, setUrgency] = useState<LotUrgency>(() => getLotUrgency())
   const [quizOffer, setQuizOffer] = useState(() => hasQuizOffer())
 
   useEffect(() => {
@@ -234,7 +217,7 @@ export function useLot() {
       const publicLot = getCurrentLot(now)
       const lot = withQuizOffer(publicLot)
       const offer = hasQuizOffer()
-      const nextUrgency = offer ? 'soon' : getLotUrgency(now, publicLot)
+      const nextUrgency = getLotUrgency(now, publicLot)
       setQuizOffer(offer)
       setCurrentLot((prev) =>
         prev.number !== lot.number ||
